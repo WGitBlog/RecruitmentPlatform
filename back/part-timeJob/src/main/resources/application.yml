@@ -19,3 +19,8 @@ minio:
   bucket: parttimejob
   endpoint: http://192.168.200.146:9000
   readPath: http://192.168.200.146:9000
+jwt:
+  property:
+    user-secret-key: PartTimeJob
+    user-ttl: 63000000
+    user-token-name: Authorization

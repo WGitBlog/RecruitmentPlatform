@@ -18,8 +18,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
    @Autowired
    private WebMvcInterceptor webMvcInterceptor;
-
-
     // 当前跨域请求最大有效时长。这里默认1天
 //    private static final long MAX_AGE = 24 * 60 * 60;
 //
@@ -32,17 +30,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 //                .allowCredentials(true)
 //                .maxAge(MAX_AGE);
 //    }
-
-
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(webMvcInterceptor)
-//                .addPathPatterns("/*")
-//                .excludePathPatterns("/employee/login", "/employee/logout");
+        registry.addInterceptor(webMvcInterceptor)
+                .addPathPatterns("/**")
+                //除了登录和退出都需要鉴权
+                .excludePathPatterns("/user/login", "/user/logout");
     }
-
-
-
 //    /**
 //     * 消息转换器
 //     * @param converters

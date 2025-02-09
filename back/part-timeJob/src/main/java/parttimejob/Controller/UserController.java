@@ -4,14 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import parttimejob.Common.JwtProperties;
+import parttimejob.Dto.UserDto;
 import parttimejob.Dto.pageDto.UserPageDto;
 import parttimejob.Dto.realDto.StatisticsDto;
 import parttimejob.Entity.Job;
 import parttimejob.Entity.Reports;
 import parttimejob.Entity.User;
 import parttimejob.Result.R;
+import parttimejob.Utils.jwt.JwtUtil;
 import parttimejob.Utils.thread.BaseThread;
 import parttimejob.service.BoosService;
 import parttimejob.service.JobService;
@@ -19,6 +23,9 @@ import parttimejob.service.ReportsService;
 import parttimejob.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -26,6 +33,8 @@ import java.util.Objects;
 @RequestMapping("/user")
 @CrossOrigin("http://localhost:5173")
 public class UserController {
+    @Autowired
+    private JwtProperties jwtProperties;
     @Autowired
     private UserService userService;
     @Autowired
@@ -37,7 +46,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public R<User> login(@RequestBody User user){
+    public R<UserDto> login(@RequestBody User user){
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername,user.getUsername());
         User us = userService.getOne(queryWrapper);
@@ -51,8 +60,44 @@ public class UserController {
             return R.error("账号冻结");
         };
 
+
+
+
+        //TODO:问题无法将id存入ThreadLocal-------------------将userID存到ThreadLocal里
         BaseThread.setThreadLocal(us.getId());
-        return R.success(us);
+
+
+
+
+        //创建返回类
+        UserDto userDto = new UserDto();
+        //TODO:问题BeanUtils.copyProperties拷贝不成功 ----------将相同的属性拷贝到返回类里
+        //BeanUtils.copyProperties(user,userDto);
+        userDto.setId(us.getId());
+        userDto.setRole(us.getRole());
+        userDto.setBoosId(us.getBoosId());
+        userDto.setCandidateId(us.getCandidateId());
+        //暂时设置null值
+        Map<String, Object> claims = new HashMap<>();
+        //创建token
+        String token = JwtUtil.createJWT(
+                jwtProperties.getUserSecretKey(),
+                jwtProperties.getUserTtl(),
+                claims
+        );
+        //设置token值
+        userDto.setToken(token);
+        log.info("user:{}",us);
+        log.info("userDro:{}",userDto);
+
+
+
+
+
+
+
+
+        return R.success(userDto);
     }
     //根据BoosId获取User信息
     @GetMapping("/boosInfo/boos/{boosId}")
