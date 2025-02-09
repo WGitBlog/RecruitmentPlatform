@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parttimejob.mapper.JobMapper">
+
+    <resultMap id="BaseResultMap" type="parttimejob.Entity.Job">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="jobTitle" column="job_title" jdbcType="VARCHAR"/>
+            <result property="requiredTechnology" column="required_technology" jdbcType="VARCHAR"/>
+            <result property="jobCategory" column="job_category" jdbcType="VARCHAR"/>
+            <result property="workLocation" column="work_location" jdbcType="VARCHAR"/>
+            <result property="salaryRange" column="salary_range" jdbcType="VARCHAR"/>
+            <result property="educationRequirements" column="education_requirements" jdbcType="VARCHAR"/>
+            <result property="publishTime" column="publish_time" jdbcType="TIMESTAMP"/>
+            <result property="boosId" column="boos_id" jdbcType="BIGINT"/>
+            <result property="jobDescription" column="job_description" jdbcType="VARCHAR" />
+
+            <result property="review" column="review" jdbcType="INTEGER"/>
+            <result property="jobDetails" column="job_details" jdbcType="VARCHAR" />
+            <result property="weeklyDays" column="weekly_days" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+</mapper>

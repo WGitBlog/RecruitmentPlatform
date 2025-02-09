@@ -1,0 +1,107 @@
+{
+  "id": "4725249",
+  "name": "parttime",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5358515",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e7ac",
+      "unicode_decimal": 59308
+    },
+    {
+      "icon_id": "20313957",
+      "name": "省份坐标",
+      "font_class": "shengfenzuobiao",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "1177710",
+      "name": "沟通",
+      "font_class": "goutong",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "4488847",
+      "name": "感兴趣职位",
+      "font_class": "ganxingquzhiwei",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "4525157",
+      "name": "感兴趣成功",
+      "font_class": "ganxingquchenggong",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "12177013",
+      "name": "省略号",
+      "font_class": "shenglvehao1",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "7156627",
+      "name": "省略号",
+      "font_class": "shenglvehao",
+      "unicode": "e731",
+      "unicode_decimal": 59185
+    },
+    {
+      "icon_id": "12561899",
+      "name": "手机",
+      "font_class": "shouji",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "26046877",
+      "name": "更多、省略号",
+      "font_class": "a-gengduohengxiang",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "5203322",
+      "name": "圆圈",
+      "font_class": "yuanquan",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "1304888",
+      "name": "提醒",
+      "font_class": "tixing",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "10525087",
+      "name": "常用语",
+      "font_class": "changyongyu",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "17875595",
+      "name": "图片",
+      "font_class": "tupian",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "201555",
+      "name": "表情",
+      "font_class": "biaoqing",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}

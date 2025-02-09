@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parttimejob.mapper.ReportsMapper">
+
+    <resultMap id="BaseResultMap" type="parttimejob.Entity.Reports">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="reporterId" column="reporter_id" jdbcType="BIGINT"/>
+            <result property="jobId" column="job_id" jdbcType="INTEGER"/>
+            <result property="jobTitle" column="job_title" jdbcType="VARCHAR"/>
+            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
+            <result property="boosName" column="boos_name" jdbcType="VARCHAR"/>
+            <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+            <result property="reason" column="reason" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="feedback" column="feedback" jdbcType="VARCHAR"/>
+            <result property="reportDetails" column="report_details" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,reporter_id,job_id,
+        job_title,company_id,boos_name,
+        company_name,reason,status,
+        create_time,feedback,report_details
+    </sql>
+</mapper>

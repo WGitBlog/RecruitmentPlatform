@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parttimejob.mapper.MessagesMapper">
+
+    <resultMap id="BaseResultMap" type="parttimejob.Entity.Messages">
+            <id property="msgId" column="msg_id" jdbcType="BIGINT"/>
+            <result property="msgContent" column="msg_content" jdbcType="VARCHAR"/>
+            <result property="senderId" column="sender_id" jdbcType="BIGINT"/>
+            <result property="recipientId" column="recipient_id" jdbcType="BIGINT"/>
+            <result property="msgType" column="msg_type" jdbcType="TINYINT"/>
+            <result property="received" column="received" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+<!--    根据senderId和recipientId查询之间的聊天信息-->
+<!--     2    1-->
+<!--     1    2-->
+    <select id="getMessagesByIds" resultType="parttimejob.Entity.Messages">
+        SELECT *
+        FROM messages
+        WHERE (sender_id = #{senderId} AND recipient_id = #{recipientId})
+           OR (sender_id = #{recipientId} AND recipient_id = #{senderId})
+        ORDER BY create_time ASC;
+    </select>
+</mapper>

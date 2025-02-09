@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parttimejob.mapper.CompanyMapper">
+
+    <resultMap id="BaseResultMap" type="parttimejob.Entity.Company">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="companyName" column="company_name" jdbcType="VARCHAR"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="industry" column="industry" jdbcType="VARCHAR"/>
+        <result property="establishedYear" column="established_year" jdbcType="INTEGER"/>
+        <result property="contactNumber" column="contact_number" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="companyImg" column="company_img" jdbcType="VARCHAR"/>
+        <result property="companyScale" column="company_scale" jdbcType="VARCHAR"/>
+        <result property="companyMarket" column="company_market" jdbcType="BOOLEAN"/>
+        <result property="companyType" column="company_type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <insert id="saveReturnId"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO company (company_name, company_img, company_scale, company_market, company_type, location, industry, established_year, contact_number, email)
+        VALUES (#{companyName}, #{companyImg}, #{companyScale}, #{companyMarket}, #{companyType}, #{location}, #{industry}, #{establishedYear}, #{contactNumber}, #{email})
+        <selectKey  keyProperty="id" order="AFTER" resultType="long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+
+
+
+
+
+
+
+</mapper>

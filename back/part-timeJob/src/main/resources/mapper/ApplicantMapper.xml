@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parttimejob.mapper.ApplicantMapper">
+
+    <resultMap id="BaseResultMap" type="parttimejob.Entity.Applicant">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="communicatedJobs" column="communicated_jobs" jdbcType="OTHER"/>
+            <result property="deliveriesJobs" column="deliveries_jobs" jdbcType="OTHER"/>
+            <result property="interviewedJobs" column="interviewed_jobs" jdbcType="OTHER"/>
+            <result property="interestedJobs" column="interested_jobs" jdbcType="OTHER"/>
+    </resultMap>
+
+    <insert id="saveReturnId" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO applicant(communicated_jobs, deliveries_jobs, interviewed_jobs, interested_jobs)
+        VALUE (#{communicatedJobs},#{deliveriesJobs},#{interviewedJobs},#{interestedJobs})
+    </insert>
+</mapper>

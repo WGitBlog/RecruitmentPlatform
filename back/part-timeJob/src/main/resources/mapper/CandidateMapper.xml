@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parttimejob.mapper.CandidateMapper">
+
+    <resultMap id="BaseResultMap" type="parttimejob.Entity.Candidate">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="account" column="account" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="birthday" column="birthday" jdbcType="DATE"/>
+            <result property="complete" column="complete" jdbcType="TINYINT"/>
+            <result property="degreecategory" column="degreeCategory" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="freshgraduate" column="freshGraduate" jdbcType="INTEGER"/>
+            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="startworkdate" column="startWorkDate" jdbcType="INTEGER"/>
+            <result property="tiny" column="tiny" jdbcType="VARCHAR"/>
+            <result property="weixinblur" column="weixinBlur" jdbcType="VARCHAR"/>
+            <result property="desiredSalary" column="desired_salary" jdbcType="VARCHAR"/>
+            <result property="workyears" column="workYears" jdbcType="INTEGER"/>
+            <result property="resume" column="resume" jdbcType="VARCHAR"/>
+            <result property="applicantId" column="applicant_id" jdbcType="BIGINT"/>
+        <result property="skillsIntroduction" column="skills_introduction" jdbcType="VARCHAR"/>
+        <result property="desiredCity" column="desired_city" jdbcType="VARCHAR"/>
+        <result property="desiredIndustry" column="desired_industry" jdbcType="VARCHAR"/>
+        <result property="desiredPosition" column="desired_position" jdbcType="VARCHAR"/>
+
+
+    </resultMap>
+    <insert id="saveReturnId" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO candidate(ACCOUNT, AGE, BIRTHDAY, COMPLETE, DEGREECATEGORY, EMAIL, FRESHGRADUATE, GENDER, ADDRESS, NAME, STARTWORKDATE, TINY, WEIXINBLUR, DESIRED_SALARY, WORKYEARS, RESUME, APPLICANT_ID, DESIRED_CITY, DESIRED_INDUSTRY, DESIRED_POSITION, SKILLS_INTRODUCTION) VALUE
+        (#{account},#{age},#{birthday},#{complete},#{degreecategory},#{email},#{freshgraduate},#{gender},#{address},#{name},#{startworkdate},#{tiny},#{weixinblur},#{desiredSalary},#{workyears},#{resume},#{applicantId},#{desiredCity},#{desiredIndustry},#{desiredPosition},#{skillsIntroduction})
+    </insert>
+
+
+    <update id="changeDetails">
+        update  candidate
+        <set>
+            <if test="account != null">account = #{account},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="degreecategory != null">degreecategory = #{degreecategory},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="weixinblur != null">weixinblur = #{weixinblur},</if>
+            <if test="workyears != null">workyears = #{workyears},</if>
+            <if test="resume != null">resume = #{resume},</if>
+            <if test="desiredSalary != null">desired_salary = #{desiredSalary},</if>
+            <if test="desiredCity != null">desired_city = #{desiredCity},</if>
+            <if test="desiredIndustry != null">desired_industry = #{desiredIndustry},</if>
+            <if test="desiredPosition != null">desired_position = #{desiredPosition}</if>
+            <if test="skillsIntroduction != null">skills_introduction = #{skillsIntroduction},</if>
+            </set>
+        <where>
+            id=#{id}
+        </where>
+  </update>
+
+    <select id="getRelatedByJobId" resultType="parttimejob.Dto.JobDto">
+        SELECT
+        a.*,
+        c.boos_name,c.boos_email,c.boos_phone,c.company_id,c.boos_img,c.company_position,
+        b.company_name,b.location,b.industry,b.established_year,b.contact_number,b.email,b.company_img,b.company_scale,b.company_market,b.company_type
+        FROM
+        job a
+        JOIN
+        boos c ON a.boos_id = c.id  -- 连接 job 表和 boos 表
+        JOIN
+        company b ON c.company_id = b.id  -- 连接 boos 表和 company 表
+        WHERE
+        a.id = #{jobId};  -- 根据 job 的 ID 进行过滤
+
+    </select>
+</mapper>
