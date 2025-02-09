@@ -35,7 +35,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(webMvcInterceptor)
                 .addPathPatterns("/**")
                 //除了登录和退出都需要鉴权
-                .excludePathPatterns("/user/login", "/user/logout");
+                .excludePathPatterns(
+                        "/user/login",
+                        "/user/logout",
+                        "/boos/boosRegister",
+                        "/candidate/candidateRegister",
+                        "/candidate/uploadImg",
+                        "/candidate/uploadResume",
+                        "/company/uploadImg",
+                        "/boos/uploadImg"
+                );
     }
 //    /**
 //     * 消息转换器

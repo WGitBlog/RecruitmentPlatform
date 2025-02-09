@@ -24,3 +24,6 @@ jwt:
     user-secret-key: PartTimeJob
     user-ttl: 63000000
     user-token-name: Authorization
+logging:
+  level:
+    root: info

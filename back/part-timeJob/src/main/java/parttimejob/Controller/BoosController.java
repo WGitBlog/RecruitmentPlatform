@@ -16,6 +16,7 @@ import parttimejob.Entity.*;
 import parttimejob.Result.R;
 
 import parttimejob.Utils.minio.FileStorageService;
+import parttimejob.Utils.saltMd5.PasswordTools;
 import parttimejob.service.*;
 
 import java.io.IOException;
@@ -106,8 +107,11 @@ public class BoosController {
         Job job = registerDto.getJob();
         job.setBoosId(boos.getId());
         jobService.saveOrUpdate(job);
+
         User user = registerDto.getUser();
         user.setBoosId(boos.getId());
+        //进行密码SaltMd5加密
+        user.setPassword(PasswordTools.encrypt(user.getPassword()));
         userService.saveOrUpdate(user);
         return R.success("注册成功");
     }

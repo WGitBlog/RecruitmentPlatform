@@ -16,6 +16,7 @@ import parttimejob.Entity.Reports;
 import parttimejob.Entity.User;
 import parttimejob.Result.R;
 import parttimejob.Utils.jwt.JwtUtil;
+import parttimejob.Utils.saltMd5.PasswordTools;
 import parttimejob.Utils.thread.BaseThread;
 import parttimejob.service.BoosService;
 import parttimejob.service.JobService;
@@ -53,7 +54,7 @@ public class UserController {
         if(us==null){
             return R.error("登录失败");
         };
-        if(!Objects.equals(us.getPassword(), user.getPassword())){
+        if(!PasswordTools.decrypt(user.getPassword(),us.getPassword())){
             return R.error("登录失败");
         };
         if(!Objects.equals(us.getStatus(), 1)){
