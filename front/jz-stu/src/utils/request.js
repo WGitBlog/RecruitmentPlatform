@@ -15,26 +15,17 @@ const instance = axios.create({
 instance.interceptors.request.use(
   //TODO还未进行验证
   (config) => {
-
-
-
-
-    // const userStore=useUserStore()
-    // const isLoginRequest=config.url.includes('/login')
-    // //判断是否有token如果有则放行-没有判断是否是登录接口
-    // if(userStore.token){
-    //   config.headers.Authorization=userStore.token
-    //   return config
-    // }
-    // //判断是否是登录接口如果是则放行-不是报错
-    // if(!isLoginRequest){
-    //   Promise.reject(new Error("p:不是登录请求,也没有token"))
-    // }
-
-
-
-    // TODO 2. 携带token
-    return config
+    const isLoginRequest = config.url.includes('/login');
+    console.log("是否为login:",isLoginRequest);
+    console.log("是否有token",sessionStorage.getItem("token"))
+    // 判断是否是登录接口或者是否有token，如果不是/没有则放行-不是报错
+    if (!isLoginRequest && !sessionStorage.getItem("token")) {
+      // 如果不是登录请求且没有token，则重定向到登录页面
+      $router.push('/login');  
+      return Promise.reject(new Error("p:不是登录请求,也没有token")); // 修正了Promise.reject的位置
+    }
+    config.headers.Authorization = sessionStorage.getItem("token");
+    return config;
   },
   (err) => Promise.reject(err)
 )

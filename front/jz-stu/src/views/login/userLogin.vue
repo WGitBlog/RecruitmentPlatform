@@ -23,7 +23,7 @@ const CURegister = async () => {
     isRegister.value = false
 
       formModel.value.role = 'candidate'
-    registerStore.userInfo = formModel.value
+    registerStore.userInfo = formModel.
     router.push('/register')
   } else {
     ElMessage.error('注册Candidate失败')
@@ -65,8 +65,8 @@ onMounted(() => {
 const login = async () => {
   const { username, password } = formModel.value // 解构出 username 和 password
   const res = await userLogin(username, password) // 传递两个参数
-
   if (res.code === 1) {
+    sessionStorage.setItem('token',res.data.token)//将token存入session
     localStorage.setItem('userId', res.data.id) //将userId存储到session
     //判断role
     if (res.data.role === 'boos') {
