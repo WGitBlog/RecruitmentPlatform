@@ -23,17 +23,11 @@ const CURegister = async () => {
     isRegister.value = false
 
       formModel.value.role = 'candidate'
-    registerStore.userInfo = formModel.
+    registerStore.userInfo = formModel.value
     router.push('/register')
   } else {
     ElMessage.error('注册Candidate失败')
   }
-
-  // //先进行User信息的注册
-  // await userRegister()
-
-  // //在进行Candidate信息的注册
-  // await candidateRegister()
 }
 
 const CBRegister = async () => {
