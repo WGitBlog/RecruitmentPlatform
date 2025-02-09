@@ -153,23 +153,31 @@
           </div>
         </el-aside>
         <el-main>
-          <el-row justify="space-between" v-if="candidateId">
-            <el-col :span="6" class="baseInfo_left">
-              <span :style="{ marginRight: '12px' }">{{ defaultItem.boosName }}</span>
-              <span>{{ defaultItem.companyName }}|{{ defaultItem.companyPosition }}</span>
-            </el-col>
-            <el-col :span="3" class="baseInfo_right">
-              <span><el-button type="primary" plain>置顶</el-button></span>
+          <el-row v-if="candidateId">
+            <el-col :span="23" class="baseInfo_bom">
+              <el-row justify="space-between">
+                <el-col :span="7" class="baseInfo_left">
+                  <span :style="{ marginRight: '30px' }">{{ defaultItem.boosName }}</span>
+                  <span>{{ defaultItem.companyName }}|{{ defaultItem.companyPosition }}</span>
+                </el-col>
+                <el-col :span="2" class="baseInfo_right">
+                  <span><el-button type="primary" plain>置顶</el-button></span>
+                </el-col>
+              </el-row>
             </el-col>
           </el-row>
 
-          <el-row justify="space-between" v-else>
-            <el-col :span="6" class="baseInfo_left">
-              <span :style="{ marginRight: '12px' }">{{ defaultItemCds.name }}</span>
-              <span>{{ defaultItemCds.degreecategory }}|学生</span>
-            </el-col>
-            <el-col :span="3" class="baseInfo_right">
-              <span><el-button type="primary" plain>置顶</el-button></span>
+          <el-row v-else>
+            <el-col :span="23" class="baseInfo_bom">
+              <el-row justify="space-between">
+                <el-col :span="7" class="baseInfo_left">
+                  <span :style="{ marginRight: '12px' }">{{ defaultItemCds.name }}</span>
+                  <span>{{ defaultItemCds.degreecategory }}|学生</span>
+                </el-col>
+                <el-col :span="2" class="baseInfo_right">
+                  <span><el-button type="primary" plain>置顶</el-button></span>
+                </el-col>
+              </el-row>
             </el-col>
           </el-row>
 
@@ -1346,7 +1354,6 @@ body {
   border: 1px solid #e4e7ed;
   .baseInfo_left {
     line-height: 30px;
-    margin: 10px;
   }
   .baseInfo_right {
     margin: 10px;

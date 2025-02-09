@@ -34,7 +34,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(webMvcInterceptor)
                 .addPathPatterns("/**")
-                //除了登录和退出都需要鉴权
+                //除了(登录/注册/退出)都需要鉴权
                 .excludePathPatterns(
                         "/user/login",
                         "/user/logout",
