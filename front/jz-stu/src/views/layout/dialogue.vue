@@ -563,7 +563,7 @@ const sendMessage = () => {
 
   //清空数据框
   messageInput.value = ''
-  //发送消息滑轮���最低部
+  //发送消息滑轮到最低部
   scrollToBottom()
 }
 
@@ -948,7 +948,7 @@ const spanDeal = async (index) => {
         case 3: {
           const res = await getDeliveriesCds(boosId)
           itemsCandidate.value = [] //将列表置空
-          itemsCandidate.value.push(...res.data) //将元素遍历���入itemlist里面
+          itemsCandidate.value.push(...res.data) //将元素遍历加入itemlist里面
           break
         }
         case 4: {
@@ -1210,6 +1210,21 @@ const handleImageSelected = (event) => {
 
 
 <style lang="scss" scoped>
+.common-layout {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #8dc5fa 0%, #faf4f4 100%);
+    z-index: -1;
+  }
+}
+
 html,
 body {
   margin: 0;
@@ -1583,10 +1598,17 @@ body {
 
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
-  color: #333;
-  text-align: center;
+   text-align: center;
   height: 7vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    margin: 0;
+    line-height: 7vh;
+    color: #333;
+  }
 }
 
 .el-aside {
@@ -1800,10 +1822,5 @@ body > .el-container {
   padding: 2px !important;
   background-color: white !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-// 添加备注相关样式
-.notes-container {
-  // ... 复制 notFound.vue 中的相关样式
 }
 </style>

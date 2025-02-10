@@ -317,7 +317,7 @@ const processedData = (
           width: 100%;
           height: 120px;
           line-height: 120px;
-          border: 2px solid black;
+          border: 2px solid #d0e5fa;
           border-radius: 10px;
           box-sizing: border-box;
           overflow: hidden;

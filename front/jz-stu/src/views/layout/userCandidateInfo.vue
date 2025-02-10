@@ -53,7 +53,6 @@ onMounted(async () => {
           url: userInfo.value.resume
         }
       ]
-
     }
   }
   //进行时间戳处理
@@ -212,7 +211,6 @@ const beforeUploadPDF = (file) => {
   return true
 }
 
-
 // 无简历--需要上传成功处理
 const handleUploadSuccess = async (response, file) => {
   if (response.code === 1) {
@@ -243,7 +241,7 @@ const handleUploadSuccess = async (response, file) => {
 // 移除文件处理
 const handleRemove = async (file) => {
   try {
-        // 可以添加删除文件的API请求
+    // 可以添加删除文件的API请求
 
     resumeFiles.value = []
     localStorage.removeItem('userResume')
@@ -252,7 +250,7 @@ const handleRemove = async (file) => {
     if (userInfo.value) {
       userInfo.value.resume = ''
       // 更新数据库中的简历信息
-    await deleteResume(candidateId)
+      await deleteResume(candidateId)
     }
 
     ElMessage.success('简历已删除')
@@ -526,6 +524,10 @@ const previewPDF = (file) => {
 </template>
 
 <style lang="scss" scoped>
+.el-container {
+  min-height: 100vh !important;
+  background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
+}
 .dialog-footer {
   height: 40px;
   line-height: 40px;
@@ -534,39 +536,46 @@ const previewPDF = (file) => {
 //   display: inline-block; /* 使表单度自适应 */
 // }
 .main_bom {
-  width: 1200px; /* 使用100%宽度 */
+  width: 1200px;
   height: 50px;
-  margin: 20px 0; /* 添加上下间距 */
-  background-color: wheat;
-  margin: 0 auto;
-  div {
-    display: flex; /* 使用 Flexbox 布局 */
-    align-items: center; //和margin 0 auto 差不多---上下对齐
-    justify-content: center; /* 中心对齐 */
-    height: 100%;
-    width: 100%;
-  }
+  margin: 20px auto;
+  background-color: transparent;
+
   .el-row {
     height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 20px; // 增加按钮之间的间距
+    padding: 0 20px;
   }
+
   .el-col {
     height: 50px;
-    span {
-      height: 40px;
-      width: 60px;
-      line-height: 40px;
-      cursor: pointer;
-    }
-    span::after {
-      content: '';
-      position: absolute;
-      width: 30px;
-      height: 3px;
-      border-radius: 2px;
-      bottom: -1px;
-      margin-left: 0px;
-      z-index: 2;
-      left: 60px;
+    display: flex;
+    align-items: center;
+
+    .el-button {
+      width: 100px; // 统一按钮宽度
+      height: 36px; // 调整按钮高度
+      border-radius: 18px; // 圆角按钮
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); // 渐变背景，与页面主题呼应
+      border: none;
+      box-shadow: 0 2px 8px rgba(161, 196, 253, 0.3);
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); // 悬浮时改变渐变
+        box-shadow: 0 4px 12px rgba(102, 166, 255, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(102, 166, 255, 0.4);
+      }
     }
   }
 }
@@ -580,13 +589,14 @@ const previewPDF = (file) => {
 .main_top {
   display: flex; /* 使用Flexbox布局:可以让div一行显示就不用浮动了*/
   width: 1200px;
-  height: 160px;
+  height: 165px;
   margin: 0 auto;
-
+  background-color: transparent;
   .main_left {
     width: 900px;
-    border: 1px solid transparent;
-    box-sizing: border-box;
+    border: none;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
 
     .changeUserInfo {
@@ -607,16 +617,26 @@ const previewPDF = (file) => {
         right: 0px;
         text-decoration: none;
         line-height: 28px;
-        border: 2px solid black;
+        border: 1px solid #dcdfe6;
         box-sizing: border-box;
         border-radius: 10px 0 0 10px;
+        color: #606266;
+        background: #fff;
+        transition: all 0.3s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+        &:hover {
+          color: #409eff;
+          border-color: #409eff;
+          box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
+        }
       }
     }
     .workbase {
       height: 160px;
       display: flex;
       ul {
-        margin: 15px 0 0 40px;
+        margin: 0px;
         padding: 0;
         line-height: 20px;
         height: 135px;
@@ -624,8 +644,17 @@ const previewPDF = (file) => {
           margin: 20px 0;
           display: block;
           height: 20px;
-          background-color: #b3c0d1;
+          background-color: #f5f7fa;
           text-align: left;
+          border-radius: 4px;
+          padding: 3px 15px;
+          border: 1px solid #ebeef5;
+          transition: all 0.3s;
+
+          &:hover {
+            background-color: #ecf5ff;
+            border-color: #409eff;
+          }
         }
       }
     }
@@ -691,18 +720,29 @@ const previewPDF = (file) => {
         text-decoration: none;
         height: 40px;
         width: 70px;
-        border: 2px solid black;
+        border: 1px solid #dcdfe6;
         box-sizing: border-box;
         border-radius: 10px;
+        color: #606266;
+        background: #fff;
+        transition: all 0.3s;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+        &:hover {
+          color: #409eff;
+          border-color: #409eff;
+          box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
+        }
       }
     }
   }
 
   .main_right {
-    background-color: #fff;
+    background-color: transparent;
     width: 300px;
     height: 160px;
-    border: 1px solid #dcdfe6;
+    border: none;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     border-radius: 8px;
     margin-left: 10px;
     padding: 12px;
@@ -768,10 +808,11 @@ const previewPDF = (file) => {
       flex-direction: column;
       justify-content: space-between;
       background: #f5f7fa;
-      border-radius: 4px;
+      border-radius: 8px;
       padding: 8px;
       box-sizing: border-box;
       height: calc(100% - 24px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
       .file-info {
         display: flex;
@@ -817,18 +858,15 @@ const previewPDF = (file) => {
   }
 }
 
-.el-header,
-.el-footer {
-  background-color: #b3c0d1;
+.el-header {
+  background-color: transparent !important;
   color: #333;
   text-align: center;
   line-height: 60px;
 }
 
 .el-main {
-  position: relative;
-  width: 100%;
-  background-color: #e9eef3;
+  background-color: transparent !important;
   color: #333;
   text-align: center;
   line-height: 160px;
@@ -836,6 +874,28 @@ const previewPDF = (file) => {
 
 body > .el-container {
   margin-bottom: 40px;
+}
+
+.el-dialog {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+
+  .el-input__inner {
+    border-radius: 4px;
+  }
+
+  .el-button {
+    &.el-button--primary {
+      background: #409eff;
+      border: none;
+      box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+      }
+    }
+  }
 }
 </style>
 

@@ -379,7 +379,7 @@ const handleDeleteJob = async (jobId: number) => {
 
   // 实现刪除职位逻辑
    try {
-    // 调用 API 删除��位
+    // 调用 API 删除职位
     await updateDeleteJob(jobId)
 
     // 更新本地状态
@@ -443,7 +443,7 @@ const handleEditJob = async (jobId: number) => {
   }
   Object.assign(job, updatedJob)
     // 关闭对话框
-    jobDialogVisible.value = false // ��加这一行
+    jobDialogVisible.value = false // 加这一行
  }
 
 
@@ -672,11 +672,22 @@ const handleViewJob = (jobId: number) => {
 
 
 
+<style>
+/* 添加一个全局样式 (注意这里不使用 scoped) */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+ background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
+}
+</style>
+
 <style scoped>
 .boss-profile {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  /* 移除之前的背景渐变，因为已经应用到 body 上了 */
 }
 
 .profile-card {

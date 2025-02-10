@@ -190,7 +190,7 @@ const dealGroupedCities = (citys) => {
 
 <style lang='less'>
 .city_select {
-  background-color: aqua;
+
   width: 670px;
 
   .el-tab-pane {
@@ -201,7 +201,6 @@ const dealGroupedCities = (citys) => {
       span {
         padding: 0 40px;
         width: 10px;
-        background-color: aquamarine;
         font-size: 20px;
         margin-right: 4px;
       }
@@ -209,17 +208,17 @@ const dealGroupedCities = (citys) => {
         ul {
           margin: 0px;
           padding: 0px;
-          font-size: 12px;
+          font-size: 13px;
           li {
             display: inline-flex; //挤下去会发现上下不齐如果用行内快=块
             justify-content: center; /* 水平居中对齐 */
             width: 103px;
             height: 40px;
-            background-color: rgb(219, 135, 197);
             margin-right: 10px;
             margin-top: 2px;
             text-align: center;
             a {
+              color: #4c5569;
               text-decoration: none;
             }
           }
@@ -228,7 +227,7 @@ const dealGroupedCities = (citys) => {
     }
   }
   .el-tabs__content {
-    background-color: beige;
+
     padding: 0px !important;
     overflow-y: auto;
 
@@ -246,7 +245,7 @@ const dealGroupedCities = (citys) => {
     }
   }
   .list-select-list {
-    background-color: cadetblue;
+ 
   }
   .el-tabs__item {
     margin-right: 30px;
