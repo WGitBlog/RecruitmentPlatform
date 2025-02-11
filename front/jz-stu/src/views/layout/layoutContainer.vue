@@ -640,18 +640,20 @@ const handleSubmitReport = async () => {
     flex-wrap: nowrap;
     white-space: nowrap;
     overflow-y: auto; //TODO:出现滚动条-给父盒子设置宽度并且配置此行
-    border: black 1px solid;
+    border: #00bebd 1px solid;
     box-sizing: border-box;
     h3 {
       display: block;
       position: relative; //TODO-���绝父相：绝对定位的父元素必须有定位/绝对定位脱标相对定位不脱标
       height: 20px;
-      margin: 10px auto;
+      margin: 10px 5px;
     }
     p {
       white-space: pre-wrap;
       word-break: break-all;
-      font-size: 10px;
+      font-size: 15px;
+      padding: 0 5px;
+      line-height: 2;
     }
     ul {
       margin: 0;
@@ -913,9 +915,14 @@ const handleSubmitReport = async () => {
   color: #333;
   text-align: center;
   line-height: 160px;
+  height: 89vh;
 }
-
+html{
+  margin: 0;
+  padding: 0;
+}
 body > .el-container {
+  
   margin-bottom: 40px;
 }
 

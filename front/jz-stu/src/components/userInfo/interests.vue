@@ -131,7 +131,7 @@ const processedData = (
                   <el-button
                     type="success"
                     v-show="Interest[index]"
-                    color="#00a6a7"
+                    color="#bbe1fb"
                     @click="
                       $router.push(`/dialogue?item=${encodeURIComponent(JSON.stringify(item))}`)
                     "
@@ -229,7 +229,7 @@ const processedData = (
     </el-row>
   </div>
 
-  <div class="no_commounited" v-else>
+  <!-- <div class="no_commounited" v-else>
     <el-row>
       <el-col :span="18" class="col_left">
         <div class="baseJob">
@@ -242,7 +242,7 @@ const processedData = (
         <div></div>
       </el-col>
     </el-row>
-  </div>
+  </div> -->
 
   <!-- 添加详情弹窗 -->
   <el-dialog v-model="dialogVisible" width="500px">
@@ -342,7 +342,7 @@ const processedData = (
                 line-height: 20px;
                 margin-right: 5px;
                 font-size: 10px;
-                border: 2px solid;
+                border: 2px solid #d0e5fa;
                 border-radius: 8px;
                 box-sizing: border-box;
               }
@@ -386,7 +386,7 @@ const processedData = (
                   margin: 7px 8px 0 0;
                   height: 20px;
                   line-height: 20px;
-                  border: 2px black solid;
+                  border: 2px #d0e5fa solid;
                   border-radius: 5px;
                 }
               }
@@ -453,7 +453,10 @@ const processedData = (
         z-index: 1;
         padding: 15px;
         background-color: white;
-        margin: 0 0 5px 0;
+          display: block;
+        margin: 5px 0 5px 0;
+        border: 2px solid #d0e5fa;
+        border-radius: 10px;
         padding-bottom: 10px;
         border-bottom: 1px solid #eee;
         font-size: 16px;

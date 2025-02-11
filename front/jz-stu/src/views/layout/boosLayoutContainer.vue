@@ -364,7 +364,9 @@ const commouncationTa = async (item) => {
 
 <style lang="scss" scoped>
 
-
+.el-container{
+  height: 97vh;
+}
 .custom-divider {
 
   margin: 0; /* 更改上下的间距 */

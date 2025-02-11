@@ -414,7 +414,7 @@ const previewPDF = (file) => {
 
               <div class="workerstatus">
                 <el-dropdown>
-                  <el-button type="primary">
+                  <el-button type="primary" >
                     在校-月内到岗<i class="el-icon-arrow-down el-icon--right"></i>
                   </el-button>
                   <template #dropdown>
@@ -690,10 +690,13 @@ const previewPDF = (file) => {
       }
     }
     .workerstatus {
+      margin-top: 15px;
       display: flex;
       height: 50px;
       line-height: 50px;
-      button {
+      
+      .el-button {
+        background-color: #9eb8f1;
         height: 40px;
         width: 140px;
       }
