@@ -37,44 +37,54 @@
 ### （一）用户端
 
 #### 1.应聘者角色
+
 ![image-20250212203647973](https://github.com/user-attachments/assets/8bc86d2c-e686-44b6-bf2a-da544438df0e)
+
 ![image-20250212203711270](https://github.com/user-attachments/assets/08d6ed61-d45a-45ff-90ff-164f2cd6c428)
+
 ![image-20250212203728162](https://github.com/user-attachments/assets/683e2539-343a-4d8f-a332-a57eecb6d819)
+
 ![image-20250212203745657](https://github.com/user-attachments/assets/75af9102-183b-44d3-a4ff-0538617c6a97)
+
 ![image-20250212203809792](https://github.com/user-attachments/assets/dfa4f965-0ede-445a-9f38-cfed894bf16c)
+
 ![image-20250212203913410](https://github.com/user-attachments/assets/510c6ad4-3f92-4017-a95d-78eba8df1556)
 
+![image-20250212204629871](https://github.com/user-attachments/assets/ca0c31a4-ddcc-4589-8a0b-7a791e00dee0)
 
+![image-20250212204703501](https://github.com/user-attachments/assets/73b654d8-9f4b-4c3f-9e3d-2c05942bffc5)
 
 #### 2.招聘者角色
 
-![image-20250212204008359](typora-user-images\image-20250212204008359.png)
+![image-20250212204008359](https://github.com/user-attachments/assets/7f73014e-1fa1-45ad-ada2-2801252b6679)
 
-![image-20250212204035486](typora-user-images\image-20250212204035486.png)
+![image-20250212204035486](https://github.com/user-attachments/assets/6171b908-6ee3-4d79-820e-d6d6e634ee0a)
 
-![image-20250212204056727](typora-user-images\image-20250212204056727.png)
+![image-20250212204056727](https://github.com/user-attachments/assets/cc065bec-c929-4b27-9e22-3693025a81e6)
 
-![image-20250212204109500](typora-user-images\image-20250212204109500.png)
+![image-20250212204109500](https://github.com/user-attachments/assets/447e905a-e1d9-4ef6-8601-bece109b99b5)
 
-![image-20250212204736526](typora-user-images\image-20250212204736526.png)
+![image-20250212204736526](https://github.com/user-attachments/assets/ba636f81-fe03-4257-9192-8084a3218618)
 
-![image-20250212204755908](typora-user-images\image-20250212204755908.png)
+![image-20250212204755908](https://github.com/user-attachments/assets/9af4f027-908f-4956-a3eb-fa4a9f090f33)
 
 ### （二）管理端
 
-![image-20250212204150818](typora-user-images\image-20250212204150818.png)
+![Snipaste_2025-02-12_21-43-53](https://github.com/user-attachments/assets/52e31b70-f7df-4b52-960e-e836a4bb3e18)
 
-![image-20250212204213896](typora-user-images\image-20250212204213896.png)
+![image-20250212204150818](https://github.com/user-attachments/assets/f435c500-2541-4483-b76b-1ebc8ac6023b)
 
-![image-20250212204223747](typora-user-images\image-20250212204223747.png)
+![image-20250212204213896](https://github.com/user-attachments/assets/f8aee79b-9050-4491-ab51-1d3080da1d5f)
 
-![image-20250212204233244](typora-user-images\image-20250212204233244.png)
+![image-20250212204233244](https://github.com/user-attachments/assets/f62c86aa-3f3d-4c58-932a-5a293941c7b3)
 
-![image-20250212204242112](typora-user-images\image-20250212204242112.png)
+![image-20250212204223747](https://github.com/user-attachments/assets/ec48c0e9-2164-488d-84a1-b58685353591)
 
-![image-20250212204255603](typora-user-images\image-20250212204255603.png)
+![image-20250212204310206](https://github.com/user-attachments/assets/6b8b4459-5445-4376-863b-ecead392774f)
 
-![image-20250212204310206](typora-user-images\image-20250212204310206.png)
+![image-20250212204255603](https://github.com/user-attachments/assets/dedafbcc-c945-4aa2-90bc-feb756ea299d)
+
+![image-20250212204242112](https://github.com/user-attachments/assets/712e41dd-fb26-4c6a-8b32-fd6aed1665fd)
 
 #### 参与贡献
 
