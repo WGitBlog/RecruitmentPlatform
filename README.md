@@ -38,19 +38,13 @@
 
 #### 1.应聘者角色
 ![image-20250212203647973](https://github.com/user-attachments/assets/8bc86d2c-e686-44b6-bf2a-da544438df0e)
+![image-20250212203711270](https://github.com/user-attachments/assets/08d6ed61-d45a-45ff-90ff-164f2cd6c428)
+![image-20250212203728162](https://github.com/user-attachments/assets/683e2539-343a-4d8f-a332-a57eecb6d819)
+![image-20250212203745657](https://github.com/user-attachments/assets/75af9102-183b-44d3-a4ff-0538617c6a97)
+![image-20250212203809792](https://github.com/user-attachments/assets/dfa4f965-0ede-445a-9f38-cfed894bf16c)
+![image-20250212203913410](https://github.com/user-attachments/assets/510c6ad4-3f92-4017-a95d-78eba8df1556)
 
 
-![image-20250212203728162](typora-user-images\image-20250212203728162.png)
-
-![image-20250212203745657](typora-user-images\image-20250212203745657.png)
-
-![image-20250212203809792](typora-user-images\image-20250212203809792.png)
-
-![image-20250212203913410](typora-user-images\image-20250212203913410.png)
-
-![image-20250212204629871](typora-user-images\image-20250212204629871.png)
-
-![image-20250212204703501](typora-user-images\image-20250212204703501.png)
 
 #### 2.招聘者角色
 
