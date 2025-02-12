@@ -38,51 +38,51 @@
 
 #### 1.应聘者角色
 
-![image-20250212203647973](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212203647973.png)
+![image-20250212203647973](typora-user-images\image-20250212203647973.png)
 
-![image-20250212203711270](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212203711270.png)
+![image-20250212203711270](typora-user-images\image-20250212203711270.png)
 
-![image-20250212203728162](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212203728162.png)
+![image-20250212203728162](typora-user-images\image-20250212203728162.png)
 
-![image-20250212203745657](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212203745657.png)
+![image-20250212203745657](typora-user-images\image-20250212203745657.png)
 
-![image-20250212203809792](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212203809792.png)
+![image-20250212203809792](typora-user-images\image-20250212203809792.png)
 
-![image-20250212203913410](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212203913410.png)
+![image-20250212203913410](typora-user-images\image-20250212203913410.png)
 
-![image-20250212204629871](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204629871.png)
+![image-20250212204629871](typora-user-images\image-20250212204629871.png)
 
-![image-20250212204703501](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204703501.png)
+![image-20250212204703501](typora-user-images\image-20250212204703501.png)
 
 #### 2.招聘者角色
 
-![image-20250212204008359](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204008359.png)
+![image-20250212204008359](typora-user-images\image-20250212204008359.png)
 
-![image-20250212204035486](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204035486.png)
+![image-20250212204035486](typora-user-images\image-20250212204035486.png)
 
-![image-20250212204056727](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204056727.png)
+![image-20250212204056727](typora-user-images\image-20250212204056727.png)
 
-![image-20250212204109500](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204109500.png)
+![image-20250212204109500](typora-user-images\image-20250212204109500.png)
 
-![image-20250212204736526](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204736526.png)
+![image-20250212204736526](typora-user-images\image-20250212204736526.png)
 
-![image-20250212204755908](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204755908.png)
+![image-20250212204755908](typora-user-images\image-20250212204755908.png)
 
 ### （二）管理端
 
-![image-20250212204150818](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204150818.png)
+![image-20250212204150818](typora-user-images\image-20250212204150818.png)
 
-![image-20250212204213896](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204213896.png)
+![image-20250212204213896](typora-user-images\image-20250212204213896.png)
 
-![image-20250212204223747](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204223747.png)
+![image-20250212204223747](typora-user-images\image-20250212204223747.png)
 
-![image-20250212204233244](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204233244.png)
+![image-20250212204233244](typora-user-images\image-20250212204233244.png)
 
-![image-20250212204242112](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204242112.png)
+![image-20250212204242112](typora-user-images\image-20250212204242112.png)
 
-![image-20250212204255603](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204255603.png)
+![image-20250212204255603](typora-user-images\image-20250212204255603.png)
 
-![image-20250212204310206](C:\Users\86151\AppData\Roaming\Typora\typora-user-images\image-20250212204310206.png)
+![image-20250212204310206](typora-user-images\image-20250212204310206.png)
 
 #### 参与贡献
 
