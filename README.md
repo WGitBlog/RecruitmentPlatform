@@ -37,10 +37,8 @@
 ### （一）用户端
 
 #### 1.应聘者角色
+![image-20250212203647973](https://github.com/user-attachments/assets/8bc86d2c-e686-44b6-bf2a-da544438df0e)
 
-![image-20250212203647973](typora-user-images\image-20250212203647973.png)
-
-![image-20250212203711270](typora-user-images\image-20250212203711270.png)
 
 ![image-20250212203728162](typora-user-images\image-20250212203728162.png)
 
