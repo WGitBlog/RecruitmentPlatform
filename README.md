@@ -30,7 +30,7 @@
 
 #### 使用说明
 
-部署环境： 1.服务器：tomcat8 2.运行环境：jdk1.8 3.数据库：mysql5.6/5.7 注意事项： 管理员账号密码：admin/123456 https://gitee.com/link?target=https%3A%2F%2Fwww.xiaohuige.work)
+部署环境： 1.服务器：tomcat8 2.运行环境：jdk1.8 3.数据库：mysql5.6/5.7 注意事项： 管理员账号密码：admin/123456 
 
 #### 以下是项目部分界面
 
