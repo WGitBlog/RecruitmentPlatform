@@ -16,5 +16,28 @@
         <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
+    <select id="getTableData" resultType="java.util.Map">
+        SELECT
+            DATE_SUB(CURDATE(), INTERVAL a.DAY DAY) AS registration_date,     -- 提取注册日期
+            COALESCE(COUNT(u.id), 0) AS new_users      -- 统计新增用户数量
+        FROM
+            (SELECT 0 AS DAY UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3
+             UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6) a
+                LEFT JOIN
+            user u  -- 用户表
+            ON DATE(u.created_at) = DATE_SUB(CURDATE(), INTERVAL a.DAY DAY)  -- 对比用户的注册日期
+                AND u.created_at >= NOW() - INTERVAL 7 DAY  -- 限制查询近七天的数据
+                AND u.role != 'admin'  -- 排除角色为 admin 的用户
+        GROUP BY
+            registration_date  -- 按日期分组
+        ORDER BY
+            registration_date ASC;  -- 按日期升序排列
+    </select>
+    <select id="getJobTableData" resultType="java.util.Map">
+        SELECT job_category AS category_date, COUNT(*) AS category_count
+        FROM job
+        GROUP BY job_category;
+    </select>
+
 
 </mapper>

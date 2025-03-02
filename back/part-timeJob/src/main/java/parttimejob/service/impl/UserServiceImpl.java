@@ -1,10 +1,14 @@
 package parttimejob.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import parttimejob.Entity.User;
 import parttimejob.service.UserService;
 import parttimejob.mapper.UserMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author 86151
@@ -14,7 +18,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
+    @Autowired
+    private UserMapper userMapper;
 
+    @Override
+    public List<Map<String, Object>> getTableData() {
+        return userMapper.getTableData();
+    }
+
+    @Override
+    public List<Map<String, Object>> getJobTableData() {
+        return userMapper.getJobTableData();
+    }
 }
 
 

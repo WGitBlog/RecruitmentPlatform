@@ -24,10 +24,7 @@ import parttimejob.service.ReportsService;
 import parttimejob.service.UserService;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -169,7 +166,9 @@ public class UserController {
                 .lt(User::getCreatedAt, yesterday));//昨日的企业总数
 
         double UserIncrease = calculateIncrease(currentUserCount, yesterdayUserCount);
+        UserIncrease = Double.parseDouble(String.format("%.2f", UserIncrease));
         double BoosIncrease = calculateIncrease(currentBoosCount, yesterdayBoosCount);
+        BoosIncrease = Double.parseDouble(String.format("%.2f", BoosIncrease));
         System.out.println("当前的用户总数:"+currentUserCount+"当前的企业总数:"+currentBoosCount+"当前的待审核职位数:"+currentPendingCount+"当前的待处理举报数:"+currentReportCount);
         System.out.println("昨日的用户总数:"+yesterdayUserCount+"昨日的企业总数:"+yesterdayBoosCount);
         //封装结果
@@ -179,6 +178,55 @@ public class UserController {
         statisticsDto.setTodayReports(currentReportCount);
         statisticsDto.setUserIncrease(UserIncrease);
         statisticsDto.setBossIncrease(BoosIncrease);
+
+
+
+
+
+
+
+
+
+
+
+        //获取echart数据
+        List<Map<String,Object>> tableData=userService.getTableData();
+        // 创建两个列表分别存储日期和用户数量
+        List<String> dateList = new ArrayList<>();
+        List<Integer> userCountList = new ArrayList<>();
+
+        // 使用Stream流式处理数据并将结果放入两个列表
+        tableData.stream().forEach(data -> {
+            dateList.add( data.get("registration_date").toString());  // 提取日期并添加到列表
+            userCountList.add(((Long) data.get("new_users")).intValue());  // 提取用户数量并添加到列表
+        });
+        statisticsDto.setDateList(dateList);
+        statisticsDto.setUserGrowthData(userCountList);
+
+
+
+
+
+
+
+        //获取echart数据
+        List<Map<String,Object>> jobTableData=userService.getJobTableData();
+        // 创建两个列表分别存储工作分类列表和工作数
+        List<String> categoryList = new ArrayList<>();
+        List<Integer> JobCategoryList = new ArrayList<>();
+
+        // 使用Stream流式处理数据并将结果放入两个列表
+        jobTableData.stream().forEach(data -> {
+            categoryList.add( data.get("category_date").toString());  // 提取日期并添加到列表
+            JobCategoryList.add(((Long) data.get("category_count")).intValue());  // 提取用户数量并添加到列表
+        });
+
+
+        statisticsDto.setCategoryList(categoryList);
+        statisticsDto.setJobCategoryData(JobCategoryList);
+
+
+
 
         System.out.println(statisticsDto);
         return R.success(statisticsDto);

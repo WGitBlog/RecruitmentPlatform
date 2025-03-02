@@ -1,8 +1,12 @@
 package parttimejob.mapper;
 
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import parttimejob.Entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
+import java.util.Map;
 
 /**
 * @author 86151
@@ -13,6 +17,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
+
+    @MapKey(value = "registration_date")
+    List<Map<String, Object>> getTableData();
+    @MapKey(value = "category_date")
+    List<Map<String, Object>> getJobTableData();
 }
 
 
