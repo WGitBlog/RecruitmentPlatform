@@ -72,7 +72,7 @@
 
 ![Snipaste_2025-02-12_21-43-53](https://github.com/user-attachments/assets/52e31b70-f7df-4b52-960e-e836a4bb3e18)
 
-![image-20250212204150818](https://github.com/user-attachments/assets/f435c500-2541-4483-b76b-1ebc8ac6023b)
+![Snipaste_2025-03-02_15-05-04](https://github.com/user-attachments/assets/4821e18c-6396-4169-8d50-aaea42361925)
 
 ![image-20250212204213896](https://github.com/user-attachments/assets/f8aee79b-9050-4491-ab51-1d3080da1d5f)
 
