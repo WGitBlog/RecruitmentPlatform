@@ -16,4 +16,7 @@ export const getUserByCandidateId = (candidateId) => {
 export const updateUserStatus = (userId) => {
     return request.put(`/user/updateStatus/${userId}`)
 }
-
+// 修正后的 getStatistics 函数
+export const getStatistics = () => {
+    return request.get('/user/statistics')
+}

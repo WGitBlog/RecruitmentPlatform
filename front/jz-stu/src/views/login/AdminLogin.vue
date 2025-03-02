@@ -11,28 +11,23 @@
       <div class="login-form-container">
         <div class="login-header">
           <!-- 修改图片引用方式 -->
-          <img :src="logoImage" alt="logo" class="logo">
+          <img :src="logoImage" alt="logo" class="logo" />
           <h3>管理员登录</h3>
           <p class="sub-title">请使用管理员账号登录系统</p>
         </div>
-        
-        <el-form 
-          ref="loginFormRef"
-          :model="loginForm"
-          :rules="loginRules"
-          class="login-form"
-        >
+
+        <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
           <el-form-item prop="adminName">
-            <el-input 
+            <el-input
               v-model="loginForm.adminName"
               placeholder="请输入管理员账号"
               :prefix-icon="User"
               size="large"
             />
           </el-form-item>
-          
+
           <el-form-item prop="password">
-            <el-input 
+            <el-input
               v-model="loginForm.password"
               type="password"
               placeholder="请输入密码"
@@ -49,8 +44,8 @@
           </div>
 
           <el-form-item class="login-btn">
-            <el-button 
-              type="primary" 
+            <el-button
+              type="primary"
               :loading="loading"
               @click="handleLogin"
               size="large"
@@ -80,7 +75,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { userLogin } from '@/api/user'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
-import logoImage from '@/assets/a.jpg'  // 确保这个路径是正确的
+import logoImage from '@/assets/a.jpg' // 确保这个路径是正确的
 const router = useRouter()
 const loading = ref(false)
 const loginFormRef = ref(null)
@@ -112,13 +107,13 @@ const loginRules = {
 // 登录处理函数
 const handleLogin = async () => {
   if (!loginFormRef.value) return
-  
+
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
         loading.value = true
         const res = await userLogin(loginForm.adminName, loginForm.password)
-        
+
         if (res.code === 1) {
           ElMessage.success('登录成功') // 登录成功
           if (rememberMe.value) {
@@ -126,9 +121,10 @@ const handleLogin = async () => {
           }
           localStorage.setItem('userId', res.data.id)
           localStorage.setItem('adminToken', res.data.token)
+          sessionStorage.setItem('token', res.data.token) //将token存入session
           localStorage.setItem('adminInfo', JSON.stringify(res.data.adminInfo))
           router.push('/admin/dashboard') // 跳转
-          return; // 退出函数，避免执行后续代码
+          return // 退出函数，避免执行后续代码
         } else {
           ElMessage.error(res.message || '登录失败') // 登录失败
         }
@@ -157,7 +153,7 @@ const handleLogin = async () => {
   justify-content: center;
   padding: 40px;
   color: white;
-  
+
   .welcome-text {
     text-align: center;
     h1 {
@@ -192,19 +188,19 @@ const handleLogin = async () => {
 .login-header {
   text-align: center;
   margin-bottom: 40px;
-  
+
   .logo {
     width: 80px;
     height: 80px;
     margin-bottom: 20px;
   }
-  
+
   h3 {
     font-size: 24px;
     color: #303133;
     margin-bottom: 10px;
   }
-  
+
   .sub-title {
     color: #909399;
     font-size: 14px;
@@ -216,12 +212,13 @@ const handleLogin = async () => {
     background-color: #f5f7fa;
     box-shadow: none;
     border: 1px solid #e4e7ed;
-    
-    &:hover, &:focus {
-      border-color: #409EFF;
+
+    &:hover,
+    &:focus {
+      border-color: #409eff;
     }
   }
-  
+
   :deep(.el-input__inner) {
     height: 45px;
   }
@@ -246,11 +243,11 @@ const handleLogin = async () => {
   text-align: center;
   color: #909399;
   font-size: 14px;
-  
+
   p {
     margin-bottom: 10px;
   }
-  
+
   span {
     margin: 0 5px;
   }
@@ -261,7 +258,7 @@ const handleLogin = async () => {
   .login-left {
     display: none;
   }
-  
+
   .login-right {
     width: 100%;
   }
