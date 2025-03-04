@@ -34,7 +34,25 @@
 
 #### 以下是项目部分界面
 
-### （一）用户端
+### （一）管理端
+
+![Snipaste_2025-02-12_21-43-53](https://github.com/user-attachments/assets/52e31b70-f7df-4b52-960e-e836a4bb3e18)
+
+![Snipaste_2025-03-02_15-05-04](https://github.com/user-attachments/assets/4821e18c-6396-4169-8d50-aaea42361925)
+
+![image-20250212204213896](https://github.com/user-attachments/assets/f8aee79b-9050-4491-ab51-1d3080da1d5f)
+
+![image-20250212204233244](https://github.com/user-attachments/assets/f62c86aa-3f3d-4c58-932a-5a293941c7b3)
+
+![image-20250212204223747](https://github.com/user-attachments/assets/ec48c0e9-2164-488d-84a1-b58685353591)
+
+![image-20250212204310206](https://github.com/user-attachments/assets/6b8b4459-5445-4376-863b-ecead392774f)
+
+![image-20250212204255603](https://github.com/user-attachments/assets/dedafbcc-c945-4aa2-90bc-feb756ea299d)
+
+![image-20250212204242112](https://github.com/user-attachments/assets/712e41dd-fb26-4c6a-8b32-fd6aed1665fd)
+
+### （二）用户端
 
 #### 1.应聘者角色
 
@@ -68,23 +86,7 @@
 
 ![image-20250212204755908](https://github.com/user-attachments/assets/9af4f027-908f-4956-a3eb-fa4a9f090f33)
 
-### （二）管理端
 
-![Snipaste_2025-02-12_21-43-53](https://github.com/user-attachments/assets/52e31b70-f7df-4b52-960e-e836a4bb3e18)
-
-![image-20250212204150818](https://github.com/user-attachments/assets/f435c500-2541-4483-b76b-1ebc8ac6023b)
-
-![image-20250212204213896](https://github.com/user-attachments/assets/f8aee79b-9050-4491-ab51-1d3080da1d5f)
-
-![image-20250212204233244](https://github.com/user-attachments/assets/f62c86aa-3f3d-4c58-932a-5a293941c7b3)
-
-![image-20250212204223747](https://github.com/user-attachments/assets/ec48c0e9-2164-488d-84a1-b58685353591)
-
-![image-20250212204310206](https://github.com/user-attachments/assets/6b8b4459-5445-4376-863b-ecead392774f)
-
-![image-20250212204255603](https://github.com/user-attachments/assets/dedafbcc-c945-4aa2-90bc-feb756ea299d)
-
-![image-20250212204242112](https://github.com/user-attachments/assets/712e41dd-fb26-4c6a-8b32-fd6aed1665fd)
 
 #### 参与贡献
 
