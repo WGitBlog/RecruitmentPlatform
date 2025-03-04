@@ -322,7 +322,7 @@ const handleSubmitReport = async () => {
         <el-col :span="12" class="header_row_col1">
           <ul>
             <li>
-              <el-link :underline="false" href="#" target="_blank"><h1>QQQQ直聘</h1></el-link>
+              <el-link :underline="false" href="#" target="_blank"><h1>全国招聘平台</h1></el-link>
             </li>
             <li><el-link :underline="false">首页</el-link></li>
             <li><el-link :underline="false">推荐</el-link></li>
@@ -382,7 +382,7 @@ const handleSubmitReport = async () => {
             <li>
               <el-dropdown>
                 <span
-                  class="el-dropdown-link icon-changyongyu"
+                  class="el-dropdown-link iconfont icon-didian1"
                   :style="{ cursor: 'pointer' }"
                   @click="open"
                   v-text="jobStore.workLocation == '' ? '全国' : jobStore.workLocation"
@@ -393,7 +393,7 @@ const handleSubmitReport = async () => {
 
             <li>
               <el-dropdown @command="handleCommand">
-                <span class="el-dropdown-link" :style="{ cursor: 'pointer' }">
+                <span class="el-dropdown-link iconfont icon-xinzi1" :style="{ cursor: 'pointer' }">
                   薪资待遇<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <template #dropdown>
@@ -499,8 +499,16 @@ const handleSubmitReport = async () => {
               </div>
 
               <div class="main_header_right">
-                <a href="#" class="right_interested" @click.prevent="addInterested()"> 感兴趣 </a>
-                <a href="#" class="right_discussion" @click.prevent="commouncationTa(defaultJob)"
+                <a
+                  href="#"
+                  class="right_interested iconfont icon-ganxingquzhiwei"
+                  @click.prevent="addInterested()"
+                  >感兴趣
+                </a>
+                <a
+                  href="#"
+                  class="right_discussion iconfont icon-goutong1"
+                  @click.prevent="commouncationTa(defaultJob)"
                   >立即沟通</a
                 >
               </div>
@@ -607,7 +615,7 @@ const handleSubmitReport = async () => {
 
     .main_header_right {
       position: absolute;
-      left: 420px;
+      left: 370px;
       bottom: 0px;
       height: 80px;
       line-height: 80px;
@@ -917,12 +925,11 @@ const handleSubmitReport = async () => {
   line-height: 160px;
   height: 89vh;
 }
-html{
+html {
   margin: 0;
   padding: 0;
 }
 body > .el-container {
-  
   margin-bottom: 40px;
 }
 

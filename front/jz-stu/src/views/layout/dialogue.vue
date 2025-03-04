@@ -692,18 +692,32 @@ onMounted(async () => {
   if (candidateId) {
     //判断如果是candidate
     const res = await getAllJobs(candidateId)
+
     const processedRecords = processedData(res) //处理getAllJobs请求的json转义问题
     items.value.push(...processedRecords) //将元素遍历加入itemlist里面
-    console.log(items.value)
 
     //判断路由是否带参数
     if (route.query.item) {
-      //带参数从userInfo跳转出来的
       // 解析传递的参数
       const item = JSON.parse(decodeURIComponent(route.query.item as string)) // 使用 route 而不是 $route
       defaultItem.value = item
-      console.log(`这里是userInfo带传参的数据`)
-      console.log(defaultItem.value)
+      console.log('从userInfo跳转参数:' + JSON.stringify(item))
+
+      // 找到想要放到第一位的数组元素的索引----将目标元素插入到数组的第一位
+      const foundItemIndex = items.value.findIndex((a) => a.id === item.id)
+      console.log(foundItemIndex)
+
+      // 判断查找的元素在数组中是否存在
+      if (foundItemIndex !== -1) {
+        // 应该是 !== -1
+        // 将其从数组中取出
+        const [foundItem] = items.value.splice(foundItemIndex, 1) // 使用解构赋值，取出单个元素
+
+        // 将目标元素插入到数组的第一位
+        items.value.unshift(foundItem)
+      }
+
+      //根据boosId将其左侧的boss列表将其置顶排序
     } else if (route.query.defaultJob) {
       //带参数从layoutContainer跳转出来的
       // 解析传递的参数
@@ -711,6 +725,20 @@ onMounted(async () => {
       defaultItem.value = item
       console.log(`这里是layoutContainer带传参的数据`)
       console.log(defaultItem.value)
+
+      // 找到想要放到第一位的数组元素的索引----将目标元素插入到数组的第一位
+      const foundItemIndex = items.value.findIndex((a) => a.id === item.id)
+      console.log(foundItemIndex)
+
+      // 判断查找的元素在数组中是否存在
+      if (foundItemIndex !== -1) {
+        // 应该是 !== -1
+        // 将其从数组中取出
+        const [foundItem] = items.value.splice(foundItemIndex, 1) // 使用解构赋值，取出单个元素
+
+        // 将目标元素插入到数组的第一位
+        items.value.unshift(foundItem)
+      }
     } else {
       //不带参数
       defaultItem.value = { ...items.value[0] } //设置默认展示的数据
@@ -733,6 +761,20 @@ onMounted(async () => {
       const item = JSON.parse(decodeURIComponent(route.query.candidateInfo as string)) // 使用 route 而不是 $route
       defaultItemCds.value = item
       console.log(`这里是layoutContainer带传参的数据`)
+
+      // 找到想要放到第一位的数组元素的索引----将目标元素插入到数组的第一位
+      const foundItemIndex = itemsCandidate.value.findIndex((a) => a.id === item.id)
+      console.log(foundItemIndex)
+
+      // 判断查找的元素在数组中是否存在
+      if (foundItemIndex !== -1) {
+        // 应该是 !== -1
+        // 将其从数组中取出
+        const [foundItem] = itemsCandidate.value.splice(foundItemIndex, 1) // 使用解构赋值，取出单个元素
+
+        // 将目标元素插入到数组的第一位
+        itemsCandidate.value.unshift(foundItem)
+      }
     } else {
       //没带参数
       defaultItemCds.value = { ...itemsCandidate.value[0] } //设置默认展示的数据
@@ -1598,7 +1640,7 @@ body {
 
 .el-header,
 .el-footer {
-   text-align: center;
+  text-align: center;
   height: 7vh;
   display: flex;
   align-items: center;

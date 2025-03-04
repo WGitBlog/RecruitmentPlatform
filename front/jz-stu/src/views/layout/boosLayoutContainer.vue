@@ -47,10 +47,10 @@ const selectOption = async (index: number, option: string) => {
   filters.value[index].selected = option
   loading.value = false
   hasMore.value = true
-  
-  let processedOption = option;
+
+  let processedOption = option
   if (index === 2 && option.includes('年')) {
-    processedOption = option.replace('年', '');
+    processedOption = option.replace('年', '')
   }
   switch (index) {
     case 0:
@@ -82,7 +82,7 @@ const selectOption = async (index: number, option: string) => {
       } else {
         candidateStore.candidateInfo.age = option
       }
-  items.value = []
+      items.value = []
       candidateStore.page = 1
       //发出分页请求
       await getCandidatePage(
@@ -105,7 +105,7 @@ const selectOption = async (index: number, option: string) => {
       } else {
         candidateStore.candidateInfo.workyears = processedOption
       }
-  items.value = []
+      items.value = []
       candidateStore.page = 1
       //发出分页请求
       await getCandidatePage(
@@ -128,7 +128,7 @@ const selectOption = async (index: number, option: string) => {
       } else {
         candidateStore.candidateInfo.desiredSalary = option
       }
-  items.value = []
+      items.value = []
       candidateStore.page = 1
       //发出分页请求
       await getCandidatePage(
@@ -240,7 +240,7 @@ const commouncationTa = async (item) => {
         <el-col :span="12" class="header_row_col1">
           <ul>
             <li>
-              <el-link :underline="false" href="#" target="_blank"><h1>QQQQ直聘</h1></el-link>
+              <el-link :underline="false" href="#" target="_blank"><h1>全国招聘平台</h1></el-link>
             </li>
             <li><el-link :underline="false">首页</el-link></li>
             <li><el-link :underline="false">推荐</el-link></li>
@@ -346,7 +346,7 @@ const commouncationTa = async (item) => {
                       <el-button type="primary" @click="commouncationTa(item)">联系TA</el-button>
                     </div>
                   </div>
-<el-divider  class="custom-divider" />
+                  <el-divider class="custom-divider" />
                   <div class="emp_bom">
                     <div class="emp_close">&#xe7ac;</div>
                   </div>
@@ -363,15 +363,12 @@ const commouncationTa = async (item) => {
 
 
 <style lang="scss" scoped>
-
-.el-container{
+.el-container {
   height: 97vh;
 }
 .custom-divider {
-
   margin: 0; /* 更改上下的间距 */
 }
-
 
 .candidate_detail {
   width: 1080px;
@@ -389,28 +386,28 @@ const commouncationTa = async (item) => {
     li {
       display: block;
       background-color: white;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-           border: 1px solid #ebeef5;
-  border-radius: 8px;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid #ebeef5;
+      border-radius: 8px;
       height: 150px;
       margin-bottom: 4px;
       .all_info {
         display: flex;
         width: 100%;
         height: 100%;
-       
+
         .emp_info {
           width: 88%;
-   
+
           .emp_top {
             position: relative;
             text-align: left;
-    
+
             height: 80%;
             line-height: 40px;
             .emp_commouncation {
               position: absolute;
-           
+
               width: 80px;
               top: 0px;
               right: 10px;
@@ -420,7 +417,7 @@ const commouncationTa = async (item) => {
               width: 400px;
               height: 56px;
               line-height: 20px;
-             
+
               margin: 7px 0 0 10px;
               font-size: 12px;
               white-space: normal; /* Allow text to wrap */
@@ -430,7 +427,7 @@ const commouncationTa = async (item) => {
 
             .top_right {
               position: absolute;
-             
+
               height: 80px;
               line-height: 20px;
               width: 300px;
@@ -440,7 +437,7 @@ const commouncationTa = async (item) => {
           }
           .emp_bom {
             position: relative;
-            
+
             height: 20%;
             line-height: 20px;
             .emp_close {
@@ -450,7 +447,6 @@ const commouncationTa = async (item) => {
               top: 5px;
               width: 20px;
               height: 20px;
-              
             }
           }
         }
@@ -476,9 +472,9 @@ const commouncationTa = async (item) => {
   width: 1000px;
   margin: 0 auto;
   background: #fff;
- 
+
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-   border: 1px solid #ebeef5;
+  border: 1px solid #ebeef5;
   border-radius: 8px;
   padding: 15px 30px;
 

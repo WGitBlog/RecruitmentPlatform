@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2973130",
+      "name": "薪资",
+      "font_class": "xinzi",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "7502506",
+      "name": "地点",
+      "font_class": "didian",
+      "unicode": "e978",
+      "unicode_decimal": 59768
+    },
+    {
+      "icon_id": "8495264",
+      "name": "地点",
+      "font_class": "didian1",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "9547573",
+      "name": "薪资",
+      "font_class": "xinzi1",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "1263255",
+      "name": "沟通",
+      "font_class": "goutong1",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
       "icon_id": "5358515",
       "name": "关闭",
       "font_class": "guanbi",
