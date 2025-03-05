@@ -9,6 +9,17 @@ spring:
       url: jdbc:mysql://localhost:3306/graduation_project
       username: root
       password: 123456
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 6000
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

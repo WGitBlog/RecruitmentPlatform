@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import parttimejob.Common.JwtProperties;
 import parttimejob.Dto.UserDto;
@@ -41,10 +42,26 @@ public class UserController {
     private JobService jobService;
     @Autowired
     private ReportsService reportsService;
+    @Autowired
+    private RedisTemplate<Object,Object> redisTemplate;
 
 
     @PostMapping("/login")
-    public R<UserDto> login(@RequestBody User user){
+    public R<UserDto> login(@RequestBody UserDto user){
+        //得到用户输入的验证码
+        String code = user.getCode();
+        //获取真正的验证码
+        String key="login_captcha:"+user.getUuid();
+        String realCode = (String) redisTemplate.opsForValue().get(key);
+        //判断验证码是否过期
+        if (realCode==null){
+            return R.error("验证码过期");
+        }
+        //验证码效验
+        if (!code.equalsIgnoreCase(realCode)){
+            return R.error("验证码错误");
+        }
+        //查询数据库
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername,user.getUsername());
         User us = userService.getOne(queryWrapper);

@@ -43,7 +43,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                         "/candidate/uploadImg",
                         "/candidate/uploadResume",
                         "/company/uploadImg",
-                        "/boos/uploadImg"
+                        "/boos/uploadImg",
+                        "/captcha/get"
                 );
     }
 //    /**
