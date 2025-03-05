@@ -1,7 +1,7 @@
 import request from "@/utils/request"
 //用户登录
-export const userLogin = (username, password) => {
-    return request.post('/user/login', { username, password })
+export const userLogin = (data) => {
+    return request.post('/user/login', data)
 }
 //根据BoosId获取User信息
 export const getUserByBoosId = (boosId) => {

@@ -1,4 +1,7 @@
 <script setup>
+import { ElImage } from 'element-plus'
+import 'element-plus/es/components/image/style/css'
+import request from '@/utils/request'
 import { User, Lock } from '@element-plus/icons-vue'
 import { onMounted, ref, watch } from 'vue'
 import { userLogin } from '@/api/user'
@@ -6,14 +9,14 @@ import { useUserStore } from '@/stores/user'
 import { useRegisterStore } from '@/stores/register'
 import { useRouter } from 'vue-router'
 import { getCandidateInfo } from '@/api/candidate.js'
-import logoImage from '@/assets/a.jpg'  // 确保这个路径是正确的
+import logoImage from '@/assets/a.jpg' // 确保这个路径是正确的
 const router = useRouter()
 const registerStore = useRegisterStore()
-
+const captchaUrl = ref('') //图片的http路径
 const CURegister = async () => {
   //判断注册角色
-  registerStore.userRole = "candidate"
-  console.log(registerStore.userRole )
+  registerStore.userRole = 'candidate'
+  console.log(registerStore.userRole)
   if (
     formModel.value.password == formModel.value.repassword &&
     formModel.value.password != '' &&
@@ -22,7 +25,7 @@ const CURegister = async () => {
     ElMessage.success('注册Candidate成功')
     isRegister.value = false
 
-      formModel.value.role = 'candidate'
+    formModel.value.role = 'candidate'
     registerStore.userInfo = formModel.value
     router.push('/register')
   } else {
@@ -31,9 +34,9 @@ const CURegister = async () => {
 }
 
 const CBRegister = async () => {
-    //判断注册角色
-  registerStore.userRole = "boos"
-    console.log(registerStore.userRole )
+  //判断注册角色
+  registerStore.userRole = 'boos'
+  console.log(registerStore.userRole)
   if (
     formModel.value.password == formModel.value.repassword &&
     formModel.value.password != '' &&
@@ -49,18 +52,73 @@ const CBRegister = async () => {
   } else {
     ElMessage.error('注册Boos失败')
   }
-
 }
 
 onMounted(() => {
   localStorage.clear()
+  generateCaptcha()
 })
 
+/**
+ * 生成随机字符串
+ * @param length 字符串的长度，默认11
+ * @returns {string}
+ */
+function generateRandomString(length = 11) {
+  let charset = 'abcdefghijklmnopqrstuvwxyz-_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  let values = new Uint32Array(length)
+
+  window.crypto.getRandomValues(values)
+
+  let str = ''
+
+  for (let i = 0; i < length; i++) {
+    str += charset[values[i] % charset.length]
+  }
+
+  return str
+}
+
+/**
+ * 获取验证码
+ */
+function getCaptcha() {
+  return localStorage.getItem('login-captcha:uuid')
+}
+
+/**
+ * 设置验证码
+ */
+function setCaptcha(captcha) {
+  localStorage.setItem('login-captcha:uuid', captcha)
+}
+
+const generateCaptcha = async () => {
+  // 生成随机的uuid
+  let uuid = generateRandomString(11)
+
+  // 保存uuid到localStorage
+  setCaptcha(uuid)
+
+  // 构造图片请求的基本 URL
+  const baseUrl = 'http://localhost:8080/captcha/get?uuid='
+
+  // 获取图片响应，假设返回的是 Blob 数据
+  const response = await request.get(baseUrl + uuid, { responseType: 'blob' })
+
+  // 创建一个 URL 对象，将 Blob 数据作为图片源
+  const imageUrl = URL.createObjectURL(response)
+
+  // 更新 captchaUrl，Vue 会自动更新 <img> 标签的 src
+  captchaUrl.value = imageUrl
+}
+
 const login = async () => {
-  const { username, password } = formModel.value // 解构出 username 和 password
-  const res = await userLogin(username, password) // 传递两个参数
+  // 获取最新的uuid
+  formModel.value.uuid = getCaptcha()
+  const res = await userLogin(formModel.value) // 传递两个参数
   if (res.code === 1) {
-    sessionStorage.setItem('token',res.data.token)//将token存入session
+    sessionStorage.setItem('token', res.data.token) //将token存入session
     localStorage.setItem('userId', res.data.id) //将userId存储到session
     //判断role
     if (res.data.role === 'boos') {
@@ -82,9 +140,12 @@ const dealDateFormater = (timestamp) => {
 }
 
 const isRegister = ref(false)
+
 const formModel = ref({
   username: '',
   password: '',
+  code: '',
+  uuid: null,
   repassword: '',
   role: ''
 })
@@ -203,6 +264,26 @@ watch(isRegister, () => {
             v-model="formModel.password"
           ></el-input>
         </el-form-item>
+
+        <el-form-item prop="captcha">
+          <div class="flex">
+            <el-input
+              name="captcha"
+              placeholder="请输入验证码"
+              v-model="formModel.code"
+              maxlength="4"
+            ></el-input>
+            <el-image
+              class="captcha_img"
+              id="captcha"
+              :src="captchaUrl"
+              alt="验证码"
+              style="width: 140px; height: 38px; margin-left: 10px"
+              @click="generateCaptcha()"
+            ></el-image>
+          </div>
+        </el-form-item>
+
         <el-form-item class="flex">
           <div class="flex">
             <el-checkbox>记住我</el-checkbox>
@@ -223,6 +304,9 @@ watch(isRegister, () => {
 </template>
 
 <style lang="scss" scoped>
+.captcha_img {
+  cursor: pointer;
+}
 .login-page {
   height: 100vh;
   background-color: #fff;
