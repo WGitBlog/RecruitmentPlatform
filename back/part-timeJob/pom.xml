@@ -14,7 +14,11 @@
         <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
     <dependencies>
-
+<!--发送短息-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
 <!--生成验证码-->
         <dependency>

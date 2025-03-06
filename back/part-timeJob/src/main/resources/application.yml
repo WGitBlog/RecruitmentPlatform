@@ -1,3 +1,4 @@
+#file: noinspection SpellCheckingInspection
 server:
   port: 8080
 spring:
@@ -19,7 +20,24 @@ spring:
         max-idle: 8
         min-idle: 0
         max-wait: -1ms
-
+  mail:
+    host: smtp.qq.com             # 此处使用的是qq邮箱进行邮件发送
+    username: 2084933310@qq.com   # 发送邮件的账号（也就是本人账号）
+    password: gwqnychthjmyfcdd    # 账号秘钥（注意这不是登录你QQ邮箱的密码！该秘钥在开启SMTP服务时会给出。）
+    default-encoding: UTF-8       #编码风格
+    port: 587                     #占用端口
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+          starttls:
+            enable: true
+            required: true
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

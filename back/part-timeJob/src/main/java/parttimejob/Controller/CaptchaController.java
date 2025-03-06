@@ -5,6 +5,8 @@ import com.wf.captcha.base.Captcha;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,8 +37,8 @@ public class CaptchaController {
         System.out.println(code);
         // 根据uuid拼接前缀得到验证码的key
         String key = "login_captcha:" + uuid;
-       System.out.println("CaptchaController.key:"+key);
-       System.out.println("CaptchaController.code"+code);
+        System.out.println("CaptchaController.key:"+key);
+        System.out.println("CaptchaController.code"+code);
         // 缓存验证码
         redisTemplate.opsForValue().set(key , code);
         // 设置验证码3分钟后过期
