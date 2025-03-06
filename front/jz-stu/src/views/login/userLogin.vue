@@ -55,6 +55,7 @@ const CBRegister = async () => {
 }
 
 onMounted(() => {
+  sessionStorage.clear()
   localStorage.clear()
   generateCaptcha()
 })

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router' // 导入 router 实例
 //可以直接导入数据
 //这是黑马提供的后端接口
 // const baseURL = 'http://big-event-vue-api-t.itheima.net'
@@ -16,12 +17,14 @@ instance.interceptors.request.use(
   //TODO还未进行验证
   (config) => {
     const isLoginRequest = config.url.includes('/login');
-    console.log("是否为login:",isLoginRequest);
-    console.log("是否有token",sessionStorage.getItem("token"))
+    const isCaptchaRequest = config.url.includes('/captcha');
+    console.log("是否为login:", isLoginRequest);
+    console.log("是否为captcha:", isCaptchaRequest);
+    console.log("是否有token", sessionStorage.getItem("token"))
     // 判断是否是登录接口或者是否有token，如果不是/没有则放行-不是报错
-    if (!isLoginRequest && !sessionStorage.getItem("token")) {
+    if (!isLoginRequest && !isCaptchaRequest && !sessionStorage.getItem("token")) {
       // 如果不是登录请求且没有token，则重定向到登录页面
-      $router.push('/login');  
+      router.push('/login');
       return Promise.reject(new Error("p:不是登录请求,也没有token")); // 修正了Promise.reject的位置
     }
     config.headers.Authorization = sessionStorage.getItem("token");
