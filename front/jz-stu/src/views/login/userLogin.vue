@@ -84,14 +84,14 @@ function generateRandomString(length = 11) {
  * 获取验证码
  */
 function getCaptcha() {
-  return localStorage.getItem('login-captcha:uuid')
+  return sessionStorage.getItem('login-captcha:uuid')
 }
 
 /**
  * 设置验证码
  */
 function setCaptcha(captcha) {
-  localStorage.setItem('login-captcha:uuid', captcha)
+  sessionStorage.setItem('login-captcha:uuid', captcha)
 }
 
 const generateCaptcha = async () => {
@@ -120,13 +120,13 @@ const login = async () => {
   const res = await userLogin(formModel.value) // 传递两个参数
   if (res.code === 1) {
     sessionStorage.setItem('token', res.data.token) //将token存入session
-    localStorage.setItem('userId', res.data.id) //将userId存储到session
+    sessionStorage.setItem('userId', res.data.id) //将userId存储到session
     //判断role
     if (res.data.role === 'boos') {
-      localStorage.setItem('boosId', res.data.boosId)
+      sessionStorage.setItem('boosId', res.data.boosId)
       router.push('/boosLayout') // 跳转到布局页面
     } else {
-      localStorage.setItem('candidateId', res.data.candidateId)
+      sessionStorage.setItem('candidateId', res.data.candidateId)
       router.push('/layout') // 跳转到布局页面
     }
   } else {

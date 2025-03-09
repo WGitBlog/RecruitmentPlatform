@@ -54,7 +54,7 @@ const handleViewDetails = (report) => {
 }
 
 onMounted(async () => {
-  const candidateId = localStorage.getItem('candidateId')
+  const candidateId = sessionStorage.getItem('candidateId')
   const res = await getCommunicatedJobs(candidateId)
   if (res !== null && res.data !== null && res.data.length > 0) {
     const processedCommunicatedJobs = processedData(res) //处理getCommunicatedJobs请求的json转义问题
@@ -66,7 +66,7 @@ onMounted(async () => {
 
   // 获取举报列表
   try {
-    const candidateId = localStorage.getItem('candidateId')
+    const candidateId = sessionStorage.getItem('candidateId')
     // 这里需要添加一个新的 API 调用来获取举报列表
     const res = await getReportList(candidateId)
     if (res.code === 1) {

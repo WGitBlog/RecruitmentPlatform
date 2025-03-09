@@ -55,7 +55,7 @@ const handleViewDetails = (report) => {
 }
 
 onMounted(async () => {
-  const candidateId = localStorage.getItem('candidateId')
+  const candidateId = sessionStorage.getItem('candidateId')
   const res = await getInterestsJobs(candidateId)
 
   if (res !== null && res.data !== null && res.data.length > 0) {
@@ -68,7 +68,7 @@ onMounted(async () => {
 
   // 获取举报列表
   try {
-    const candidateId = localStorage.getItem('candidateId')
+    const candidateId = sessionStorage.getItem('candidateId')
     const res = await getReportList(candidateId)
     if (res.code === 1) {
       reportList.value = res.data

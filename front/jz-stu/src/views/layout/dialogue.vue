@@ -483,9 +483,9 @@ import { JobDto, messages, candidate } from '@/interface/index.js'
 
 const route = useRoute() // 获取路由对象
 const candidateStore = useCandidateStore()
-const UserId = localStorage.getItem('userId')
-const candidateId = localStorage.getItem('candidateId')
-const boosId = localStorage.getItem('boosId')
+const UserId = sessionStorage.getItem('userId')
+const candidateId = sessionStorage.getItem('candidateId')
+const boosId = sessionStorage.getItem('boosId')
 
 const message = ref<messages[]>([])
 
@@ -690,8 +690,8 @@ const defaultItemCds = ref<candidate>({
 }) //默认聊天框展示对象
 
 onMounted(async () => {
-  const candidateId = localStorage.getItem('candidateId')
-  const boosId = localStorage.getItem('boosId')
+  const candidateId = sessionStorage.getItem('candidateId')
+  const boosId = sessionStorage.getItem('boosId')
 
   console.log('item:' + route.query.item)
   console.log('defaultJob:' + route.query.defaultJob)
@@ -936,8 +936,8 @@ const selectDialosgue = ref(1) //判断显示boosList的类型默认值是全部
 const spanDeal = async (index) => {
   if (selectDialosgue.value !== index) {
     selectDialosgue.value = index
-    const candidateId = localStorage.getItem('candidateId')
-    const boosId = localStorage.getItem('boosId')
+    const candidateId = sessionStorage.getItem('candidateId')
+    const boosId = sessionStorage.getItem('boosId')
     if (candidateId) {
       //判断如果是candidate
       switch (index) {
@@ -1160,7 +1160,7 @@ const emojiList = ref([
 ])
 
 const isCandidate = computed(() => {
-  return localStorage.getItem('candidateId') !== null
+  return sessionStorage.getItem('candidateId') !== null
 })
 
 const candidatePhrases = ref([
