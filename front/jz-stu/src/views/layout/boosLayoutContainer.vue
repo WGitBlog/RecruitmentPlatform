@@ -231,6 +231,12 @@ const commouncationTa = async (item) => {
   //代参跳转到消息页面
   router.push(`/dialogue?candidateInfo=${encodeURIComponent(JSON.stringify(item))}`)
 }
+//短暂的去除不想看的工作
+const empClose= async (item)=>{
+  items.value=items.value.filter((a)=>{
+    return a.id!=item.id
+  })
+}
 </script>
 
 <template>
@@ -348,7 +354,7 @@ const commouncationTa = async (item) => {
                   </div>
                   <el-divider class="custom-divider" />
                   <div class="emp_bom">
-                    <div class="emp_close">&#xe7ac;</div>
+                    <div class="iconfont icon-cuowuguanbiquxiao emp_close" @click="empClose(item)"></div>
                   </div>
                 </div>
               </div>
@@ -437,12 +443,14 @@ const commouncationTa = async (item) => {
           }
           .emp_bom {
             position: relative;
-
             height: 20%;
             line-height: 20px;
+
             .emp_close {
               position: absolute;
               cursor: pointer;
+              user-select: none;
+              outline: none;
               right: 5px;
               top: 5px;
               width: 20px;

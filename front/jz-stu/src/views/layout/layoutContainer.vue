@@ -385,7 +385,7 @@ const handleSubmitReport = async () => {
                   class="el-dropdown-link iconfont icon-didian1"
                   :style="{ cursor: 'pointer' }"
                   @click="open"
-                  v-text="jobStore.workLocation == '' ? '全国' : jobStore.workLocation"
+                  v-text="jobStore.workLocation == '' ? ' 全 国 ' : jobStore.workLocation"
                 >
                 </span>
               </el-dropdown>
@@ -410,8 +410,8 @@ const handleSubmitReport = async () => {
             </li>
             <li>
               <el-dropdown>
-                <span class="el-dropdown-link" :style="{ cursor: 'pointer' }">
-                  求职类型<i class="el-icon-arrow-down el-icon--right"></i>
+                <span class=" el-dropdown-link iconfont icon-leixing" :style="{ cursor: 'pointer' }">
+                  工作类型<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -426,8 +426,8 @@ const handleSubmitReport = async () => {
             </li>
             <li>
               <el-dropdown>
-                <span class="el-dropdown-link" :style="{ cursor: 'pointer' }">
-                  工作经验<i class="el-icon-arrow-down el-icon--right"></i>
+                <span class="el-dropdown-link iconfont icon-gongzuonianxian" :style="{ cursor: 'pointer' }">
+                  公司年限<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>

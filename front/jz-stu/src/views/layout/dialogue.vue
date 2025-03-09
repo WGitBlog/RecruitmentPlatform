@@ -549,8 +549,15 @@ const createMessage = () => {
   }
 }
 const sendMessage = () => {
+  // 在发送前先去除字符串两端的空白字符
+  messageInput.value = messageInput.value.trim()
   //获取到生成的消息
   const oneMessage = createMessage()
+  //不准发null消息
+  if (messageInput.value === '') {
+    ElMessage.warning('消息不能为空')
+    return
+  }
   // 调试输出
   console.log('生成的消息对象:', oneMessage) // 检查 oneMessage 的内容
   console.log('createTime:', oneMessage.createTime) // 检查 createTime 的值
