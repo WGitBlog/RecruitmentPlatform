@@ -1,5 +1,6 @@
 package parttimejob.service;
 
+import parttimejob.Dto.UserDto;
 import parttimejob.Entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,4 +17,6 @@ public interface UserService extends IService<User> {
     List<Map<String, Object>> getTableData();
 
     List<Map<String, Object>> getJobTableData();
+
+    void resetPassword(UserDto user) throws Exception;
 }

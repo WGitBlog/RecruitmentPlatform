@@ -75,14 +75,8 @@ public class UserController {
             return R.error("账号冻结");
         };
 
-
-
-
         //TODO:问题无法将id存入ThreadLocal-------------------将userID存到ThreadLocal里
         BaseThread.setThreadLocal(us.getId());
-
-
-
 
         //创建返回类
         UserDto userDto = new UserDto();
@@ -114,6 +108,37 @@ public class UserController {
 
         return R.success(userDto);
     }
+
+
+
+
+
+
+
+    //重置密码
+    @PostMapping("/resetPassword")
+    public R<String> resetPassword(@RequestBody UserDto user) {
+        try {
+            userService.resetPassword(user);
+            return R.success("修改密码成功");
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //根据BoosId获取User信息
     @GetMapping("/boosInfo/boos/{boosId}")
     public R<User> boosBaseInfo(@PathVariable Long boosId){
@@ -160,7 +185,6 @@ public class UserController {
 
         return R.success("状态更新成功");
     }
-
     @GetMapping("/statistics")
     public R<StatisticsDto> getStatistics(){
         StatisticsDto statisticsDto = new StatisticsDto();

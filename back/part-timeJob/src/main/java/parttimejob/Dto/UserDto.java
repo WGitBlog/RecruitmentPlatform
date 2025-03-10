@@ -16,6 +16,8 @@ public class UserDto {
     private String password;
     //验证码
     private String code;
+    //邮箱
+    private String email;
     //UUID
     private String uuid;
     //userRole

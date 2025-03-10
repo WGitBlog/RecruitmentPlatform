@@ -38,13 +38,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 .excludePathPatterns(
                         "/user/login",
                         "/user/logout",
+                        "/user/resetPassword",
                         "/boos/boosRegister",
                         "/candidate/candidateRegister",
                         "/candidate/uploadImg",
                         "/candidate/uploadResume",
                         "/company/uploadImg",
                         "/boos/uploadImg",
-                        "/captcha/get"
+                        "/captcha/loginCaptcha",
+                        "/captcha/emailCaptcha"
                 );
     }
 //    /**
