@@ -18,11 +18,15 @@ instance.interceptors.request.use(
   (config) => {
     const isLoginRequest = config.url.includes('/login');
     const isCaptchaRequest = config.url.includes('/captcha');
+    const isBoosRegisterRequest = config.url.includes('/boosRegister');
+    const isCandidateRegisterRequest = config.url.includes('/candidateRegister');
     console.log("是否为login:", isLoginRequest);
     console.log("是否为captcha:", isCaptchaRequest);
+    console.log("是否为boosRegister:", isBoosRegisterRequest);
+    console.log("是否为candidateRegister:", isCandidateRegisterRequest);
     console.log("是否有token", sessionStorage.getItem("token"))
     // 判断是否是登录接口或者是否有token，如果不是/没有则放行-不是报错
-    if (!isLoginRequest && !isCaptchaRequest && !sessionStorage.getItem("token")) {
+    if (!isLoginRequest && !isCaptchaRequest && !sessionStorage.getItem("token") && !isBoosRegisterRequest && !isCandidateRegisterRequest) {
       // 如果不是登录请求且没有token，则重定向到登录页面
       router.push('/login');
       return Promise.reject(new Error("p:不是登录请求,也没有token")); // 修正了Promise.reject的位置

@@ -10,9 +10,9 @@ import { UploadFilled, Document } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
-const boosId = localStorage.getItem('boosId')
+const boosId = sessionStorage.getItem('boosId')
 const candidateStore = useCandidateStore()
-const candidateId = localStorage.getItem('candidateId')
+const candidateId = sessionStorage.getItem('candidateId')
 //修改信息发送请求
 const changeConfirm = async (ruleForm) => {
   //将修改信息页面关闭
@@ -30,8 +30,8 @@ const userInfo = ref<UserInfo>({})
 // 简历相关信息
 const resumeFiles = ref([])
 onMounted(async () => {
-  const boosId = localStorage.getItem('boosId')
-  const candidateId = localStorage.getItem('candidateId')
+  const boosId = sessionStorage.getItem('boosId')
+  const candidateId = sessionStorage.getItem('candidateId')
   if (boosId) {
     const { data } = await getBoosInfo(boosId)
     data.birthday = dealDateFormater(data.birthday)
@@ -221,7 +221,7 @@ const handleUploadSuccess = async (response, file) => {
       }
     ]
 
-    localStorage.setItem('userResume', JSON.stringify(resumeFiles.value))
+    sessionStorage.setItem('userResume', JSON.stringify(resumeFiles.value))
 
     if (userInfo.value) {
       userInfo.value.resume = response.data
@@ -244,7 +244,7 @@ const handleRemove = async (file) => {
     // 可以添加删除文件的API请求
 
     resumeFiles.value = []
-    localStorage.removeItem('userResume')
+    sessionStorage.removeItem('userResume')
 
     // 更新用户信息
     if (userInfo.value) {

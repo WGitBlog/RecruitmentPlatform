@@ -285,7 +285,7 @@ const bossStore = useBoosStore() // Boss相关的状态管理
 const companyStore = useCompanyStore() // 公司相关的状态管理
 
 
-const userId=localStorage.getItem("userId")
+const userId=sessionStorage.getItem("userId")
 
 const activeTab = ref('active') // 当前激活的标签页
 const partition =ref(1) // 1：代表发布新工作  2：代表更改工作信息
@@ -299,7 +299,7 @@ const { companyInfo } = storeToRefs(companyStore) // 公司信息
 // 组件挂载时初始化数据
 onMounted(async () => {
   //获取boosId
-  const boosId=localStorage.getItem("boosId")   
+  const boosId=sessionStorage.getItem("boosId")   
   await getBoosInfo(boosId).then(async (res) => {
     boosInfo.value = res.data
     await getCompanyInfo(boosInfo.value.companyId).then((res) => {
@@ -552,7 +552,7 @@ const handleSubmit = async () => {
 // 职位发布相关
 const jobDialogVisible = ref(false) // 职位对话框显示状态
 
-const boosId=localStorage.getItem("boosId")
+const boosId=sessionStorage.getItem("boosId")
 console.log("boosId:"+boosId)
 // 职位单数据
 const jobForm = ref<Job>({
