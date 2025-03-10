@@ -10,6 +10,19 @@ import { useRegisterStore } from '@/stores/register'
 import { useRouter } from 'vue-router'
 import { getCandidateInfo } from '@/api/candidate.js'
 import logoImage from '@/assets/a.jpg' // 确保这个路径是正确的
+
+const rememberMe = ref(false)
+
+// 处理记住我的变化
+const handleRememberMeChange = (val) => {
+  localStorage.setItem('rememberMe', val)
+  if (!val) {
+    // 如果取消记住我，清除存储的账号密码
+    localStorage.removeItem('username')
+    localStorage.removeItem('password')
+  }
+}
+
 const router = useRouter()
 const registerStore = useRegisterStore()
 const captchaUrl = ref('') //图片的http路径
@@ -56,7 +69,21 @@ const CBRegister = async () => {
 
 onMounted(() => {
   sessionStorage.clear()
-  localStorage.clear()
+
+  // 初始化记住我的状态
+  const remembered = localStorage.getItem('rememberMe') === 'true'
+  rememberMe.value = remembered
+
+  // 如果之前记住了账号密码，则填充表单
+  if (remembered) {
+    const savedUsername = localStorage.getItem('username')
+    const savedPassword = localStorage.getItem('password')
+    if (savedUsername && savedPassword) {
+      formModel.value.username = savedUsername
+      formModel.value.password = savedPassword
+    }
+  }
+
   generateCaptcha()
 })
 
@@ -117,20 +144,31 @@ const generateCaptcha = async () => {
 const login = async () => {
   // 获取最新的uuid
   formModel.value.uuid = getCaptcha()
-  const res = await userLogin(formModel.value) // 传递两个参数
+  const res = await userLogin(formModel.value)
   if (res.code === 1) {
-    sessionStorage.setItem('token', res.data.token) //将token存入session
-    sessionStorage.setItem('userId', res.data.id) //将userId存储到session
-    //判断role
+    sessionStorage.setItem('token', res.data.token)
+    sessionStorage.setItem('userId', res.data.id)
+
+    // 处理记住我的逻辑
+    if (rememberMe.value) {
+      localStorage.setItem('username', formModel.value.username)
+      localStorage.setItem('password', formModel.value.password)
+    } else {
+      // 如果没有勾选记住我，清除之前可能存储的信息
+      localStorage.removeItem('username')
+      localStorage.removeItem('password')
+    }
+
+    // 判断role
     if (res.data.role === 'boos') {
       sessionStorage.setItem('boosId', res.data.boosId)
-      router.push('/boosLayout') // 跳转到布局页面
+      router.push('/boosLayout')
     } else {
       sessionStorage.setItem('candidateId', res.data.candidateId)
-      router.push('/layout') // 跳转到布局页面
+      router.push('/layout')
     }
   } else {
-    console.log('登录失败') // 登录失败的处理
+    console.log('登录失败')
     ElMessage.error(res.msg)
   }
 }
@@ -287,7 +325,7 @@ watch(isRegister, () => {
 
         <el-form-item class="flex">
           <div class="flex">
-            <el-checkbox>记住我</el-checkbox>
+            <el-checkbox v-model="rememberMe" @change="handleRememberMeChange">记住我</el-checkbox>
             <el-link type="primary" :underline="false">忘记密码？</el-link>
           </div>
         </el-form-item>

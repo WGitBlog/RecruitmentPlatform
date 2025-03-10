@@ -339,7 +339,7 @@ const handleSubmitReport = async () => {
             <li>
               <el-link :underline="false" @click="$router.push('/dialogue')">消息</el-link>
             </li>
-            <li><el-link :underline="false">简历</el-link></li>
+            <li><el-link :underline="false" @click="$router.push('/interviews')">面试</el-link></li>
             <li>
               <el-link :underline="false" @click="$router.push('/userInfo')">
                 <img

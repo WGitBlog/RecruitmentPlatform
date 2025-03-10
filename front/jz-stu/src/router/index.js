@@ -26,6 +26,7 @@ const router = createRouter({
     },
     { path: '/userBInfo', component: () => import('@/views/layout/userBoosInfo.vue') },
     { path: '/dialogue', component: () => import('@/views/layout/dialogue.vue') },
+    { path: '/interviews', component: () => import('@/views/layout/interviews.vue') },
     { path: '/boosLayout', component: () => import('@/views/layout/boosLayoutContainer.vue') },
     // //匹配没有配置的路径
     { path: '/:param(.*)', component: () => import('@/views/notFound/notFound.vue') },

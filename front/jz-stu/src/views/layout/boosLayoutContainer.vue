@@ -261,7 +261,7 @@ const empClose= async (item)=>{
         <el-col :span="9" class="header_row_col2">
           <ul>
             <li><el-link :underline="false" @click="$router.push('/dialogue')">消息</el-link></li>
-            <li><el-link :underline="false">发布</el-link></li>
+            <li><el-link :underline="false" @click="$router.push('/interviews')">面试</el-link></li>
             <li>
               <el-link :underline="false" @click="$router.push('/userBInfo')">
                 <img
