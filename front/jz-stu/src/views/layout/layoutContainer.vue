@@ -21,9 +21,9 @@ import { submitJobReport } from '@/api/report.js'
 const userStore = useUserStore()
 const jobStore = useJobStore()
 const candidateStore = useCandidateStore()
-const UserId = localStorage.getItem('userId')
-const candidateId = localStorage.getItem('candidateId')
-const boosId = localStorage.getItem('boosId')
+const UserId = sessionStorage.getItem('userId')
+const candidateId = sessionStorage.getItem('candidateId')
+const boosId = sessionStorage.getItem('boosId')
 
 //massageBox弹框事件
 const open = () => {

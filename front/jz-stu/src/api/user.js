@@ -3,6 +3,10 @@ import request from "@/utils/request"
 export const userLogin = (data) => {
     return request.post('/user/login', data)
 }
+//重置密码
+export const resetPassword = (data) => {
+    return request.post('/user/resetPassword', data)
+}
 //根据BoosId获取User信息
 export const getUserByBoosId = (boosId) => {
     return request.get(`/user/boosInfo/boos/${boosId}`)

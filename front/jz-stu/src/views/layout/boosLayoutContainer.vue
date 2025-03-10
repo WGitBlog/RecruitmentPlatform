@@ -18,7 +18,7 @@ import { useCandidateStore } from '@/stores/candidate.js'
 import { updateApplicantCdsCommunication } from '@/api/applicantCds.js'
 const candidateStore = useCandidateStore()
 
-const boosId = localStorage.getItem('boosId')
+const boosId = sessionStorage.getItem('boosId')
 
 const filters = ref([
   {
