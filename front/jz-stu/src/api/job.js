@@ -6,7 +6,7 @@ import request from "@/utils/request"
 
 
 //job的分页查询
-export const getJobInfo = (page, pageSize, workLocation = '', salaryRange = '', review = null) => {
+export const getJobInfo = (page, pageSize, workLocation = '', salaryRange = '',jobCategory='',weeklyDays=null,jobTitle='', review = null) => {
   // 构建查询参数
   const params = new URLSearchParams({
     page,
@@ -22,6 +22,18 @@ export const getJobInfo = (page, pageSize, workLocation = '', salaryRange = '', 
     params.append('salaryRange', salaryRange);
   }
 
+  if(jobCategory){
+    params.append('jobCategory', jobCategory);
+  }
+
+  if(weeklyDays){
+    params.append('weeklyDays', weeklyDays);
+  }
+  
+  if(jobTitle){
+    params.append('jobTitle', jobTitle); 
+  }
+  
   if (review) {
     params.append('review', review);
   }

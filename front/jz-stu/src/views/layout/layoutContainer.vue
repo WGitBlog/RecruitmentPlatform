@@ -24,7 +24,7 @@ const candidateStore = useCandidateStore()
 const UserId = sessionStorage.getItem('userId')
 const candidateId = sessionStorage.getItem('candidateId')
 const boosId = sessionStorage.getItem('boosId')
-
+const searchValue = ref('')
 //massageBox弹框事件
 const open = () => {
   ElMessageBox({
@@ -95,6 +95,9 @@ onMounted(async () => {
     jobStore.pageSize,
     jobStore.workLocation,
     jobStore.salaryRange,
+    jobStore.jobCategory,
+    jobStore.weeklyDays,
+    jobStore.jobTitle,
     jobStore.review
   ) // 当进入页面请求一次数据
   jobStore.page++
@@ -113,7 +116,6 @@ onMounted(async () => {
   }
 })
 
-//TODO: 只有页面缩小到80%才会发起请求
 //处理滑轮到底部发送新的分页请求
 const load = async () => {
   if (initialLoad.value) {
@@ -130,6 +132,9 @@ const load = async () => {
       jobStore.pageSize,
       jobStore.workLocation,
       jobStore.salaryRange,
+      jobStore.jobCategory,
+      jobStore.weeklyDays,
+      jobStore.jobTitle,
       jobStore.review
     )
     const processedRecords = processedData(res)
@@ -218,7 +223,7 @@ watch(
 )
 
 //薪资待遇处理方法
-async function handleCommand(command) {
+async function handleCommandsalaryRange(command) {
   //清空item数据
   items.value = []
   jobStore.page = 1
@@ -229,6 +234,85 @@ async function handleCommand(command) {
     jobStore.pageSize,
     jobStore.workLocation,
     jobStore.salaryRange,
+    jobStore.jobCategory,
+    jobStore.weeklyDays,
+    jobStore.jobTitle,
+    jobStore.review
+  )
+  const processedRecords = processedData(res)
+  items.value.push(...processedRecords)
+  defaultJob.value = { ...items.value[0] } // 并初始化为默认数据
+}
+//工作类型处理方法
+async function handleCommandJobCategory(command) {
+  //清空item数据
+  items.value = []
+  jobStore.page = 1
+  jobStore.jobCategory = command
+  //再次查询job的page信息（带参数）
+  const res = await getJobInfo(
+    jobStore.page,
+    jobStore.pageSize,
+    jobStore.workLocation,
+    jobStore.salaryRange,
+    jobStore.jobCategory,
+    jobStore.weeklyDays,
+    jobStore.jobTitle,
+    jobStore.review
+  )
+  const processedRecords = processedData(res)
+  items.value.push(...processedRecords)
+  defaultJob.value = { ...items.value[0] } // 并初始化为默认数据
+}
+//周工作日处理方法
+async function handleCommandWeeklyDays(command) {
+  //清空item数据
+  items.value = []
+  jobStore.page = 1
+  console.log("handleCommandWeeklyDays-command:"+command)
+  if (command === '') {
+    jobStore.weeklyDays = null
+    console.log("handleCommandWeeklyDays-jobStore.weeklyDays'':"+jobStore.weeklyDays)
+  }else{
+  jobStore.weeklyDays = parseInt(command)
+  console.log("handleCommandWeeklyDays-jobStore.weeklyDays:"+jobStore.weeklyDays)
+  }
+
+  //再次查询job的page信息（带参数）
+  const res = await getJobInfo(
+    jobStore.page,
+    jobStore.pageSize,
+    jobStore.workLocation,
+    jobStore.salaryRange,
+    jobStore.jobCategory,
+    jobStore.weeklyDays,
+    jobStore.jobTitle,
+    jobStore.review
+  )
+  const processedRecords = processedData(res)
+  items.value.push(...processedRecords)
+  defaultJob.value = { ...items.value[0] } // 并初始化为默认数据
+}
+
+const handleSearch = async () => {
+  //清空item数据
+  items.value = []
+  jobStore.page = 1
+  //因为单单搜素一家公司没必要带其他条件
+  jobStore.jobTitle = searchValue.value
+  jobStore.workLocation = ''
+  jobStore.salaryRange = ''
+  jobStore.jobCategory = ''
+  jobStore.weeklyDays = null
+  //再次查询job的page信息（带参数）
+  const res = await getJobInfo(
+    jobStore.page,
+    jobStore.pageSize,
+    jobStore.workLocation,
+    jobStore.salaryRange,
+    jobStore.jobCategory,
+    jobStore.weeklyDays,
+    jobStore.jobTitle,
     jobStore.review
   )
   const processedRecords = processedData(res)
@@ -339,7 +423,9 @@ const handleSubmitReport = async () => {
             <li>
               <el-link :underline="false" @click="$router.push('/dialogue')">消息</el-link>
             </li>
-            <li><el-link :underline="false" @click="$router.push('/interviews')">面试</el-link></li>
+            <li>
+              <el-link :underline="false" @click="$router.push('/interviews')">面试</el-link>
+            </li>
             <li>
               <el-link :underline="false" @click="$router.push('/userInfo')">
                 <img
@@ -359,23 +445,18 @@ const handleSubmitReport = async () => {
     <el-container>
       <el-main>
         <el-row justify="space-between" class="main_first_top">
-          <el-col :span="8">
-            <ul>
-              <li><el-link :underline="false">推荐职位 </el-link></li>
-              <li><el-link :underline="false">推荐职位</el-link></li>
-              <li><el-link :underline="false">|xxxxxx</el-link></li>
-              <li><el-link :underline="false">推荐职位</el-link></li>
-            </ul>
-          </el-col>
-          <el-col :span="2">
-            <ul>
-              <li>
-                <el-button type="primary" icon="el-icon-search" class="main_filtrate"
-                  >筛选</el-button
-                >
-              </li>
-            </ul>
-          </el-col>
+          <el-input
+            v-model="searchValue"
+            placeholder="请输入你需要搜索的职位..."
+            style="flex: 1; margin-right: 10px"
+          ></el-input>
+          <el-button
+            class="iconfont icon-sousu1"
+            style="backgroundcolor: '#edf6ff'"
+            @click="handleSearch"
+          >
+            &nbsp;&nbsp;搜&nbsp;索</el-button
+          >
         </el-row>
         <el-row :style="{ backgroundColor: 'white' }" class="main_first_bom">
           <ul>
@@ -392,9 +473,13 @@ const handleSubmitReport = async () => {
             </li>
 
             <li>
-              <el-dropdown @command="handleCommand">
-                <span class="el-dropdown-link iconfont icon-xinzi1" :style="{ cursor: 'pointer' }">
-                  薪资待遇<i class="el-icon-arrow-down el-icon--right"></i>
+              <el-dropdown @command="handleCommandsalaryRange">
+                <span
+                  class="el-dropdown-link iconfont icon-xinzi1"
+                  :style="{ cursor: 'pointer' }"
+                  @click="open1"
+                  v-text="jobStore.salaryRange == '' ? ' 薪资待遇' : jobStore.salaryRange"
+                >
                 </span>
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -409,33 +494,53 @@ const handleSubmitReport = async () => {
               </el-dropdown>
             </li>
             <li>
-              <el-dropdown>
-                <span class=" el-dropdown-link iconfont icon-leixing" :style="{ cursor: 'pointer' }">
-                  工作类型<i class="el-icon-arrow-down el-icon--right"></i>
+              <el-dropdown @command="handleCommandJobCategory">
+                <span
+                  class="el-dropdown-link iconfont icon-leixing"
+                  :style="{ cursor: 'pointer' }"
+                  @click="open2"
+                  v-text="
+                    jobStore.jobCategory == '' ? ' 工作类型' : '\u00A0\u00A0' + jobStore.jobCategory
+                  "
+                >
                 </span>
                 <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item>黄金糕</el-dropdown-item>
-                    <el-dropdown-item>狮子头</el-dropdown-item>
-                    <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                    <el-dropdown-item>双皮奶</el-dropdown-item>
-                    <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-menu style="height: 185px">
+                    <el-dropdown-item command="">全部类型</el-dropdown-item>
+                    <el-dropdown-item command="科技">科技</el-dropdown-item>
+                    <el-dropdown-item command="咨询">咨询</el-dropdown-item>
+                    <el-dropdown-item command="医疗">医疗</el-dropdown-item>
+                    <el-dropdown-item command="金融">金融</el-dropdown-item>
+                    <el-dropdown-item command="教育">教育</el-dropdown-item>
+                    <el-dropdown-item command="零售">零售</el-dropdown-item>
+                    <el-dropdown-item command="工程">工程</el-dropdown-item>
+                    <el-dropdown-item command="研发">研发</el-dropdown-item>
+                    <el-dropdown-item command="旅游">旅游</el-dropdown-item>
+                    <el-dropdown-item command="建筑">建筑</el-dropdown-item>
+                    <el-dropdown-item command="其他">其他</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
             </li>
             <li>
-              <el-dropdown>
-                <span class="el-dropdown-link iconfont icon-gongzuonianxian" :style="{ cursor: 'pointer' }">
-                  公司年限<i class="el-icon-arrow-down el-icon--right"></i>
+              <el-dropdown @command="handleCommandWeeklyDays">
+                <span
+                  class="el-dropdown-link iconfont icon-gongzuonianxian"
+                  :style="{ cursor: 'pointer' }"
+                  @click="open3"
+                  v-text="jobStore.weeklyDays == null ? ' 周工作日' : '工作' + jobStore.weeklyDays+'天'"
+                >
                 </span>
                 <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item>黄金糕</el-dropdown-item>
-                    <el-dropdown-item>狮子头</el-dropdown-item>
-                    <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                    <el-dropdown-item>双皮奶</el-dropdown-item>
-                    <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-menu style="height: 185px">
+                    <el-dropdown-item command="">不限</el-dropdown-item>
+                    <el-dropdown-item command="1">一天</el-dropdown-item>
+                    <el-dropdown-item command="2">两天</el-dropdown-item>
+                    <el-dropdown-item command="3">三天</el-dropdown-item>
+                    <el-dropdown-item command="4">四天</el-dropdown-item>
+                    <el-dropdown-item command="5">双休</el-dropdown-item>
+                    <el-dropdown-item command="6">六天</el-dropdown-item>
+                    <el-dropdown-item command="7">满勤</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -705,22 +810,18 @@ const handleSubmitReport = async () => {
   height: 50px;
   flex-wrap: nowrap;
   background-color: white;
-  ul {
-    margin: 0;
-    padding: 0;
-    line-height: 50px;
-    text-align: left; // 添加此行以使 li 靠左对齐
-    li {
-      display: inline-block;
-      height: 50px;
-      margin-right: 20px;
-    }
-    .main_filtrate {
-      background-color: #e8f8f8;
-      color: #33b8b9;
-      border: 0;
-    }
-  }
+  display: flex;
+  align-items: center;
+}
+
+.el-input {
+  height: 38px;
+  border-radius: 20px;
+}
+
+.el-button {
+  height: 38px;
+  border-radius: 20px;
 }
 .main_first_bom {
   margin: 10px auto;
@@ -945,7 +1046,7 @@ body > .el-container {
 /* 媒体查询，调整样式以适应小屏幕 */
 /* @media (max-width: 3000px) {
     .header_row_col2 ul {
-        overflow: hidden; 
+        overflow: hidden;
     }
     } */
 

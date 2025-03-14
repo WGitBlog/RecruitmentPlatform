@@ -39,6 +39,9 @@ public class JobController {
         Integer pageSize = pageDto.getPageSize();
         String workLocation = pageDto.getWorkLocation();
         String salaryRange = pageDto.getSalaryRange();
+        String jobCategory = pageDto.getJobCategory();
+        Integer weeklyDays = pageDto.getWeeklyDays();
+        String jobTitle = pageDto.getJobTitle();
         Integer review = pageDto.getReview();
 
 
@@ -57,6 +60,15 @@ public class JobController {
         }
         if (salaryRange!=null){
             queryWrapper.eq(Job::getSalaryRange,salaryRange);
+        }
+        if (jobCategory!=null){
+            queryWrapper.eq(Job::getJobCategory,jobCategory);
+        }
+        if (weeklyDays!=null){
+            queryWrapper.eq(Job::getWeeklyDays,weeklyDays);
+        }
+        if (jobTitle!=null){
+            queryWrapper.like(Job::getJobTitle,jobTitle);
         }
         Page<Job> pageInfo = jobService.page(jobPage, queryWrapper);
         //除了查出来的数据其他都需要拷贝进去

@@ -9,11 +9,31 @@ export const useJobStore = defineStore("useJobStore", () => {
     const updateWorkLocation = (newValue) => {
         workLocation.value = newValue
     }
+    //weeklyDays薪资参数
+    const weeklyDays = ref(null)
+    //weeklyDays更新方法
+    const updateWeeklyDays = (newValue) => {
+        weeklyDays.value = newValue
+    }
+//jobCategory工作类型
+    const jobCategory = ref("")
+
+    //jobCategory更新方法
+    const updateJobCategory = (newValue) => {
+        jobCategory.value = newValue
+    }
+
     //page页面薪资参数
     const salaryRange = ref("")
     //workLocation更新方法
     const updateSalaryRange = (newValue) => {
         salaryRange.value = newValue
+    }
+    //jobTitle工作标题参数
+    const jobTitle = ref("")
+    //jobTitle更新方法
+    const updateJobTitle = (newValue) => {
+        jobTitle.value = newValue
     }
     //page页面状态参数
     const review = ref(2)
@@ -38,9 +58,15 @@ export const useJobStore = defineStore("useJobStore", () => {
         res,
         page,
         pageSize,
+        weeklyDays,
         workLocation,
         salaryRange,
         review,
+        jobCategory,
+        jobTitle,
+        updateJobTitle,
+        updateJobCategory,
+        updateWeeklyDays,
         setResData,
         updateSalaryRange,
         updateWorkLocation,

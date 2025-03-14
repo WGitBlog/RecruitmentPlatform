@@ -14,5 +14,8 @@ import parttimejob.Dto.PageDto;
 public class JobPageDto extends PageDto {
     private String workLocation;
     private String salaryRange;
+    private String jobCategory;
+    private Integer weeklyDays;
+    private String jobTitle;
     private Integer review;
 }

@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4150428",
+      "name": "搜素",
+      "font_class": "sousu",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "10235065",
+      "name": "搜素",
+      "font_class": "sousu1",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "21128404",
+      "name": "邀约面试",
+      "font_class": "yaoyuemianshi",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "27592616",
+      "name": "邀约面试",
+      "font_class": "a-bianzu43",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
       "icon_id": "1727523",
       "name": "304错误、关闭、取消",
       "font_class": "cuowuguanbiquxiao",

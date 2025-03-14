@@ -106,8 +106,6 @@ const a = [
 
 const jobStore = useJobStore()
 
-
-
 const changedCity = async (city: string) => {
   jobStore.page = 1
   //当点击城市之后更新job.js的beux的WorkLocation数据
@@ -122,18 +120,14 @@ const changedCity = async (city: string) => {
     jobStore.pageSize,
     jobStore.workLocation,
     jobStore.salaryRange,
+    jobStore.jobCategory,
+    jobStore.weeklyDays,
+    jobStore.jobTitle,
     jobStore.review
   )
   jobStore.setResData(res)
   jobStore.page++
 }
-
-
-
-
-
-
-
 
 const tabPosition = ref<TabsInstance['tabPosition']>('top')
 // 所有省市区数据
@@ -190,7 +184,6 @@ const dealGroupedCities = (citys) => {
 
 <style lang='less'>
 .city_select {
-
   width: 670px;
 
   .el-tab-pane {
@@ -227,7 +220,6 @@ const dealGroupedCities = (citys) => {
     }
   }
   .el-tabs__content {
-
     padding: 0px !important;
     overflow-y: auto;
 
@@ -245,7 +237,6 @@ const dealGroupedCities = (citys) => {
     }
   }
   .list-select-list {
- 
   }
   .el-tabs__item {
     margin-right: 30px;
