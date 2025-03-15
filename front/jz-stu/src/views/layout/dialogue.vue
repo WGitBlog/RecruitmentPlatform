@@ -421,11 +421,83 @@
                     <span @click="sendWeixinBlurMessage">换微信</span>
                   </el-col>
 
-                  <el-col v-else :span="8" class="button_module">
-                    <!-- <span @click="sendResumeMessage">发简历</span>
-                    <span @click="sendAccountMessage">换电话</span>
-                    <span @click="sendWeixinBlurMessage">换微信</span> -->
+                  <el-col v-else :span="9" class="button_module">
+                    <span @click="bookingInterview">约面试</span>
                   </el-col>
+
+                  <el-dialog
+                    v-model="dialogVisible"
+                    title="面试预约"
+                    width="30%"
+                    @close="handleClose"
+                  >
+                    <!-- 面试内容表单 -->
+                    <el-form :model="interviewFormData">
+                      <!-- 面试方式选择 -->
+                      <el-form-item label="面试方式" prop="method">
+                        <el-radio-group
+                          v-model="interviewFormData.method"
+                          @change="handleMethodChange"
+                        >
+                          <el-radio label="线上" :value="1" />
+                          <el-radio label="线下" :value="2" />
+                        </el-radio-group>
+                      </el-form-item>
+                      <el-form-item label="面试时长" prop="time" style="width: 190px">
+                        <el-select v-model="interviewFormData.time" placeholder="请选择时长">
+                          <el-option label="半个小时" :value="0.5" />
+                          <el-option label="一个小时" :value="1" />
+                          <el-option label="一个半小时" :value="1.5" />
+                          <el-option label="两个小时" :value="2" />
+                        </el-select>
+                      </el-form-item>
+                      <!-- 面试时间选择 -->
+                      <el-form-item label="面试时间" prop="date">
+                        <el-date-picker
+                          v-model="interviewFormData.date"
+                          type="datetime"
+                          placeholder="选择面试时间"
+                          :picker-options="pickerOptions"
+                          :disabled-date="disabledDate"
+                        />
+                      </el-form-item>
+
+                      <!-- 动态显示区域 -->
+                      <div v-if="interviewFormData.method === 1">
+                        <el-form-item label="面试平台" prop="platform">
+                          <el-select v-model="interviewFormData.platform" placeholder="请选择平台">
+                            <el-option label="腾讯会议" value="tencent" />
+                            <el-option label="Zoom" value="zoom" />
+                            <el-option label="飞书" value="lark" />
+                          </el-select>
+                        </el-form-item>
+                        <el-form-item label="面试链接" prop="link">
+                          <el-input v-model="interviewFormData.link" placeholder="请输入会议链接" />
+                        </el-form-item>
+                      </div>
+
+                      <div v-else>
+                        <el-form-item label="面试地点" prop="address">
+                          <el-input v-model="interviewFormData.address" placeholder="面试地点" />
+                        </el-form-item>
+                      </div>
+                      <el-form-item label="面试说明" prop="details" style="width: 100%">
+                        <el-input
+                          v-model="interviewFormData.details"
+                          type="textarea"
+                          :rows="4"
+                          placeholder="可填写面试形式、注意事项等补充说明"
+                          maxlength="500"
+                          show-word-limit
+                        />
+                      </el-form-item>
+                    </el-form>
+
+                    <template #footer>
+                      <el-button @click="dialogVisible = false">取消</el-button>
+                      <el-button type="primary" @click="handleConfirm">确定</el-button>
+                    </template>
+                  </el-dialog>
                 </el-row>
                 <el-row>
                   <el-col :span="24" class="chat_content">
@@ -455,7 +527,7 @@
 
 
 <script  lang="ts" setup>
-import { nextTick, onMounted, ref, computed } from 'vue'
+import { nextTick, onMounted, ref, computed, reactive } from 'vue'
 import { useCandidateStore } from '@/stores/candidate'
 import { Calendar, Search } from '@element-plus/icons-vue'
 import { Document, ChatDotRound, Phone } from '@element-plus/icons-vue'
@@ -473,6 +545,7 @@ import {
   getInterestsCds,
   getInterviewsCds
 } from '@/api/boos.js'
+import { sendInterview } from '@/api/interview.js'
 import { getMessagesByIds } from '@/api/messages.js'
 import { getUserByBoosId, getUserByCandidateId } from '@/api/user.js'
 import { useRoute } from 'vue-router'
@@ -480,6 +553,7 @@ import useWebSocket from '@/utils/websocket.js'
 import { id } from 'element-plus/es/locale'
 import { sortUserPlugins } from 'vite'
 import { JobDto, messages, candidate } from '@/interface/index.js'
+import { stringify } from 'querystring'
 
 const route = useRoute() // 获取路由对象
 const candidateStore = useCandidateStore()
@@ -623,6 +697,64 @@ const sendAccountMessage = async () => {
   messageInput.value = ''
   //发送消息滑轮到最低部
   scrollToBottom()
+}
+
+// 弹框显隐控制
+const dialogVisible = ref(false)
+//约面试
+const bookingInterview = async () => {
+  dialogVisible.value = true
+}
+
+// 初始化表单数据
+const interviewFormData = reactive({
+  method: 1, //默认是线上
+  time: null,
+  platform: '',
+  link: '',
+  date: null,
+  address: '',
+  details: '',
+  steps: [
+    { title: '简历筛选', desc: '待反馈', status: 1 },
+    { title: '技术面试', desc: '待反馈', status: 2 },
+    { title: '最终结果', desc: '待反馈', status: 3 }
+  ]
+})
+
+// 切换时重置数据
+const handleMethodChange = (a) => {
+  interviewFormData.method = a
+  interviewFormData.platform = ''
+  interviewFormData.link = ''
+  interviewFormData.address = ''
+}
+
+// 确认提交
+const handleConfirm = async () => {
+  console.log(' 提交数据:', JSON.stringify(interviewFormData))
+  // 这里添加API调用逻辑
+  await sendInterview(interviewFormData).then((res) => {
+    console.log(res)
+  })
+
+  ElMessage.success('邀约面试成功！')
+  dialogVisible.value = false
+}
+
+// 弹框关闭回调
+const handleClose = () => {
+  // 可添加数据重置逻辑
+  Object.assign(interviewFormData, {
+    time: '',
+    method: 1,
+    remark: '',
+    date: null,
+    platform: '',
+    link: '',
+    address: '',
+    details: ''
+  })
 }
 
 const input = ref('')
@@ -1177,6 +1309,7 @@ const candidatePhrases = ref([
 const bossPhrases = ref([
   '您好,感谢您对该职位的关注',
   '请问您方便发一份简历吗？',
+  '面试邀约已经发送请注意查看！',
   '您的经历很符合我们的要求',
   '请问您期望的薪资是多少？',
   '方便电话沟通一下吗？',
