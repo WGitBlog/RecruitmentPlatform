@@ -144,7 +144,7 @@ const searchInput = ref('')
 const getJobList = async () => {
   loading.value = true
   try {
-    const res = await getJobInfo(currentPage.value, pageSize.value, '' ,'', 1)
+    const res = await getJobInfo(currentPage.value, pageSize.value, '', '','',null,null, 1)
     jobList.value = res.data.records.map(item => ({
       id: item.id,
       jobName: item.jobTitle,

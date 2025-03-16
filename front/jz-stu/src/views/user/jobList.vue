@@ -130,7 +130,7 @@ const jobList = ref([])
 const getList = async () => {
   loading.value = true
   try {
-    const res = await getJobInfo(queryParams.pageNum, queryParams.pageSize, '', '', 2)
+    const res = await getJobInfo(queryParams.pageNum, queryParams.pageSize, '', '','',null,null, 2)
     if (res.data && res.data.records) {
       jobList.value = res.data.records
       total.value = res.data.total

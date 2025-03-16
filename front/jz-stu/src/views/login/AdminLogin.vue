@@ -38,10 +38,24 @@
             />
           </el-form-item>
 
-          <div class="remember-forgot">
-            <el-checkbox v-model="rememberMe">记住我</el-checkbox>
-            <el-link type="primary" :underline="false">忘记密码？</el-link>
+           <el-form-item prop="captcha">
+          <div class="flex">
+            <el-input
+              name="captcha"
+              placeholder="请输入验证码"
+              v-model="loginForm.code"
+              maxlength="4"
+            ></el-input>
+            <el-image
+              class="captcha_img"
+              id="captcha"
+              :src="captchaUrl"
+              alt="验证码"
+              style="width: 140px; height: 48px; margin-left: 10px"
+              @click="generateCaptcha()"
+            ></el-image>
           </div>
+        </el-form-item>
 
           <el-form-item class="login-btn">
             <el-button
@@ -75,19 +89,91 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { userLogin } from '@/api/user'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
+import request from '@/utils/request'
 import logoImage from '@/assets/a.jpg' // 确保这个路径是正确的
 const router = useRouter()
 const loading = ref(false)
 const loginFormRef = ref(null)
 const rememberMe = ref(false)
 
+
+
+
+
+
+
+
+
+
+const captchaUrl = ref('') //图片的http路径
+/**
+ * 获取验证码
+ */
+function getCaptcha() {
+  return sessionStorage.getItem('login-captcha:uuid')
+}
+
+/**
+ * 设置验证码
+ */
+function setCaptcha(captcha) {
+  sessionStorage.setItem('login-captcha:uuid', captcha)
+}
+/**
+ * 生成随机字符串
+ * @param length 字符串的长度，默认11
+ * @returns {string}
+ */
+function generateRandomString(length = 11) {
+  let charset = 'abcdefghijklmnopqrstuvwxyz-_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  let values = new Uint32Array(length)
+
+  window.crypto.getRandomValues(values)
+
+  let str = ''
+
+  for (let i = 0; i < length; i++) {
+    str += charset[values[i] % charset.length]
+  }
+
+  return str
+}
+const generateCaptcha = async () => {
+  // 生成随机的uuid
+  let uuid = generateRandomString(11)
+
+  // 保存uuid到localStorage
+  setCaptcha(uuid)
+
+  // 构造图片请求的基本 URL
+  const baseUrl = 'http://localhost:8080/captcha/loginCaptcha?uuid='
+
+  // 获取图片响应，假设返回的是 Blob 数据
+  const response = await request.get(baseUrl + uuid, { responseType: 'blob' })
+
+  // 创建一个 URL 对象，将 Blob 数据作为图片源
+  const imageUrl = URL.createObjectURL(response)
+
+  // 更新 captchaUrl，Vue 会自动更新 <img> 标签的 src
+  captchaUrl.value = imageUrl
+}
+
+
+
+
+
+
+
 onMounted(() => {
   localStorage.clear()
+    generateCaptcha()
 })
 // const userId=localStorage.setItem("userId",)
 
 // 登录表单数据
 const loginForm = reactive({
+  code: '',
+  uuid: '',
   adminName: '',
   password: ''
 })
@@ -112,17 +198,22 @@ const handleLogin = async () => {
     if (valid) {
       try {
         loading.value = true
-        const res = await userLogin(loginForm.adminName, loginForm.password)
+        const res = await userLogin({
+          username: loginForm.adminName,
+          password: loginForm.password,
+          code: loginForm.code,
+          uuid: sessionStorage.getItem('login-captcha:uuid')
+        })
 
         if (res.code === 1) {
           ElMessage.success('登录成功') // 登录成功
           if (rememberMe.value) {
-            localStorage.setItem('adminName', loginForm.adminName)
+            sessionStorage.setItem('adminName', loginForm.adminName)
           }
-          localStorage.setItem('userId', res.data.id)
-          localStorage.setItem('adminToken', res.data.token)
+          sessionStorage.setItem('userId', res.data.id)
+          sessionStorage.setItem('adminToken', res.data.token)
           sessionStorage.setItem('token', res.data.token) //将token存入session
-          localStorage.setItem('adminInfo', JSON.stringify(res.data.adminInfo))
+          sessionStorage.setItem('adminInfo', JSON.stringify(res.data.adminInfo))
           router.push('/admin/dashboard') // 跳转
           return // 退出函数，避免执行后续代码
         } else {
@@ -139,6 +230,14 @@ const handleLogin = async () => {
 </script>
 
 <style scoped lang="scss">
+.captcha_img {
+  cursor: pointer;
+}
+  .flex {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
 .admin-login-container {
   height: 100vh;
   display: flex;

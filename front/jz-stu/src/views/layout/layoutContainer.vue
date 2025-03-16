@@ -569,6 +569,7 @@ const handleSubmitReport = async () => {
             v-model="searchValue"
             placeholder="请输入你需要搜索的职位..."
             style="flex: 1; margin-right: 10px"
+            @keyup.enter="handleSearch"
           ></el-input>
           <el-button
             class="iconfont icon-sousu1"
@@ -754,7 +755,7 @@ const handleSubmitReport = async () => {
                 <!-- v-for="(item,index)" in :key="item.id" -->
               </ul>
               <!-- <p v-for="(item) in jobLines" :key="item.id">{{ item }}</p> -->
-              <p v-html="defaultJob.jobDetails"></p>
+              <p v-html="defaultJob.jobDetails.replace(/\\n/g,'\n')"></p>
             </div>
           </el-col>
         </el-row>

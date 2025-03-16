@@ -610,7 +610,7 @@ const handleJobSubmit = async () => {
   try {
     // 设置发布时间为当前时间戳
     jobForm.value.publishTime = new Date().getTime().toString()
-    
+     jobForm.value.jobDetails = jobForm.value.jobDetails.replace(/\n/g, '\\n')
     const res = await addJobInfo(jobForm.value)
     
     // 转换时间戳为日期格式后添加到本地状态
