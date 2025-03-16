@@ -14,6 +14,7 @@ public class UserDto {
      * 密码，���议加密存储
      */
     private String password;
+    private String oldPassword;
     //验证码
     private String code;
     //邮箱
@@ -32,4 +33,5 @@ public class UserDto {
      * 关联的雇主ID，若为雇主，则填入boss表的id
      */
     private Long boosId;
+
 }

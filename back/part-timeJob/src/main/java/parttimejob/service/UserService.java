@@ -19,4 +19,6 @@ public interface UserService extends IService<User> {
     List<Map<String, Object>> getJobTableData();
 
     void resetPassword(UserDto user) throws Exception;
+
+    void updatePassword(UserDto user) throws Exception;
 }

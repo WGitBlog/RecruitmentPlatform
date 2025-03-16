@@ -2,6 +2,7 @@ package parttimejob.Controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -98,47 +99,54 @@ public class UserController {
         userDto.setToken(token);
         log.info("user:{}",us);
         log.info("userDro:{}",userDto);
-
-
-
-
-
-
-
-
         return R.success(userDto);
     }
-
-
-
-
-
-
-
-    //重置密码
+    //忘记密码
     @PostMapping("/resetPassword")
     public R<String> resetPassword(@RequestBody UserDto user) {
+
         try {
+            // 1. 参数校验
+            if (user == null || StringUtils.isBlank(user.getEmail())
+                    || StringUtils.isBlank(user.getPassword())
+                    || StringUtils.isBlank(user.getCode())
+                    || StringUtils.isBlank(user.getUuid())) {
+                throw new Exception("参数不完整");
+            }
+
+            // 2. 验证码校验
+            String key = "email_captcha:" + user.getUuid();
+            String realCode = (String) redisTemplate.opsForValue().get(key);
+            if (realCode == null) {
+                throw new Exception("验证码已过期");
+            }
+            if (!user.getCode().equalsIgnoreCase(realCode)) {
+                throw new Exception("验证码错误");
+            }
             userService.resetPassword(user);
             return R.success("修改密码成功");
         } catch (Exception e) {
             return R.error(e.getMessage());
         }
     }
+    //修改密码
+    @PostMapping("/updatePassword")
+    public R<String> updatePassword(@RequestBody UserDto user) {
+        try {
+            // 1. 参数校验
+            if (user == null ||user.getId()==null||StringUtils.isBlank(user.getPassword()) || StringUtils.isBlank(user.getOldPassword())) {
+                throw new Exception("参数不完整");
+            }
+            userService.updatePassword(user);
+            return R.success("修改密码成功");
+        } catch (Exception e) {
+            return R.error(e.getMessage());
+        }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+    }
     //根据BoosId获取User信息
     @GetMapping("/boosInfo/boos/{boosId}")
     public R<User> boosBaseInfo(@PathVariable Long boosId){

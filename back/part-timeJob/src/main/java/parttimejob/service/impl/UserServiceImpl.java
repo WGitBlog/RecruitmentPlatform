@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
 * @author 86151
@@ -49,23 +50,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     public void resetPassword(UserDto user) throws Exception {
         try {
-            // 1. 参数校验
-            if (user == null || StringUtils.isBlank(user.getEmail())
-                    || StringUtils.isBlank(user.getPassword())
-                    || StringUtils.isBlank(user.getCode())
-                    || StringUtils.isBlank(user.getUuid())) {
-                throw new Exception("参数不完整");
-            }
-
-            // 2. 验证码校验
-            String key = "email_captcha:" + user.getUuid();
-            String realCode = (String) redisTemplate.opsForValue().get(key);
-            if (realCode == null) {
-                throw new Exception("验证码已过期");
-            }
-            if (!user.getCode().equalsIgnoreCase(realCode)) {
-                throw new Exception("验证码错误");
-            }
 
             // 3. 密码加密
             String encryptPassword = PasswordTools.encrypt(user.getPassword());
@@ -111,6 +95,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new Exception("重置密码失败: " + e.getMessage());
         }
     }
+
+    @Override
+    public void updatePassword(UserDto user) throws Exception {
+            User selectOne = userMapper.selectById(user.getId());
+            if (selectOne == null || !PasswordTools.decrypt(user.getOldPassword(),selectOne.getPassword())) {
+                throw new Exception("旧密码错误");
+            }
+            //密码加密
+            String encryptPassword2 = PasswordTools.encrypt(user.getPassword());
+            LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+            updateWrapper.eq(User::getId,user.getId()).set(User::getPassword,encryptPassword2);
+            int rows = userMapper.update(null, updateWrapper);
+            if (rows != 1) {
+                throw new Exception("密码更新失败");
+            }
+    }
+
 }
 
 

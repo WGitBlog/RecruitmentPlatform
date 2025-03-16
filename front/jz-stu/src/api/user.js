@@ -7,6 +7,10 @@ export const userLogin = (data) => {
 export const resetPassword = (data) => {
     return request.post('/user/resetPassword', data)
 }
+//修改密码
+export const updatePassword = (data) => {
+    return request.post('/user/updatePassword', data)
+}
 //根据BoosId获取User信息
 export const getUserByBoosId = (boosId) => {
     return request.get(`/user/boosInfo/boos/${boosId}`)

@@ -7,12 +7,13 @@ import { computed, onMounted, ref, reactive } from 'vue'
 import useWebSocket from '@/utils/websocket.js'
 import { getCandidateInfo } from '@/api/candidate.js'
 import { getBoosInfo } from '@/api/boos.js'
+import { resetPassword, updatePassword } from '@/api/user.js'
 import { updateInterested, updateApplicantCommunication } from '@/api/applicant.js'
 import router from '@/router'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
 import { h } from 'vue'
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElMessage, FormInstance } from 'element-plus'
 import messageBox from '@/components/layout/messageBox.vue'
 import { watch } from 'vue'
 import { JobDto } from '@/interface/index.js'
@@ -25,6 +26,94 @@ const UserId = sessionStorage.getItem('userId')
 const candidateId = sessionStorage.getItem('candidateId')
 const boosId = sessionStorage.getItem('boosId')
 const searchValue = ref('')
+
+// 修改密码弹窗显示控制
+const dialogVisible = ref(false)
+// 修改密码表单验证规则
+// 表单数据
+const resetform = reactive({
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+})
+// 新增表单 ref 引用
+const formRef = ref<FormInstance>() // 需要导入 FormInstance 类型
+const rules = {
+  oldPassword: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    { min: 6, message: '密码长度至少6位', trigger: 'blur' }
+  ],
+  newPassword: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    { min: 6, message: '密码长度至少6位', trigger: 'blur' }
+  ],
+  confirmPassword: [
+    { required: true, message: '请确认新密码', trigger: 'blur' },
+    { min: 6, message: '密码长度至少6位', trigger: 'blur' }
+  ]
+}
+
+const handleCommand = (command) => {
+  switch (command) {
+    case 'personalCenter':
+      // 跳转到个人中心页面
+      router.push('/userInfo')
+      break
+    case 'changePassword':
+      // 修改密码api
+      dialogVisible.value = true
+      break
+    case 'logout':
+      // 处理退出登录逻辑
+      router.push('/login')
+      console.log(' 退出登录')
+      break
+    default:
+      break
+  }
+}
+
+// 提交修改密码表单
+const submitForm = async () => {
+  // 验证表单
+  const isValid = await formRef.value.validate()
+  if (!isValid) {
+    return
+  }
+  // 这里添加密码修改API调用
+  await updatePassword({
+    id: sessionStorage.getItem('userId'),
+    oldPassword: resetform.oldPassword,
+    password: resetform.newPassword,
+  })
+    .then((res) => {
+      if (res.code !== 1) {
+        ElMessage.error(res.msg)
+        return
+      } else {
+        ElMessage.success('修改密码成功')
+        dialogVisible.value = false
+      }
+    })
+    .finally(() => {
+      // 重置表单数据
+      resetform.oldPassword = ''
+      resetform.newPassword = ''
+      resetform.confirmPassword = ''
+      // 重置表单验证状态
+      formRef.value.resetFields()
+    })
+  dialogVisible.value = false
+}
+// 重置表单
+const cancelForm = () => {
+  formRef.value.resetFields()
+  resetform.oldPassword = ''
+  resetform.newPassword = ''
+  resetform.confirmPassword = ''
+  dialogVisible.value = false
+}
+
 //massageBox弹框事件
 const open = () => {
   ElMessageBox({
@@ -269,13 +358,13 @@ async function handleCommandWeeklyDays(command) {
   //清空item数据
   items.value = []
   jobStore.page = 1
-  console.log("handleCommandWeeklyDays-command:"+command)
+  console.log('handleCommandWeeklyDays-command:' + command)
   if (command === '') {
     jobStore.weeklyDays = null
-    console.log("handleCommandWeeklyDays-jobStore.weeklyDays'':"+jobStore.weeklyDays)
-  }else{
-  jobStore.weeklyDays = parseInt(command)
-  console.log("handleCommandWeeklyDays-jobStore.weeklyDays:"+jobStore.weeklyDays)
+    console.log("handleCommandWeeklyDays-jobStore.weeklyDays'':" + jobStore.weeklyDays)
+  } else {
+    jobStore.weeklyDays = parseInt(command)
+    console.log('handleCommandWeeklyDays-jobStore.weeklyDays:' + jobStore.weeklyDays)
   }
 
   //再次查询job的page信息（带参数）
@@ -426,20 +515,51 @@ const handleSubmitReport = async () => {
             <li>
               <el-link :underline="false" @click="$router.push('/interviews')">面试</el-link>
             </li>
-            <li>
-              <el-link :underline="false" @click="$router.push('/userInfo')">
-                <img
-                  src="../../assets/a.jpg"
-                  alt=""
-                  :style="{ borderRadius: '50%', objectFit: 'cover' }"
-                />
-                <span v-html="defaultUser.name"></span>
-                <!-- <span v-else             v-html="defaultUser.boosName"></span> -->
-              </el-link>
+
+            <li style="lineHeight: 25px">
+              <!-- 使用 el-dropdown 组件 -->
+              <el-dropdown trigger="hover" @command="handleCommand">
+                <!-- 下拉菜单的触发元素 -->
+                <el-link :underline="false">
+                  <img
+                    src="../../assets/a.jpg"
+                    alt=""
+                    :style="{ borderRadius: '50%', objectFit: 'cover' }"
+                  />
+                  <span v-html="defaultUser.name"></span>
+                </el-link>
+                <!-- 下拉菜单内容 -->
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
+                    <el-dropdown-item command="changePassword">修改密码</el-dropdown-item>
+                    <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </li>
           </ul>
         </el-col>
       </el-row>
+
+      <!-- 密码修改弹窗 -->
+      <el-dialog v-model="dialogVisible" title="修改密码" width="30%">
+        <el-form :model="resetform" label-width="79px" :rules="rules" ref="formRef">
+          <el-form-item label="旧密码" prop="oldPassword">
+            <el-input v-model="resetform.oldPassword" type="password" show-password />
+          </el-form-item>
+          <el-form-item label="新密码" prop="newPassword">
+            <el-input v-model="resetform.newPassword" type="password" show-password />
+          </el-form-item>
+          <el-form-item label="确认密码" prop="confirmPassword">
+            <el-input v-model="resetform.confirmPassword" type="password" show-password />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="cancelForm" style="width: 140px">取消</el-button>
+            <el-button type="primary" @click="submitForm" style="width: 140px">提交</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </el-header>
 
     <el-container>
@@ -528,7 +648,9 @@ const handleSubmitReport = async () => {
                   class="el-dropdown-link iconfont icon-gongzuonianxian"
                   :style="{ cursor: 'pointer' }"
                   @click="open3"
-                  v-text="jobStore.weeklyDays == null ? ' 周工作日' : '工作' + jobStore.weeklyDays+'天'"
+                  v-text="
+                    jobStore.weeklyDays == null ? ' 周工作日' : '工作' + jobStore.weeklyDays + '天'
+                  "
                 >
                 </span>
                 <template #dropdown>

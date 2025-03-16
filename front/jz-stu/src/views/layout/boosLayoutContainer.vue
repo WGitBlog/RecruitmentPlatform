@@ -11,13 +11,14 @@ import router from '@/router'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
 import { h } from 'vue'
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox ,FormInstance} from 'element-plus'
 import { watch } from 'vue'
 import type { CSSProperties } from 'vue'
 import { useCandidateStore } from '@/stores/candidate.js'
+import { resetPassword, updatePassword } from '@/api/user.js'
 import { updateApplicantCdsCommunication } from '@/api/applicantCds.js'
 const candidateStore = useCandidateStore()
-
+const candidateId = sessionStorage.getItem('candidateId')
 const boosId = sessionStorage.getItem('boosId')
 
 const filters = ref([
@@ -173,6 +174,8 @@ const marks = reactive<Marks>({
   }
 })
 const items = ref([]) //数据列表
+//boos的信息
+const defaultUser = ref({})
 onMounted(async () => {
   candidateStore.page = 1
   //发出分页请求
@@ -187,6 +190,16 @@ onMounted(async () => {
     candidateStore.page++
     items.value.push(...res.data.records)
   })
+  
+  if (candidateId) {
+    const res = await getCandidateInfo(candidateId)
+    defaultUser.value = res.data
+    candidateStore.candidateInfo = res.data
+  }
+  if (boosId) {
+    const res = await getBoosInfo(boosId)
+    defaultUser.value = res.data
+  }
 })
 const loading = ref(false) //判断是否正在加载
 const hasMore = ref(true) //判断是否还有数据没有数据就无需加载
@@ -237,6 +250,96 @@ const empClose= async (item)=>{
     return a.id!=item.id
   })
 }
+
+
+
+// 修改密码弹窗显示控制
+const dialogVisible = ref(false)
+// 修改密码表单验证规则
+// 表单数据
+const resetform = reactive({
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+})
+// 新增表单 ref 引用
+const formRef = ref<FormInstance>() // 需要导入 FormInstance 类型
+const rules = {
+  oldPassword: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    { min: 6, message: '密码长度至少6位', trigger: 'blur' }
+  ],
+  newPassword: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    { min: 6, message: '密码长度至少6位', trigger: 'blur' }
+  ],
+  confirmPassword: [
+    { required: true, message: '请确认新密码', trigger: 'blur' },
+    { min: 6, message: '密码长度至少6位', trigger: 'blur' }
+  ]
+}
+
+const handleCommand = (command) => {
+  switch (command) {
+    case 'personalCenter':
+      // 跳转到个人中心页面
+      router.push('/userBInfo')
+      break
+    case 'changePassword':
+      // 修改密码api
+      dialogVisible.value = true
+      break
+    case 'logout':
+      // 处理退出登录逻辑
+      router.push('/login')
+      console.log(' 退出登录')
+      break
+    default:
+      break
+  }
+}
+
+// 提交修改密码表单
+const submitForm = async () => {
+  // 验证表单
+  const isValid = await formRef.value.validate()
+  if (!isValid) {
+    return
+  }
+  // 这里添加密码修改API调用
+  await updatePassword({
+    id: sessionStorage.getItem('userId'),
+    oldPassword: resetform.oldPassword,
+    password: resetform.newPassword,
+  })
+    .then((res) => {
+      if (res.code !== 1) {
+        ElMessage.error(res.msg)
+        return
+      } else {
+        ElMessage.success('修改密码成功')
+        dialogVisible.value = false
+      }
+    })
+    .finally(() => {
+      // 重置表单数据
+      resetform.oldPassword = ''
+      resetform.newPassword = ''
+      resetform.confirmPassword = ''
+      // 重置表单验证状态
+      formRef.value.resetFields()
+    })
+  dialogVisible.value = false
+}
+// 重置表单
+const cancelForm = () => {
+  formRef.value.resetFields()
+  resetform.oldPassword = ''
+  resetform.newPassword = ''
+  resetform.confirmPassword = ''
+  dialogVisible.value = false
+}
+
 </script>
 
 <template>
@@ -262,7 +365,7 @@ const empClose= async (item)=>{
           <ul>
             <li><el-link :underline="false" @click="$router.push('/dialogue')">消息</el-link></li>
             <li><el-link :underline="false" @click="$router.push('/interviews')">面试</el-link></li>
-            <li>
+            <!-- <li>
               <el-link :underline="false" @click="$router.push('/userBInfo')">
                 <img
                   src="../../assets/a.jpg"
@@ -270,10 +373,52 @@ const empClose= async (item)=>{
                   :style="{ borderRadius: '50%', objectFit: 'cover' }"
                 />
               </el-link>
+            </li> -->
+
+
+            <li style="lineHeight: 25px">
+              <!-- 使用 el-dropdown 组件 -->
+              <el-dropdown trigger="hover" @command="handleCommand">
+                <!-- 下拉菜单的触发元素 -->
+                <el-link :underline="false">
+                  <img
+                    src="../../assets/a.jpg"
+                    alt=""
+                    :style="{ borderRadius: '50%', objectFit: 'cover' }"
+                  />
+                  <span v-html="defaultUser.boosName"></span>
+                </el-link>
+                <!-- 下拉菜单内容 -->
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
+                    <el-dropdown-item command="changePassword">修改密码</el-dropdown-item>
+                    <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </li>
           </ul>
         </el-col>
       </el-row>
+       <!-- 密码修改弹窗 -->
+      <el-dialog v-model="dialogVisible" title="修改密码" width="30%">
+        <el-form :model="resetform" label-width="79px" :rules="rules" ref="formRef">
+          <el-form-item label="旧密码" prop="oldPassword">
+            <el-input v-model="resetform.oldPassword" type="password" show-password />
+          </el-form-item>
+          <el-form-item label="新密码" prop="newPassword">
+            <el-input v-model="resetform.newPassword" type="password" show-password />
+          </el-form-item>
+          <el-form-item label="确认密码" prop="confirmPassword">
+            <el-input v-model="resetform.confirmPassword" type="password" show-password />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="cancelForm" style="width: 140px">取消</el-button>
+            <el-button type="primary" @click="submitForm" style="width: 140px">提交</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     </el-header>
 
     <el-container>
