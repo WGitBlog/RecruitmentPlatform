@@ -1,11 +1,11 @@
-package parttimejob.Dto.realDto;
+package parttimejob.Dto.Common;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class StatisticsDto {
+public class Statistics {
     private Long userCount;        // 总用户数
     private Double userIncrease;      // 用户增长率
     private Long bossCount;        // 企业用户数

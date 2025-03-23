@@ -12,20 +12,27 @@
             <result property="companyId" column="company_id" jdbcType="BIGINT"/>
             <result property="date" column="date" jdbcType="TIMESTAMP"/>
             <result property="type" column="type" jdbcType="TINYINT"/>
-            <result property="time" column="time" jdbcType="TINYINT"/>
+            <result property="time" column="time" jdbcType="DOUBLE"/>
             <result property="platform" column="platform" jdbcType="VARCHAR"/>
             <result property="link" column="link" jdbcType="VARCHAR"/>
             <result property="address" column="address" jdbcType="VARCHAR"/>
             <result property="details" column="details" jdbcType="VARCHAR"/>
             <result property="status" column="status" jdbcType="TINYINT"/>
             <result property="rating" column="rating" jdbcType="TINYINT"/>
+            <result property="result" column="result" jdbcType="TINYINT"/>
             <result property="feedbackContent" column="feedback_content" jdbcType="VARCHAR"/>
-        <result property="steps" column="steps"
-                jdbcType="VARCHAR"
-                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="steps" column="steps" jdbcType="OTHER" typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler"/>
+            <result property="senderId" column="sender_id" jdbcType="BIGINT"/>
+            <result property="recipientId" column="recipient_id" jdbcType="BIGINT"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
             <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
+        <select id="getInterview" resultType="parttimejob.Entity.Interview">
+                SELECT *
+                FROM interview
+                WHERE sender_id = #{userId}
+                   OR recipient_id = #{userId}
+        </select>
 
 
 </mapper>

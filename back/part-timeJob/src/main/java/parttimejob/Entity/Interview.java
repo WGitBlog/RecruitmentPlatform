@@ -1,5 +1,6 @@
 package parttimejob.Entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,11 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Data;
-import org.hibernate.annotations.Type;
 import parttimejob.Dto.Common.Step;
-
-import javax.persistence.Column;
 
 /**
  * 面试流程表，用于存储应聘者的面试信息
@@ -60,7 +59,7 @@ public class Interview implements Serializable {
     /**
      * 面试时长（单位：小时）
      */
-    private Integer time;
+    private Double time;
 
     /**
      * 面试平台（如果是线上面试）
@@ -98,12 +97,24 @@ public class Interview implements Serializable {
     private String feedbackContent;
 
     /**
-     * 面试流程步骤
+     * 面试流程步骤// 1--success--完成  2--process--待处理   3--wait--需等待
      */
-    @Type(type = "json")
-    @Column(columnDefinition = "json")
-    private List<Step> steps; // 确保 Step 类有正确的字段定义
+    @TableField(typeHandler = FastjsonTypeHandler.class)
+    private List<Step> steps;
 
+    /**
+     * 
+     */
+    private Long senderId;
+
+    /**
+     * 
+     */
+    private Long recipientId;
+    /**
+     * 面试结果
+     */
+    private Integer result;
     /**
      * 创建时间
      */
@@ -145,6 +156,8 @@ public class Interview implements Serializable {
             && (this.getRating() == null ? other.getRating() == null : this.getRating().equals(other.getRating()))
             && (this.getFeedbackContent() == null ? other.getFeedbackContent() == null : this.getFeedbackContent().equals(other.getFeedbackContent()))
             && (this.getSteps() == null ? other.getSteps() == null : this.getSteps().equals(other.getSteps()))
+            && (this.getSenderId() == null ? other.getSenderId() == null : this.getSenderId().equals(other.getSenderId()))
+            && (this.getRecipientId() == null ? other.getRecipientId() == null : this.getRecipientId().equals(other.getRecipientId()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
             && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()));
     }
@@ -169,6 +182,8 @@ public class Interview implements Serializable {
         result = prime * result + ((getRating() == null) ? 0 : getRating().hashCode());
         result = prime * result + ((getFeedbackContent() == null) ? 0 : getFeedbackContent().hashCode());
         result = prime * result + ((getSteps() == null) ? 0 : getSteps().hashCode());
+        result = prime * result + ((getSenderId() == null) ? 0 : getSenderId().hashCode());
+        result = prime * result + ((getRecipientId() == null) ? 0 : getRecipientId().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
         result = prime * result + ((getUpdatedAt() == null) ? 0 : getUpdatedAt().hashCode());
         return result;
@@ -196,6 +211,8 @@ public class Interview implements Serializable {
         sb.append(", rating=").append(rating);
         sb.append(", feedbackContent=").append(feedbackContent);
         sb.append(", steps=").append(steps);
+        sb.append(", senderId=").append(senderId);
+        sb.append(", recipientId=").append(recipientId);
         sb.append(", createdAt=").append(createdAt);
         sb.append(", updatedAt=").append(updatedAt);
         sb.append(", serialVersionUID=").append(serialVersionUID);

@@ -190,16 +190,10 @@ onMounted(async () => {
     candidateStore.page++
     items.value.push(...res.data.records)
   })
-  
-  if (candidateId) {
-    const res = await getCandidateInfo(candidateId)
+  await getBoosInfo(boosId).then((res) => {
     defaultUser.value = res.data
-    candidateStore.candidateInfo = res.data
-  }
-  if (boosId) {
-    const res = await getBoosInfo(boosId)
-    defaultUser.value = res.data
-  }
+    sessionStorage.setItem('companyId', res.data.companyId)
+  })
 })
 const loading = ref(false) //判断是否正在加载
 const hasMore = ref(true) //判断是否还有数据没有数据就无需加载

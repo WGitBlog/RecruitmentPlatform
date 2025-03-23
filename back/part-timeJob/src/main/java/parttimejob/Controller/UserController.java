@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import parttimejob.Common.JwtProperties;
 import parttimejob.Dto.UserDto;
 import parttimejob.Dto.pageDto.UserPageDto;
-import parttimejob.Dto.realDto.StatisticsDto;
+import parttimejob.Dto.Common.Statistics;
 import parttimejob.Entity.Job;
 import parttimejob.Entity.Reports;
 import parttimejob.Entity.User;
@@ -194,8 +193,8 @@ public class UserController {
         return R.success("状态更新成功");
     }
     @GetMapping("/statistics")
-    public R<StatisticsDto> getStatistics(){
-        StatisticsDto statisticsDto = new StatisticsDto();
+    public R<Statistics> getStatistics(){
+        Statistics statisticsDto = new Statistics();
         //今天和昨天的 00:00:00
         LocalDateTime today = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
         LocalDateTime yesterday = today.minusDays(1);

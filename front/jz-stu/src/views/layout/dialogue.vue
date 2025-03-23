@@ -434,22 +434,11 @@
                     <!-- 面试内容表单 -->
                     <el-form :model="interviewFormData">
                       <!-- 面试方式选择 -->
-                      <el-form-item label="面试方式" prop="method">
-                        <el-radio-group
-                          v-model="interviewFormData.method"
-                          @change="handleMethodChange"
-                        >
+                      <el-form-item label="面试方式" prop="type">
+                        <el-radio-group v-model="interviewFormData.type" @change="handleMethodChange">
                           <el-radio label="线上" :value="1" />
                           <el-radio label="线下" :value="2" />
                         </el-radio-group>
-                      </el-form-item>
-                      <el-form-item label="面试时长" prop="time" style="width: 190px">
-                        <el-select v-model="interviewFormData.time" placeholder="请选择时长">
-                          <el-option label="半个小时" :value="0.5" />
-                          <el-option label="一个小时" :value="1" />
-                          <el-option label="一个半小时" :value="1.5" />
-                          <el-option label="两个小时" :value="2" />
-                        </el-select>
                       </el-form-item>
                       <!-- 面试时间选择 -->
                       <el-form-item label="面试时间" prop="date">
@@ -461,9 +450,28 @@
                           :disabled-date="disabledDate"
                         />
                       </el-form-item>
+                      <el-form-item label="面试时长" prop="time">
+                        <el-select v-model="interviewFormData.time" placeholder="请选择时长">
+                          <el-option label="半个小时" :value="0.5" />
+                          <el-option label="一个小时" :value="1" />
+                          <el-option label="一个半小时" :value="1.5" />
+                          <el-option label="两个小时" :value="2" />
+                        </el-select>
+                      </el-form-item>
+
+                      <el-form-item label="面试职位" prop="jobId">
+                        <el-select v-model="interviewFormData.jobId" placeholder="请选择面试职位">
+                          <el-option
+                            v-for="item in jobs"
+                            :label="item.jobTitle"
+                            :value="item.id"
+                            :key="item.id"
+                          />
+                        </el-select>
+                      </el-form-item>
 
                       <!-- 动态显示区域 -->
-                      <div v-if="interviewFormData.method === 1">
+                      <div v-if="interviewFormData.type === 1">
                         <el-form-item label="面试平台" prop="platform">
                           <el-select v-model="interviewFormData.platform" placeholder="请选择平台">
                             <el-option label="腾讯会议" value="tencent" />
@@ -529,6 +537,7 @@
 <script  lang="ts" setup>
 import { nextTick, onMounted, ref, computed, reactive } from 'vue'
 import { useCandidateStore } from '@/stores/candidate'
+import { useBoosStore } from '@/stores/boos'
 import { Calendar, Search } from '@element-plus/icons-vue'
 import { Document, ChatDotRound, Phone } from '@element-plus/icons-vue'
 import {
@@ -548,6 +557,7 @@ import {
 import { sendInterview } from '@/api/interview.js'
 import { getMessagesByIds } from '@/api/messages.js'
 import { getUserByBoosId, getUserByCandidateId } from '@/api/user.js'
+import { getJobsByBoosId } from '@/api/job.js'
 import { useRoute } from 'vue-router'
 import useWebSocket from '@/utils/websocket.js'
 import { id } from 'element-plus/es/locale'
@@ -559,8 +569,8 @@ const route = useRoute() // 获取路由对象
 const candidateStore = useCandidateStore()
 const UserId = sessionStorage.getItem('userId')
 const candidateId = sessionStorage.getItem('candidateId')
+const companyId=sessionStorage.getItem('companyId')
 const boosId = sessionStorage.getItem('boosId')
-
 const message = ref<messages[]>([])
 
 //处理时间格式yyyy-MM-dd HH:mm:ss
@@ -708,26 +718,33 @@ const bookingInterview = async () => {
 
 // 初始化表单数据
 const interviewFormData = reactive({
-  method: 1, //默认是线上
+  candidate_id: null,
+  boosId: null,
+  companyId:Number(companyId),
+  type:1,
   time: null,
   platform: '',
   link: '',
   date: null,
   address: '',
   details: '',
+  jobId: null,
   steps: [
     { title: '简历筛选', desc: '待反馈', status: 1 },
     { title: '技术面试', desc: '待反馈', status: 2 },
     { title: '最终结果', desc: '待反馈', status: 3 }
-  ]
+  ],
+  recipientId: idStorage,
+  senderId: Number(UserId)
 })
 
 // 切换时重置数据
 const handleMethodChange = (a) => {
-  interviewFormData.method = a
+  interviewFormData.type=a
   interviewFormData.platform = ''
   interviewFormData.link = ''
   interviewFormData.address = ''
+  interviewFormData.jobId=null
 }
 
 // 确认提交
@@ -735,10 +752,9 @@ const handleConfirm = async () => {
   console.log(' 提交数据:', JSON.stringify(interviewFormData))
   // 这里添加API调用逻辑
   await sendInterview(interviewFormData).then((res) => {
-    console.log(res)
+    ElMessage.success(res.data)
   })
 
-  ElMessage.success('邀约面试成功！')
   dialogVisible.value = false
 }
 
@@ -746,14 +762,15 @@ const handleConfirm = async () => {
 const handleClose = () => {
   // 可添加数据重置逻辑
   Object.assign(interviewFormData, {
+    type:1,
     time: '',
-    method: 1,
     remark: '',
     date: null,
     platform: '',
     link: '',
     address: '',
-    details: ''
+    details: '',
+    jobId:null
   })
 }
 
@@ -772,7 +789,7 @@ function scrollToBottom() {
 
 const items = ref([]) //boos数据列表     ���candidate登录）
 const itemsCandidate = ref([]) //candidate数据列表（boos     登录）
-
+const jobs = ref([]) //jobId列表
 const defaultItem = ref<JobDto>({
   boosId: 0,
   boosImg: '',
@@ -920,6 +937,9 @@ onMounted(async () => {
       console.log(defaultItemCds.value)
     }
     await getMessage(defaultItem.value, defaultItemCds.value)
+    await getJobsByBoosId(boosId).then(async (res) => {
+      jobs.value = res.data.filter((job) => job.review === 2)
+    })
   }
   //将滑轮滑到底部
   scrollToBottom()
