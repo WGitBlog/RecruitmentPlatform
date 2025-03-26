@@ -6,10 +6,10 @@ import { reactive, ref } from 'vue'
 import { useCandidateStore } from '@/stores/candidate'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { RuleForm, UserInfo } from '@/interface/index.js'
-import { UploadFilled, Document } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
+import { ru } from 'element-plus/es/locale'
 const boosId = sessionStorage.getItem('boosId')
 const candidateStore = useCandidateStore()
 const candidateId = sessionStorage.getItem('candidateId')
@@ -23,6 +23,12 @@ const changeConfirm = async (ruleForm) => {
   updateUserInfo()
 
   console.log(data)
+}
+const changeWorkStatus = async (command) => {
+  ruleForm.workstatus = command
+  const { data } = await changeUserdetails(ruleForm)
+  updateUserInfo()
+  console.log(command)
 }
 
 const userInfo = ref<UserInfo>({})
@@ -92,6 +98,7 @@ const ruleForm = reactive<RuleForm>({
   birthday: '',
   degreecategory: '',
   email: '',
+  workstatus: null,
   gender: null,
   address: '',
   name: '',
@@ -103,7 +110,13 @@ const ruleForm = reactive<RuleForm>({
   desiredIndustry: '', // 期望行业
   desiredPosition: '' // 期望职位
 })
-
+const statusMap = {
+  0: '暂未选择',
+  1: '在校-随时到岗',
+  2: '在校-月内到岗',
+  3: '在校-考虑机会',
+  4: '在校-暂不考虑' // 如果 4 也是 "在校-暂不考虑"
+}
 //发送请求后将用户信息进行更新
 const updateUserInfo = () => {
   userInfo.value.name = ruleForm.name
@@ -117,7 +130,7 @@ const updateUserInfo = () => {
   userInfo.value.weixinblur = ruleForm.weixinblur
   userInfo.value.resume = ruleForm.resume
   userInfo.value.workyears = ruleForm.workyears
-
+  userInfo.value.workstatus = ruleForm.workstatus
   //表格中还没完成
   userInfo.value.desiredSalary = ruleForm.desiredSalary
   userInfo.value.desiredCity = ruleForm.desiredCity
@@ -139,7 +152,7 @@ const updateRuleForm = () => {
   ruleForm.weixinblur = userInfo.value.weixinblur || '' // 设置默认值
   ruleForm.resume = userInfo.value.resume || '' // 设置默认值
   ruleForm.workyears = userInfo.value.workyears
-
+  ruleForm.workstatus = userInfo.value.workstatus
   ruleForm.desiredSalary = userInfo.value.desiredSalary
   ruleForm.desiredCity = userInfo.value.desiredCity
   ruleForm.desiredIndustry = userInfo.value.desiredIndustry
@@ -413,17 +426,15 @@ const previewPDF = (file) => {
               </div>
 
               <div class="workerstatus">
-                <el-dropdown>
-                  <el-button type="primary" >
-                    在校-月内到岗<i class="el-icon-arrow-down el-icon--right"></i>
-                  </el-button>
+                <el-dropdown @command="changeWorkStatus">
+                  <el-button type="primary">{{ statusMap[userInfo.workstatus] }} </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item>黄金糕</el-dropdown-item>
-                      <el-dropdown-item>狮子头</el-dropdown-item>
-                      <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                      <el-dropdown-item>双皮奶</el-dropdown-item>
-                      <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                      <el-dropdown-item :command="0">暂未选择</el-dropdown-item>
+                      <el-dropdown-item :command="1">在校-随时到岗</el-dropdown-item>
+                      <el-dropdown-item :command="2">在校-月内到岗</el-dropdown-item>
+                      <el-dropdown-item :command="3">在校-考虑机会</el-dropdown-item>
+                      <el-dropdown-item :command="4">在校-暂不考虑</el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
@@ -694,7 +705,7 @@ const previewPDF = (file) => {
       display: flex;
       height: 50px;
       line-height: 50px;
-      
+
       .el-button {
         background-color: #9eb8f1;
         height: 40px;

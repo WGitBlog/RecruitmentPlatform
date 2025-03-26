@@ -9,7 +9,7 @@
             <result property="account" column="account" jdbcType="VARCHAR"/>
             <result property="age" column="age" jdbcType="INTEGER"/>
             <result property="birthday" column="birthday" jdbcType="DATE"/>
-            <result property="complete" column="complete" jdbcType="TINYINT"/>
+            <result property="workstatus" column="workStatus" jdbcType="TINYINT"/>
             <result property="degreecategory" column="degreeCategory" jdbcType="VARCHAR"/>
             <result property="email" column="email" jdbcType="VARCHAR"/>
             <result property="freshgraduate" column="freshGraduate" jdbcType="INTEGER"/>
@@ -31,8 +31,8 @@
 
     </resultMap>
     <insert id="saveReturnId" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO candidate(ACCOUNT, AGE, BIRTHDAY, COMPLETE, DEGREECATEGORY, EMAIL, FRESHGRADUATE, GENDER, ADDRESS, NAME, STARTWORKDATE, TINY, WEIXINBLUR, DESIRED_SALARY, WORKYEARS, RESUME, APPLICANT_ID, DESIRED_CITY, DESIRED_INDUSTRY, DESIRED_POSITION, SKILLS_INTRODUCTION) VALUE
-        (#{account},#{age},#{birthday},#{complete},#{degreecategory},#{email},#{freshgraduate},#{gender},#{address},#{name},#{startworkdate},#{tiny},#{weixinblur},#{desiredSalary},#{workyears},#{resume},#{applicantId},#{desiredCity},#{desiredIndustry},#{desiredPosition},#{skillsIntroduction})
+        INSERT INTO candidate(ACCOUNT, AGE, BIRTHDAY, WORKSTATUS, DEGREECATEGORY, EMAIL, FRESHGRADUATE, GENDER, ADDRESS, NAME, STARTWORKDATE, TINY, WEIXINBLUR, DESIRED_SALARY, WORKYEARS, RESUME, APPLICANT_ID, DESIRED_CITY, DESIRED_INDUSTRY, DESIRED_POSITION, SKILLS_INTRODUCTION) VALUE
+        (#{account},#{age},#{birthday},#{workstatus},#{degreecategory},#{email},#{freshgraduate},#{gender},#{address},#{name},#{startworkdate},#{tiny},#{weixinblur},#{desiredSalary},#{workyears},#{resume},#{applicantId},#{desiredCity},#{desiredIndustry},#{desiredPosition},#{skillsIntroduction})
     </insert>
 
 
@@ -49,6 +49,7 @@
             <if test="email != null">email = #{email},</if>
             <if test="weixinblur != null">weixinblur = #{weixinblur},</if>
             <if test="workyears != null">workyears = #{workyears},</if>
+            <if test="workstatus != null">workstatus = #{workstatus},</if>
             <if test="resume != null">resume = #{resume},</if>
             <if test="desiredSalary != null">desired_salary = #{desiredSalary},</if>
             <if test="desiredCity != null">desired_city = #{desiredCity},</if>

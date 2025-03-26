@@ -40,7 +40,7 @@ public class Candidate implements Serializable {
     /**
      * 个人信息是否完整
      */
-    private Integer complete;
+    private Integer workstatus;
 
     /**
      * 学历类别，如“中专/中技”
@@ -143,7 +143,7 @@ public class Candidate implements Serializable {
         sb.append(", account=").append(account);
         sb.append(", age=").append(age);
         sb.append(", birthday=").append(birthday);
-        sb.append(", complete=").append(complete);
+        sb.append(", workstatus=").append(workstatus);
         sb.append(", degreecategory=").append(degreecategory);
         sb.append(", email=").append(email);
         sb.append(", freshgraduate=").append(freshgraduate);

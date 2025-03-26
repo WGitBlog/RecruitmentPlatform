@@ -45,6 +45,7 @@ export interface RuleForm {
     degreecategory: string//学位
     email: string//邮箱
     gender: number//性别
+    workstatus: number//求职状态
     address: string//地址
     name: string//姓名
     weixinblur: string//微信
@@ -61,7 +62,7 @@ export interface UserInfo {
   account?: string; // 手机号码
   age?: number; // 年龄
   birthday?: string; // 出生日期
-  complete?: number; // 个人信息是否完整
+  workstatus?: number; // 个人信息是否完整
   degreecategory?: string; // 学历类别
   email?: string; // 电子邮件
   freshgraduate?: number; // 是否为应届生

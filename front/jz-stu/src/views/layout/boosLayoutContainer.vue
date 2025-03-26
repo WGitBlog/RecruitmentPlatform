@@ -43,7 +43,13 @@ const filters = ref([
     selected: '不限'
   }
 ])
-
+const statusMap = {
+  0: '暂未选择',
+  1: '在校-随时到岗',
+  2: '在校-月内到岗',
+  3: '在校-考虑机会',
+  4: '在校-暂不考虑' // 如果 4 也是 "在校-暂不考虑"
+}
 const selectOption = async (index: number, option: string) => {
   filters.value[index].selected = option
   loading.value = false
@@ -456,7 +462,7 @@ const cancelForm = () => {
                         item.name
                       }}</span>
                       <span :style="{ padding: '5px 10px' }">热搜</span>
-                      <span :style="{ padding: '5px 10px' }">刚刚活跃</span>
+                      <span :style="{ padding: '5px 10px' }">{{statusMap[item.workstatus]}}</span>
                     </div>
                     <div :style="{ height: '10px', lineHeight: '10px' }">
                       <span :style="{ padding: '0 10px' }">{{ item.age }}岁</span>|
