@@ -1,10 +1,8 @@
 package parttimejob.Entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -96,11 +94,11 @@ public class Interview implements Serializable {
      */
     private String feedbackContent;
 
-    /**
-     * 面试流程步骤// 1--success--完成  2--process--待处理   3--wait--需等待
-     */
-    @TableField(typeHandler = FastjsonTypeHandler.class)
-    private List<Step> steps;
+//    /**
+//     * 面试流程步骤// 1--success--完成  2--process--待处理   3--wait--需等待
+//     */
+//    @TableField(typeHandler = FastjsonTypeHandler.class)
+//    private List<Step> steps;
 
     /**
      * 
@@ -118,11 +116,13 @@ public class Interview implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private Date createdAt;
 
     /**
      * 更新时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedAt;
 
     @TableField(exist = false)
@@ -155,7 +155,7 @@ public class Interview implements Serializable {
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getRating() == null ? other.getRating() == null : this.getRating().equals(other.getRating()))
             && (this.getFeedbackContent() == null ? other.getFeedbackContent() == null : this.getFeedbackContent().equals(other.getFeedbackContent()))
-            && (this.getSteps() == null ? other.getSteps() == null : this.getSteps().equals(other.getSteps()))
+
             && (this.getSenderId() == null ? other.getSenderId() == null : this.getSenderId().equals(other.getSenderId()))
             && (this.getRecipientId() == null ? other.getRecipientId() == null : this.getRecipientId().equals(other.getRecipientId()))
             && (this.getCreatedAt() == null ? other.getCreatedAt() == null : this.getCreatedAt().equals(other.getCreatedAt()))
@@ -181,7 +181,7 @@ public class Interview implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getRating() == null) ? 0 : getRating().hashCode());
         result = prime * result + ((getFeedbackContent() == null) ? 0 : getFeedbackContent().hashCode());
-        result = prime * result + ((getSteps() == null) ? 0 : getSteps().hashCode());
+
         result = prime * result + ((getSenderId() == null) ? 0 : getSenderId().hashCode());
         result = prime * result + ((getRecipientId() == null) ? 0 : getRecipientId().hashCode());
         result = prime * result + ((getCreatedAt() == null) ? 0 : getCreatedAt().hashCode());
@@ -210,7 +210,7 @@ public class Interview implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", rating=").append(rating);
         sb.append(", feedbackContent=").append(feedbackContent);
-        sb.append(", steps=").append(steps);
+
         sb.append(", senderId=").append(senderId);
         sb.append(", recipientId=").append(recipientId);
         sb.append(", createdAt=").append(createdAt);

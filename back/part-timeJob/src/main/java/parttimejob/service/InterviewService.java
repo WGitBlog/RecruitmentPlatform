@@ -16,4 +16,6 @@ import java.util.List;
 public interface InterviewService extends IService<Interview> {
 
     List<InterviewDto> getInterview(Long userId);
+
+    void saveReturnId(Interview interview);
 }

@@ -3,6 +3,8 @@ package parttimejob.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import parttimejob.Dto.realDto.InterviewDto;
 import parttimejob.Entity.*;
 import parttimejob.mapper.*;
@@ -61,6 +63,11 @@ public class InterviewServiceImpl extends ServiceImpl<InterviewMapper, Interview
             return  interviewDto;
         }).collect(Collectors.toList());
         return interviewDtoList;
+    }
+
+    @Override
+    public void saveReturnId(Interview interview) {
+        interviewMapper.saveReturnId(interview);
     }
 }
 

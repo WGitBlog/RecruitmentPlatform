@@ -21,18 +21,30 @@
             <result property="rating" column="rating" jdbcType="TINYINT"/>
             <result property="result" column="result" jdbcType="TINYINT"/>
             <result property="feedbackContent" column="feedback_content" jdbcType="VARCHAR"/>
-            <result property="steps" column="steps" jdbcType="OTHER" typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler"/>
+<!--            <result property="steps" column="steps" jdbcType="OTHER" typeHandler="com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler"/>-->
             <result property="senderId" column="sender_id" jdbcType="BIGINT"/>
             <result property="recipientId" column="recipient_id" jdbcType="BIGINT"/>
             <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
             <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
     </resultMap>
-        <select id="getInterview" resultType="parttimejob.Entity.Interview">
+
+
+
+    <insert id="saveReturnId" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO interview(job_id, candidate_id, boos_id, company_id, date, type, time, platform, link, address, details, rating, feedback_content, sender_id, recipient_id, created_at, updated_at, result)
+        VALUES (#{jobId},#{candidateId},#{boosId},#{companyId},#{date},#{type},#{time},#{platform},#{link},#{address},#{details},#{rating},#{feedbackContent},#{senderId},#{recipientId},#{createdAt},#{updatedAt},#{result})
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+
+
+
+    <select id="getInterview" resultType="parttimejob.Entity.Interview">
                 SELECT *
                 FROM interview
                 WHERE sender_id = #{userId}
                    OR recipient_id = #{userId}
         </select>
-
-
 </mapper>

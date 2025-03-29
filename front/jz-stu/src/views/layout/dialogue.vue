@@ -729,11 +729,6 @@ const interviewFormData = reactive({
   address: '',
   details: '',
   jobId: null,
-  steps: [
-    { title: '简历筛选', desc: '待反馈', status: 1 },
-    { title: '技术面试', desc: '待反馈', status: 2 },
-    { title: '最终结果', desc: '待反馈', status: 3 }
-  ],
   recipientId: idStorage,
   senderId: Number(UserId)
 })

@@ -16,7 +16,10 @@ import java.util.List;
 @Mapper
 public interface InterviewMapper extends BaseMapper<Interview> {
 
+    void saveReturnId(Interview interview);
     List<Interview> getInterview(Long userId);
+
+
 }
 
 
