@@ -203,10 +203,19 @@
 
     <el-form-item label="职位类别" prop="jobCategory">
       <el-select v-model="jobForm.jobCategory" placeholder="请选择职位类别">
-        <el-option label="IT" value="IT" />
+        <el-option label="咨询" value="咨询" />
+        <el-option label="医疗" value="医疗" />
+        <el-option label="金融" value="金融" />
+        <el-option label="教育" value="教育" />
+        <el-option label="零售" value="零售" />
+        <el-option label="工程" value="工程" />
+        <el-option label="研发" value="研发" />
+        <el-option label="旅游" value="旅游" />
+        <el-option label="服务" value="服务" />
+        <el-option label="建筑" value="建筑" />
+        <el-option label="科技" value="科技" />
         <el-option label="设计" value="设计" />
-        <el-option label="运营" value="运营" />
-        <el-option label="市场" value="市场" />
+        <el-option label="其他" value="其他" />
       </el-select>
     </el-form-item>
 

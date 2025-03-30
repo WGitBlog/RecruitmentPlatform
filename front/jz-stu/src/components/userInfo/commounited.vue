@@ -97,9 +97,9 @@ const processedData = (
 </script>
 
 <template>
-  <div class="commounited" v-if="isEmpty">
+  <div class="commounited" >
     <el-row>
-      <el-col :span="18" class="col_left">
+      <el-col :span="18" class="col_left" v-if="isEmpty">
         <div class="baseJob">
           <ul>
             <li
@@ -188,6 +188,15 @@ const processedData = (
           </ul>
         </div>
       </el-col>
+      <el-col :span="18" class="col_left" v-else>
+        <div class="baseJob">
+          <el-empty description="暂无投递记录" class="empty_info">
+          </el-empty>
+        </div>
+      </el-col>
+
+
+      
       <el-col :span="6" class="col_right">
         <div class="report-feedback">
           <h3 class="report-title">举报反馈</h3>
@@ -228,20 +237,6 @@ const processedData = (
     </el-row>
   </div>
 
-  <!-- <div class="no_commounited" v-else>
-    <el-row>
-      <el-col :span="18" class="col_left">
-        <div class="baseJob">
-          <el-empty description="暂无投递" class="empty_info">
-            <el-button type="success">查看更多职位</el-button>
-          </el-empty>
-        </div>
-      </el-col>
-      <el-col :span="6" class="col_right">
-        <div></div>
-      </el-col>
-    </el-row>
-  </div> -->
 
   <!-- 添加详情弹窗 -->
   <el-dialog v-model="dialogVisible" width="500px">
@@ -293,6 +288,16 @@ const processedData = (
 
       border-radius: 10px;
       box-sizing: border-box;
+      .empty_info {
+        height: 380px;
+        position: relative;
+        .el-button {
+          height: 36px;
+          position: absolute;
+          bottom: 40px;
+          left: 390px;
+        }
+      }
       ul {
         margin: 0;
         padding: 0;
@@ -544,34 +549,7 @@ const processedData = (
     }
   }
 }
-.no_commounited {
-  width: 100%;
-  .col_left {
-    .baseJob {
-      width: 100%;
-      border: 2px solid black;
-      border-radius: 10px;
-      box-sizing: border-box;
-      .empty_info {
-        height: 380px;
-        position: relative;
-        .el-button {
-          height: 36px;
-          position: absolute;
-          bottom: 40px;
-          left: 390px;
-        }
-      }
-    }
-  }
 
-  .col_right {
-    width: 100%;
-
-    border-radius: 10px;
-    box-sizing: border-box;
-  }
-}
 
 // 添加详情弹窗的样式
 .report-detail-content {

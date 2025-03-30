@@ -105,7 +105,7 @@ const ruleForm = reactive<RuleForm>({
   weixinblur: '',
   resume: '',
   workyears: null,
-  desiredSalary: '',
+  desiredSalary: '',//期望薪资
   desiredCity: '', // 期望城市
   desiredIndustry: '', // 期望行业
   desiredPosition: '' // 期望职位
@@ -313,7 +313,7 @@ const previewPDF = (file) => {
                 <a href="#" @click="centerDialogVisible = true"> 编辑信息</a>
               </div>
 
-              <el-dialog v-model="centerDialogVisible" width="1000" center>
+              <el-dialog v-model="centerDialogVisible" width="500" center>
                 <template #header>
                   <div style="height: 60px; line-height: 60px; font-size: 20px">修改信息</div>
                 </template>
@@ -374,32 +374,31 @@ const previewPDF = (file) => {
                         :options="options"
                       />
                     </el-form-item>
-                    <el-form-item label="Activity type" prop="type">
-                      <el-checkbox-group v-model="ruleForm.type">
-                        <el-checkbox value="Online activities" name="type">
-                          Online activities
-                        </el-checkbox>
-                        <el-checkbox value="Promotion activities" name="type">
-                          Promotion activities
-                        </el-checkbox>
-                        <el-checkbox value="Offline activities" name="type">
-                          Offline activities
-                        </el-checkbox>
-                        <el-checkbox value="Simple brand exposure" name="type">
-                          Simple brand exposure
-                        </el-checkbox>
-                      </el-checkbox-group>
-                    </el-form-item>
 
-                    <el-form-item label="微信号" prop="name">
+                    <el-form-item label="微信号" prop="">
                       <el-input v-model="ruleForm.weixinblur" />
                     </el-form-item>
 
-                    <el-form-item label="学历类别" prop="region">
-                      <el-select v-model="ruleForm.degreecategory" placeholder="Activity zone">
+                    <el-form-item label="学历类别" prop="region" size="">
+                      <el-select v-model="ruleForm.degreecategory" placeholder="请输入学历类别">
                         <el-option label="本科" value="本科" />
                         <el-option label="专科" value="专科" />
+                        <el-option label="研究生" value="研究生" />
+                        <el-option label="硕士" value="硕士" />
+                        <el-option label="博士" value="博士" />
                       </el-select>
+                    </el-form-item>
+                    <el-form-item label="期望薪资" prop="">
+                      <el-input v-model="ruleForm.desiredSalary" />
+                    </el-form-item>
+                    <el-form-item label="期望城市" prop="">
+                      <el-input v-model="ruleForm.desiredCity" />
+                    </el-form-item>
+                    <el-form-item label="期望行业" prop="">
+                      <el-input v-model="ruleForm.desiredIndustry" />
+                    </el-form-item>
+                    <el-form-item label="期望职位" prop="">
+                      <el-input v-model="ruleForm.desiredPosition" />
                     </el-form-item>
                   </el-form>
                 </div>
@@ -415,7 +414,6 @@ const previewPDF = (file) => {
             <el-col :span="7" :style="{ backgroundColor: 'white' }">
               <div class="username">
                 <span>{{ userInfo.name }}</span>
-                <span>升级</span>
               </div>
               <div class="baseInfo">
                 <span>{{ userInfo.age }}岁</span>
@@ -451,9 +449,9 @@ const previewPDF = (file) => {
                 </ul>
               </div>
             </el-col>
-            <el-col :span="3" :style="{ backgroundColor: 'beige' }">
+            <el-col :span="3" >
               <div class="nowInfo">
-                <a href="#">在线简历</a>
+              
               </div>
             </el-col>
           </el-row>
@@ -502,26 +500,23 @@ const previewPDF = (file) => {
 
       <div class="main_bom">
         <el-row>
-          <el-col :span="3"
-            ><el-button type="primary" @click="$router.push('/userInfo/commounited')"
-              >沟通</el-button
-            ></el-col
-          >
-          <el-col :span="3"
-            ><el-button type="primary" @click="$router.push('/userInfo/deliveries')"
-              >投递</el-button
-            ></el-col
-          >
-          <el-col :span="3"
-            ><el-button type="primary" @click="$router.push('/userInfo/interviews')"
-              >面试</el-button
-            ></el-col
-          >
-          <el-col :span="3"
-            ><el-button type="primary" @click="$router.push('/userInfo/interests')"
+          <el-col :span="3">
+            <!-- <el-button type="primary" @click="$router.push('/userInfo/commounited')"
+              >沟通</el-button> -->
+          </el-col>
+          <el-col :span="3">
+            <!-- <el-button type="primary" @click="$router.push('/userInfo/deliveries')"
+              >投递</el-button> -->
+          </el-col>
+          <el-col :span="3">
+            <!-- <el-button type="primary" @click="$router.push('/userInfo/interviews')"
+              >面试</el-button> -->
+          </el-col>
+          <el-col :span="3">
+            <!-- <el-button type="primary" @click="$router.push('/userInfo/interests')"
               >感兴趣</el-button
-            ></el-col
-          >
+            > -->
+          </el-col>
           <el-col :span="10"></el-col>
           <el-col :span="2"></el-col>
         </el-row>
@@ -612,6 +607,7 @@ const previewPDF = (file) => {
 
     .changeUserInfo {
       text-align: center; /* 水平居中 */
+      height: 640px;
     }
 
     .demo-ruleForm {
@@ -632,7 +628,7 @@ const previewPDF = (file) => {
         box-sizing: border-box;
         border-radius: 10px 0 0 10px;
         color: #606266;
-        background: #fff;
+        
         transition: all 0.3s;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 

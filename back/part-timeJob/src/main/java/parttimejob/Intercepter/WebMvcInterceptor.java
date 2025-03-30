@@ -28,18 +28,15 @@ public class WebMvcInterceptor implements HandlerInterceptor {
      */
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        System.out.println("进入拦截方法");
+        log.warn("被拦截的请求:{}",request.getRequestURL());
         //判断当前拦截到的是Controller的方法还是其他资源
         if (!(handler instanceof HandlerMethod)) {
             //当前拦截到的不是动态方法，直接放行
             return true;
         }
-
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getUserTokenName());
-        System.out.println(jwtProperties.getUserTokenName());
-        System.out.println("token:"+token);
+        log.warn("被拦截的请求token:{}",token);
         if (token==null|| token.isEmpty()){
             //4、不通过，响应401状态码
             response.setStatus(401);

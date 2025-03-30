@@ -18,7 +18,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
     @Select("SELECT * FROM company WHERE id=#{companyId}")
     Company getCompanyById(Long companyId);
 
-    Long saveReturnId(Company company);
+    void saveReturnId(Company company);
 }
 
 

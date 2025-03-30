@@ -60,6 +60,7 @@ const candidateInfo=ref({
     startWorkDate:null,
     tiny:null,
     weixinblur:null,
+    workstatus:null,
     workyears:null,
     resume:null,
     applicantId:null,

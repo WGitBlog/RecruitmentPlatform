@@ -12,5 +12,5 @@ public interface CompanyService extends IService<Company> {
     //根据id查询company
     Company getCompanyById(Long companyId);
 
-    Long saveReturnId(Company company);
+    void saveReturnId(Company company);
 }

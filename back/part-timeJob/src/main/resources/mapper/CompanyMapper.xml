@@ -22,9 +22,6 @@
     <insert id="saveReturnId"  useGeneratedKeys="true" keyProperty="id">
         INSERT INTO company (company_name, company_img, company_scale, company_market, company_type, location, industry, established_year, contact_number, email)
         VALUES (#{companyName}, #{companyImg}, #{companyScale}, #{companyMarket}, #{companyType}, #{location}, #{industry}, #{establishedYear}, #{contactNumber}, #{email})
-        <selectKey  keyProperty="id" order="AFTER" resultType="long">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
     </insert>
 
 

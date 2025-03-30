@@ -11,7 +11,7 @@ import router from '@/router'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
 import { h } from 'vue'
-import { ElMessageBox ,FormInstance} from 'element-plus'
+import { ElMessageBox, FormInstance } from 'element-plus'
 import { watch } from 'vue'
 import type { CSSProperties } from 'vue'
 import { useCandidateStore } from '@/stores/candidate.js'
@@ -24,22 +24,22 @@ const boosId = sessionStorage.getItem('boosId')
 const filters = ref([
   {
     label: '学历要求',
-    options: ['不限', '专科', '本科', '研究生', '硕士', '博士', '自定义'],
+    options: ['不限', '专科', '本科', '研究生', '硕士', '博士'],
     selected: '不限'
   },
   {
     label: '年龄要求',
-    options: ['不限', '20-25', '25-30', '30-35', '35-40', '40-50', '50以上', '自定义'],
+    options: ['不限', '20-25', '25-30', '30-35', '35-40', '40-50', '50以上'],
     selected: '不限'
   },
   {
     label: '经验要求',
-    options: ['不限', '无经验', '在校应届生', '1-3年', '3-5年', '5-10年', '10年以上', '自定义'],
+    options: ['不限', '无经验', '在校应届生', '1-3年', '3-5年', '5-10年', '10年以上'],
     selected: '不限'
   },
   {
     label: '薪资要求',
-    options: ['不限', '3k-5k', '5k-10k', '10k-15k', '15k-20k', '20k以上', '自定义'],
+    options: ['不限', '3k-5k', '5k-10k', '10k-15k', '15k-20k', '20k以上'],
     selected: '不限'
   }
 ])
@@ -245,13 +245,11 @@ const commouncationTa = async (item) => {
   router.push(`/dialogue?candidateInfo=${encodeURIComponent(JSON.stringify(item))}`)
 }
 //短暂的去除不想看的工作
-const empClose= async (item)=>{
-  items.value=items.value.filter((a)=>{
-    return a.id!=item.id
+const empClose = async (item) => {
+  items.value = items.value.filter((a) => {
+    return a.id != item.id
   })
 }
-
-
 
 // 修改密码弹窗显示控制
 const dialogVisible = ref(false)
@@ -310,7 +308,7 @@ const submitForm = async () => {
   await updatePassword({
     id: sessionStorage.getItem('userId'),
     oldPassword: resetform.oldPassword,
-    password: resetform.newPassword,
+    password: resetform.newPassword
   })
     .then((res) => {
       if (res.code !== 1) {
@@ -339,7 +337,6 @@ const cancelForm = () => {
   resetform.confirmPassword = ''
   dialogVisible.value = false
 }
-
 </script>
 
 <template>
@@ -351,14 +348,14 @@ const cancelForm = () => {
             <li>
               <el-link :underline="false" href="#" target="_blank"><h1>全国招聘平台</h1></el-link>
             </li>
-            <li><el-link :underline="false">首页</el-link></li>
-            <li><el-link :underline="false">推荐</el-link></li>
-            <li><el-link :underline="false">搜索</el-link></li>
-            <li><el-link :underline="false">校园</el-link></li>
-            <li><el-link :underline="false">App</el-link></li>
-            <li><el-link :underline="false">资讯</el-link></li>
-            <li><el-link :underline="false">有了</el-link></li>
-            <li><el-link :underline="false">海外</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
           </ul>
         </el-col>
         <el-col :span="9" class="header_row_col2">
@@ -375,8 +372,7 @@ const cancelForm = () => {
               </el-link>
             </li> -->
 
-
-            <li style="lineHeight: 25px">
+            <li class="titleli">
               <!-- 使用 el-dropdown 组件 -->
               <el-dropdown trigger="hover" @command="handleCommand">
                 <!-- 下拉菜单的触发元素 -->
@@ -401,7 +397,7 @@ const cancelForm = () => {
           </ul>
         </el-col>
       </el-row>
-       <!-- 密码修改弹窗 -->
+      <!-- 密码修改弹窗 -->
       <el-dialog v-model="dialogVisible" title="修改密码" width="30%">
         <el-form :model="resetform" label-width="79px" :rules="rules" ref="formRef">
           <el-form-item label="旧密码" prop="oldPassword">
@@ -462,7 +458,7 @@ const cancelForm = () => {
                         item.name
                       }}</span>
                       <span :style="{ padding: '5px 10px' }">热搜</span>
-                      <span :style="{ padding: '5px 10px' }">{{statusMap[item.workstatus]}}</span>
+                      <span :style="{ padding: '5px 10px' }">{{ statusMap[item.workstatus] }}</span>
                     </div>
                     <div :style="{ height: '10px', lineHeight: '10px' }">
                       <span :style="{ padding: '0 10px' }">{{ item.age }}岁</span>|
@@ -499,7 +495,10 @@ const cancelForm = () => {
                   </div>
                   <el-divider class="custom-divider" />
                   <div class="emp_bom">
-                    <div class="iconfont icon-cuowuguanbiquxiao emp_close" @click="empClose(item)"></div>
+                    <div
+                      class="iconfont icon-cuowuguanbiquxiao emp_close"
+                      @click="empClose(item)"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -706,6 +705,9 @@ const cancelForm = () => {
   margin: 0;
   white-space: nowrap; /* 防止列表项换行 */
   overflow: hidden; /* 隐藏超出部分 */
+  .titleli{
+  
+  }
   li {
     display: inline-block;
     margin-left: 20px;

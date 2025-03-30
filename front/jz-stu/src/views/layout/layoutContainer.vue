@@ -497,14 +497,14 @@ const handleSubmitReport = async () => {
             <li>
               <el-link :underline="false" href="#" target="_blank"><h1>全国招聘平台</h1></el-link>
             </li>
-            <li><el-link :underline="false">首页</el-link></li>
-            <li><el-link :underline="false">推荐</el-link></li>
-            <li><el-link :underline="false">搜索</el-link></li>
-            <li><el-link :underline="false">校园</el-link></li>
-            <li><el-link :underline="false">App</el-link></li>
-            <li><el-link :underline="false">资讯</el-link></li>
-            <li><el-link :underline="false">有了</el-link></li>
-            <li><el-link :underline="false">海外</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
+            <li><el-link :underline="false">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-link></li>
           </ul>
         </el-col>
         <el-col :span="9" class="header_row_col2">

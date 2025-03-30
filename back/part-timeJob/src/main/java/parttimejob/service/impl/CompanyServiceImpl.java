@@ -20,14 +20,12 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company>
 
     //根据id查询company
     public Company getCompanyById(Long companyId) {
-        Company company = companyMapper.getCompanyById(companyId);
-        return company;
+        return companyMapper.getCompanyById(companyId);
     }
 
     @Override
-    public Long saveReturnId(Company company) {
-        Long companyId=companyMapper.saveReturnId(company);
-        return companyId;
+    public void saveReturnId(Company company) {
+        companyMapper.saveReturnId(company);
     }
 }
 

@@ -380,10 +380,6 @@ const next = async () => {
   if (registerStore.active <= 2) {
     registerStore.active++
   } else {
-    console.log('companyInfo:' + JSON.stringify(registerStore.companyInfo))
-    console.log('boosInfo:' + JSON.stringify(registerStore.boosInfo))
-    console.log('jobInfo:' + JSON.stringify(registerStore.jobInfo))
-    console.log('jobInfo:' + JSON.stringify(registerStore.userInfo))
     // 提交表单数据
     await boosRegister(
       registerStore.companyInfo,
@@ -397,6 +393,7 @@ const next = async () => {
   }
 }
 const next1 = async () => {
+  registerStore.candidateInfo.workstatus=0//TODO:-------------------------------这个地方为什么数据库这个字段是not null default 0 为什么要赋值0才可以插入呢
   console.log('candidateInfo:' + JSON.stringify(registerStore.candidateInfo))
   await candidateRegister(registerStore.candidateInfo, registerStore.userInfo)
   // 提交表单数据
