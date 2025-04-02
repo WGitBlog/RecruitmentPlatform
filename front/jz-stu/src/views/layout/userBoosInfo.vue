@@ -15,7 +15,11 @@
               <p><i class="el-icon-message" /> {{ boosInfo?.boosEmail }}</p>
             </div>
           </div>
+            <el-button type="primary" size="small" style="marginBottom:50px" @click="handleEditBoosInfo">
+              编辑个人信息
+            </el-button>
         </div>
+     
       </el-card>
     </div>
 
@@ -107,9 +111,46 @@
 
 
 
+    <!-- 添加个人信息的弹窗 -->
+    <el-dialog v-model="boosDialogVisible" title="编辑个人信息" width="50%">
 
 
+      <el-form ref="formRef" :model="boosEditForm" :rules="boosRules" label-width="100px">
+       <el-form-item label="姓名" prop="boosName">
+          <el-input v-model="boosEditForm.boosName" />
+        </el-form-item>
+        <el-form-item label="邮件" prop="boosEmail">
+          <el-input v-model="boosEditForm.boosEmail" />
+        </el-form-item>
+        <el-form-item label="电话" prop="boosPhone">
+          <el-input v-model="boosEditForm.boosPhone" />
+        </el-form-item>
+        <el-form-item label="职位" prop="companyPosition">
+          <el-input v-model="boosEditForm.companyPosition" />
+        </el-form-item>
+        <el-form-item label="头像" prop="boosImg">
+          <el-upload
+            class="avatar-uploader" 
+            action="http://localhost:8080/boos/uploadImg"
+            :show-file-list="false"
+            :on-success="handleBoosLogoSuccess"
+            :before-upload="beforeLogoUpload"
+          >
+            <img v-if="boosEditForm.boosImg" :src="boosEditForm.boosImg" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+        </el-form-item>
 
+
+      </el-form>
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="boosDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleBoosSubmit" >确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
 
 
 
@@ -282,7 +323,7 @@ import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
-import { getBoosInfo } from '@/api/boos'
+import { getBoosInfo,updateBoosInfo } from '@/api/boos'
 import { getCompanyInfo, updateCompanyInfo } from '@/api/company'
 import {getJobsByBoosId,addJobInfo,updateJobReview,updateDeleteJob,updateJob} from '@/api/job'
 import type { Job } from '@/interface/index'
@@ -354,13 +395,6 @@ const handleAddJob = async () => {
 }
 
 
-
-
-
-
-
-
-
 const handleCloseJob = async (jobId: number) => {
   try {
     // 调用 API 更新职位状态为已关闭
@@ -400,20 +434,6 @@ const handleDeleteJob = async (jobId: number) => {
     console.error(error)
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 职位操作方法
 const handleEditJob = async (jobId: number) => {
@@ -518,6 +538,27 @@ const handleEditCompany = () => {
   dialogVisible.value = true
 }
 
+
+
+//编辑boos信息
+const boosEditForm = ref({
+  id: null,
+  boosName: null,
+  boosImg: null,
+  boosEmail: null,
+  boosPhone: null,
+  companyId: null,
+  companyPosition: null,
+  applicantCdsId: null
+})
+
+
+
+const handleEditBoosInfo=()=>{
+boosEditForm.value = boosInfo.value
+boosDialogVisible.value = true
+}
+
 // Logo上传相关方法
 const handleLogoSuccess = (res: any) => {
   // 确保res.data返回的是完整的URL路径
@@ -526,6 +567,15 @@ const handleLogoSuccess = (res: any) => {
     editForm.value.companyImg = `http://your-server-domain${res.data}`
   } else {
     editForm.value.companyImg = res.data
+  }
+}
+const handleBoosLogoSuccess = (res: any) => {
+  // 确保res.data返回的是完整的URL路径
+  if (res.data && !res.data.startsWith('http')) {
+    // 如果返回的不是完整URL，需要拼接服务器地址
+    boosEditForm.value.boosImg = `http://your-server-domain${res.data}`
+  } else {
+    boosEditForm.value.boosImg = res.data
   }
 }
 
@@ -552,15 +602,22 @@ const handleSubmit = async () => {
       //将请求结果扶着给Store中的companyInfo
       editForm.value.id=boosInfo.value.companyId
       companyInfo.value = editForm.value
-      console.log(JSON.stringify(companyInfo.value))
       dialogVisible.value = false
-      console.log(JSON.stringify(dialogVisible.value))
  
 }
 
-// 职位发布相关
-const jobDialogVisible = ref(false) // 职位对话框显示状态
 
+const handleBoosSubmit = async () => {
+  console.log(boosEditForm.value)
+  //先发送更新请求
+  await updateBoosInfo(boosEditForm.value) 
+  //将请求结果扶着给Store中的companyInfo
+  boosInfo.value=boosEditForm.value
+  boosDialogVisible.value = false
+}
+
+const jobDialogVisible = ref(false) // 职位对话框显示状态
+const boosDialogVisible = ref(false) // boos信息对话框显示状态
 const boosId=sessionStorage.getItem("boosId")
 console.log("boosId:"+boosId)
 // 职位单数据

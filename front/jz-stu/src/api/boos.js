@@ -72,3 +72,8 @@ export const getboosUPage = (page, pageSize) => {
     });
     return request.get(`/boos/boosUPage?${params.toString()}`)
 }
+
+//更新boos信息
+export const updateBoosInfo=(boos)=>{
+    return request.put(`/boos/updateBoosInfo`,boos)
+}

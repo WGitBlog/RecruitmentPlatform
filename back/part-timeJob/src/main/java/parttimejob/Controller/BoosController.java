@@ -22,6 +22,7 @@ import parttimejob.service.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -131,6 +132,15 @@ public class BoosController {
         return R.success(filePath);
     }
 
+    @PutMapping("/updateBoosInfo")
+    public R<String> updateBoosInfo(@RequestBody Boos boos){
+        System.out.println(boos);
+        if (Objects.isNull(boos)){
+            R.error("传参null");
+        }
+        boosService.updateById(boos);
+        return R.success("更新boos成功");
+    }
 //    TODO:实现UserId贯穿全局ThreadLocal实现之后进行更改---防止图片无线添加
 //    String filePath;
 //    try {
