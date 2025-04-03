@@ -14,29 +14,34 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(
-  //TODO还未进行验证
   (config) => {
-    const isLoginRequest = config.url.includes('/login');
-    const isCaptchaRequest = config.url.includes('/captcha');
-    const isBoosRegisterRequest = config.url.includes('/boosRegister');
-    const isCandidateRegisterRequest = config.url.includes('/candidateRegister');
-    const isResetPasswordRequest = config.url.includes('/resetPassword');
-    console.log("是否为login:", isLoginRequest);
-    console.log("是否为captcha:", isCaptchaRequest);
-    console.log("是否为boosRegister:", isBoosRegisterRequest);
-    console.log("是否为candidateRegister:", isCandidateRegisterRequest);
-    console.log("是否有token", sessionStorage.getItem("token"))
-    // 判断是否是登录接口或者是否有token，如果不是/没有则放行-不是报错
-    if (!isLoginRequest && !isCaptchaRequest && !sessionStorage.getItem("token") && !isBoosRegisterRequest && !isCandidateRegisterRequest &&!isResetPasswordRequest) {
-      // 如果不是登录请求且没有token，则重定向到登录页面
+    // 定义无需token验证的API路径白名单
+    const whitelist = [
+      '/login',
+      '/captcha',
+      '/boosRegister',
+      '/candidateRegister',
+      '/resetPassword'
+    ];
+
+    // 检查当前请求是否在白名单中
+    const isWhitelisted = whitelist.some(path => config.url.includes(path));
+    
+    // 调试信息合并为单条日志
+    console.log(`请求拦截检测: URL=${config.url}, 白名单=${isWhitelisted}, Token存在=${!!sessionStorage.getItem("token")}`);
+
+    // 统一校验逻辑
+    if (!isWhitelisted && !sessionStorage.getItem("token")) {
       router.push('/login');
-      return Promise.reject(new Error("p:不是登录请求,也没有token")); // 修正了Promise.reject的位置
+      return Promise.reject(new Error("未授权访问：缺少有效令牌"));
     }
-    config.headers.Authorization = sessionStorage.getItem("token");
+
+    // 设置请求头（即使没有token也会设置空值，可根据需求调整）
+    config.headers.Authorization = sessionStorage.getItem("token") || '';
     return config;
   },
   (err) => Promise.reject(err)
-)
+);
 
 instance.interceptors.response.use(
   (res) => {
