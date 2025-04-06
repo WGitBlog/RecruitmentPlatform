@@ -71,6 +71,7 @@ declare module 'vue' {
     JobInfo: typeof import('./components/layout/jobInfo.vue')['default']
     JobList: typeof import('./components/userbInfo/JobList.vue')['default']
     MessageBox: typeof import('./components/layout/messageBox.vue')['default']
+    ResumeList: typeof import('./components/userbInfo/ResumeList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

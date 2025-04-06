@@ -199,13 +199,6 @@ public class CandidateController {
     }
 
 
-
-
-
-
-
-
-
     @PostMapping("/candidateRegister")
     public R<String> candidateRegister(@RequestBody RegisterDto registerDto){
 
@@ -241,6 +234,13 @@ public class CandidateController {
         queryWrapper.eq(Candidate::getId,id);
         Candidate candidate = candidateService.getOne(queryWrapper);
         return  R.success(candidate);
+    }
+
+    @GetMapping("/baseInfos")
+    public R<List<Candidate>> baseInfos(@RequestParam List<Long> ids){
+        log.info("ids:{}",ids.toString());
+        ArrayList<Candidate> candidates=candidateService.getCandidatesByIds(ids);
+        return  R.success(candidates);
     }
 
     @GetMapping("/communicated")

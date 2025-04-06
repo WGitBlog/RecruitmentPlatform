@@ -10,13 +10,17 @@
             <result property="boosEmail" column="boos_email" jdbcType="VARCHAR"/>
             <result property="boosPhone" column="boos_phone" jdbcType="VARCHAR"/>
             <result property="companyId" column="company_id" jdbcType="INTEGER"/>
-        <result property="boosImg" column="boos_img" jdbcType="VARCHAR"/>
-        <result property="companyPosition" column="company_position" jdbcType="VARCHAR"/>
-        <result property="applicantCdsId" column="applicant_cds_id" jdbcType="INTEGER"/>
+            <result property="boosImg" column="boos_img" jdbcType="VARCHAR"/>
+            <result property="companyPosition" column="company_position" jdbcType="VARCHAR"/>
+            <result property="applicantCdsId" column="applicant_cds_id" jdbcType="INTEGER"/>
+            <result property="applicantCdsId" column="applicant_cds_id" jdbcType="INTEGER"/>
+<!--            <result property="collections" column="collections" jdbcType="OTHER" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>-->
+            <result property="collections" column="collections" jdbcType="OTHER"/>
+
     </resultMap>
     <insert id="saveReturnId" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO boos(boos_name,boos_email,boos_phone,company_id,boos_img,company_position,applicant_cds_id)
-            VALUE (#{boosName},#{boosEmail},#{boosPhone},#{companyId},#{boosImg},#{companyPosition},#{applicantCdsId})
+        INSERT INTO boos(boos_name,boos_email,boos_phone,company_id,boos_img,company_position,applicant_cds_id,collections)
+            VALUE (#{boosName},#{boosEmail},#{boosPhone},#{companyId},#{boosImg},#{companyPosition},#{applicantCdsId},#{collections})
         <selectKey  keyProperty="id" order="AFTER" resultType="long">
             SELECT LAST_INSERT_ID()
         </selectKey>

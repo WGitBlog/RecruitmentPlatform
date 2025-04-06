@@ -77,4 +77,17 @@
         a.id = #{jobId};  -- 根据 job 的 ID 进行过滤
 
     </select>
+    <select id="getCandidatesByIds" resultType="parttimejob.Entity.Candidate">
+        SELECT
+            a.*
+        FROM
+            candidate a
+        INNER JOIN
+            user b ON a.id=b.candidate_id
+        WHERE
+            b.id IN
+        <foreach item="item" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

@@ -44,34 +44,34 @@
             </template>
             <el-menu-item index="/admin/jobAudit">
               <el-icon><Check /></el-icon>职位审核
-              <el-badge value="12" class="item" type="danger" />
+              <!-- <el-badge value="12" class="item" type="danger" /> -->
             </el-menu-item>
             <el-menu-item index="/admin/jobList">
               <el-icon><Document /></el-icon>职位列表
             </el-menu-item>
           </el-sub-menu>
 
-          <el-menu-item index="/admin/category">
+          <!-- <el-menu-item index="/admin/category">
             <el-icon><Collection /></el-icon>
             <template #title>
               <span>分类管理</span>
             </template>
-          </el-menu-item>
+          </el-menu-item> -->
 
           <el-menu-item index="/admin/report">
             <el-icon><Warning /></el-icon>
             <template #title>
               <span>举报处理</span>
-              <el-badge value="5" class="item" type="danger" />
+              <!-- <el-badge value="5" class="item" type="danger" /> -->
             </template>
           </el-menu-item>
 
-          <el-menu-item index="/admin/system">
+          <!-- <el-menu-item index="/admin/system">
             <el-icon><Setting /></el-icon>
             <template #title>
               <span>系统设置</span>
             </template>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </el-scrollbar>
     </el-aside>
@@ -123,12 +123,12 @@
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>
+                <!-- <el-dropdown-item>
                   <el-icon><User /></el-icon>个人信息
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <el-icon><Lock /></el-icon>修改密码
-                </el-dropdown-item>
+                </el-dropdown-item> -->
                 <el-dropdown-item divided @click="handleLogout">
                   <el-icon><SwitchButton /></el-icon>退出登录
                 </el-dropdown-item>

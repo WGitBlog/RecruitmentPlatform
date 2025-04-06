@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs';
 //根据candidateId获取Candidate用户信息
 // export const getCandidateInfo = (candidateId) => {
 //     return request.get('/candidate/baseInfo', { params: { candidateId } });
@@ -109,4 +110,14 @@ export const updateResume = (candidateId, resume) => {
     //删除简历
 export const deleteResume = (candidateId) => {
     return request.put(`/candidate/deleteResume/${candidateId}`)
+}
+
+//根据ids获取candidates信息
+export const getCandidatesByIds = (ids) => {
+    return request.get(`/candidate/baseInfos`, {
+        params: { ids },
+        paramsSerializer: params => {
+            return qs.stringify(params, { arrayFormat: 'repeat' })
+        }
+    })
 }

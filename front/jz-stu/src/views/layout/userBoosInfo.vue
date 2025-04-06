@@ -15,11 +15,15 @@
               <p><i class="el-icon-message" /> {{ boosInfo?.boosEmail }}</p>
             </div>
           </div>
-            <el-button type="primary" size="small" style="marginBottom:50px" @click="handleEditBoosInfo">
-              编辑个人信息
-            </el-button>
+          <el-button
+            type="primary"
+            size="small"
+            style="marginbottom: 50px"
+            @click="handleEditBoosInfo"
+          >
+            编辑个人信息
+          </el-button>
         </div>
-     
       </el-card>
     </div>
 
@@ -70,14 +74,18 @@
       </el-card>
     </div>
 
-
-
-
-
-
-
-
-
+    <!-- 简历管理 -->
+    <div class="collect">
+      <el-card>
+        <template #header>
+          <div class="card-header">
+            <h3>简历收藏</h3>
+            <el-button type="primary" @click="handleAddJob"> 简历管理 </el-button>
+          </div>
+        </template>
+        <resume-list :users="collectedUsers" @view="handleViewResume" @delete="handleDelResume" />
+      </el-card>
+    </div>
 
     <!-- 职位管理 -->
     <div class="job-management">
@@ -94,10 +102,20 @@
             <job-list :jobs="activeJobPosts" @edit="handleEditJob" @close="handleCloseJob" />
           </el-tab-pane>
           <el-tab-pane label="待审核" name="pending">
-            <job-list :jobs="pendingJobs" @view="handleViewJob" @edit="handleEditJob" @close="handleCloseJob" />
+            <job-list
+              :jobs="pendingJobs"
+              @view="handleViewJob"
+              @edit="handleEditJob"
+              @close="handleCloseJob"
+            />
           </el-tab-pane>
           <el-tab-pane label="已拒绝" name="rejected">
-            <job-list :jobs="rejectedJobs" @edit="handleEditJob" @delete="handleDeleteJob" @reopen="handleReopenJob"/>
+            <job-list
+              :jobs="rejectedJobs"
+              @edit="handleEditJob"
+              @delete="handleDeleteJob"
+              @reopen="handleReopenJob"
+            />
           </el-tab-pane>
           <el-tab-pane label="已关闭" name="closed">
             <job-list :jobs="closedJobs" @delete="handleDeleteJob" @reopen="handleReopenJob" />
@@ -106,17 +124,10 @@
       </el-card>
     </div>
 
-
-
-
-
-
     <!-- 添加个人信息的弹窗 -->
     <el-dialog v-model="boosDialogVisible" title="编辑个人信息" width="50%">
-
-
       <el-form ref="formRef" :model="boosEditForm" :rules="boosRules" label-width="100px">
-       <el-form-item label="姓名" prop="boosName">
+        <el-form-item label="姓名" prop="boosName">
           <el-input v-model="boosEditForm.boosName" />
         </el-form-item>
         <el-form-item label="邮件" prop="boosEmail">
@@ -130,7 +141,7 @@
         </el-form-item>
         <el-form-item label="头像" prop="boosImg">
           <el-upload
-            class="avatar-uploader" 
+            class="avatar-uploader"
             action="http://localhost:8080/boos/uploadImg"
             :show-file-list="false"
             :on-success="handleBoosLogoSuccess"
@@ -138,22 +149,17 @@
           >
             <img v-if="boosEditForm.boosImg" :src="boosEditForm.boosImg" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
+          </el-upload>
         </el-form-item>
-
-
       </el-form>
 
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="boosDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleBoosSubmit" >确认</el-button>
+          <el-button type="primary" @click="handleBoosSubmit">确认</el-button>
         </span>
       </template>
     </el-dialog>
-
-
-
 
     <!-- 添加编辑公司信息的弹窗 -->
     <el-dialog v-model="dialogVisible" title="编辑公司信息" width="50%">
@@ -216,7 +222,6 @@
             :on-success="handleLogoSuccess"
             :before-upload="beforeLogoUpload"
           >
-
             <img v-if="editForm.companyImg" :src="editForm.companyImg" class="avatar" />
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
@@ -232,135 +237,144 @@
     </el-dialog>
 
     <!-- 添加发布新职位的弹窗 -->
- <el-dialog v-model="jobDialogVisible" :title='partition===1?"发布新工作":"修改工作信息"' width="50%">
-  <el-form  :model="jobForm" :rules="jobRules" label-width="100px">
-    <el-form-item label="职位名称" prop="jobTitle">
-      <el-input v-model="jobForm.jobTitle" placeholder="请输入职位名称" />
-    </el-form-item>
+    <el-dialog
+      v-model="jobDialogVisible"
+      :title="partition === 1 ? '发布新工作' : '修改工作信息'"
+      width="50%"
+    >
+      <el-form :model="jobForm" :rules="jobRules" label-width="100px">
+        <el-form-item label="职位名称" prop="jobTitle">
+          <el-input v-model="jobForm.jobTitle" placeholder="请输入职位名称" />
+        </el-form-item>
 
-    <el-form-item label="薪资范围" prop="salaryRange">
-      <el-input v-model="jobForm.salaryRange" placeholder="例如：15k-25k" />
-    </el-form-item>
+        <el-form-item label="薪资范围" prop="salaryRange">
+          <el-input v-model="jobForm.salaryRange" placeholder="例如：15k-25k" />
+        </el-form-item>
 
-    <el-form-item label="职位类别" prop="jobCategory">
-      <el-select v-model="jobForm.jobCategory" placeholder="请选择职位类别">
-        <el-option label="咨询" value="咨询" />
-        <el-option label="医疗" value="医疗" />
-        <el-option label="金融" value="金融" />
-        <el-option label="教育" value="教育" />
-        <el-option label="零售" value="零售" />
-        <el-option label="工程" value="工程" />
-        <el-option label="研发" value="研发" />
-        <el-option label="旅游" value="旅游" />
-        <el-option label="服务" value="服务" />
-        <el-option label="建筑" value="建筑" />
-        <el-option label="科技" value="科技" />
-        <el-option label="设计" value="设计" />
-        <el-option label="其他" value="其他" />
-      </el-select>
-    </el-form-item>
+        <el-form-item label="职位类别" prop="jobCategory">
+          <el-select v-model="jobForm.jobCategory" placeholder="请选择职位类别">
+            <el-option label="咨询" value="咨询" />
+            <el-option label="医疗" value="医疗" />
+            <el-option label="金融" value="金融" />
+            <el-option label="教育" value="教育" />
+            <el-option label="零售" value="零售" />
+            <el-option label="工程" value="工程" />
+            <el-option label="研发" value="研发" />
+            <el-option label="旅游" value="旅游" />
+            <el-option label="服务" value="服务" />
+            <el-option label="建筑" value="建筑" />
+            <el-option label="科技" value="科技" />
+            <el-option label="设计" value="设计" />
+            <el-option label="其他" value="其他" />
+          </el-select>
+        </el-form-item>
 
-    <el-form-item label="工作地点" prop="workLocation">
-      <el-input v-model="jobForm.workLocation" placeholder="请输入工作地点" />
-    </el-form-item>
+        <el-form-item label="工作地点" prop="workLocation">
+          <el-input v-model="jobForm.workLocation" placeholder="请输入工作地点" />
+        </el-form-item>
 
-    <el-form-item label="学历要求" prop="educationRequirements">
-      <el-select v-model="jobForm.educationRequirements" placeholder="请选择学历要求">
-        <el-option label="大专及以上" value="大专及以上" />
-        <el-option label="本科及以上" value="本科及以上" />
-        <el-option label="硕士及以上" value="硕士及以上" />
-        <el-option label="博士及以上" value="博士及以上" />
-      </el-select>
-    </el-form-item>
+        <el-form-item label="学历要求" prop="educationRequirements">
+          <el-select v-model="jobForm.educationRequirements" placeholder="请选择学历要求">
+            <el-option label="大专及以上" value="大专及以上" />
+            <el-option label="本科及以上" value="本科及以上" />
+            <el-option label="硕士及以上" value="硕士及以上" />
+            <el-option label="博士及以上" value="博士及以上" />
+          </el-select>
+        </el-form-item>
 
-    <el-form-item label="所需技术" prop="requiredTechnology">
-      <el-input v-model="jobForm.requiredTechnology" placeholder="请输入所需技术" />
-    </el-form-item>
+        <el-form-item label="所需技术" prop="requiredTechnology">
+          <el-input v-model="jobForm.requiredTechnology" placeholder="请输入所需技术" />
+        </el-form-item>
 
-    <el-form-item label="工作天数" prop="weeklyDays">
-      <el-input-number v-model="jobForm.weeklyDays" :min="1" :max="7" />
-    </el-form-item>
+        <el-form-item label="工作天数" prop="weeklyDays">
+          <el-input-number v-model="jobForm.weeklyDays" :min="1" :max="7" />
+        </el-form-item>
 
-    <el-form-item label="职位描述" prop="jobDescription">
-      <el-input
-        v-model="jobForm.jobDescription"
-        type="textarea"
-        :rows="4"
-        placeholder="请输入职位描述，每条描述用回车分隔"
-      />
-    </el-form-item>
+        <el-form-item label="职位描述" prop="jobDescription">
+          <el-input
+            v-model="jobForm.jobDescription"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入职位描述，每条描述用回车分隔"
+          />
+        </el-form-item>
 
-    <el-form-item label="职位详情" prop="jobDetails">
-      <el-input
-        v-model="jobForm.jobDetails"
-        type="textarea"
-        :rows="4"
-        placeholder="请输入职位详细信息"
-      />
-    </el-form-item>
-  </el-form>
+        <el-form-item label="职位详情" prop="jobDetails">
+          <el-input
+            v-model="jobForm.jobDetails"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入职位详细信息"
+          />
+        </el-form-item>
+      </el-form>
 
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="jobDialogVisible = false">取消</el-button>
-<el-button 
-  type="primary" 
-  @click="partition === 1 ? handleJobSubmit() : handleSubmitEditJob()">  {{ partition === 1 ? '确认发布' : '确认修改' }}</el-button>
-    </span>
-  </template>
-</el-dialog>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="jobDialogVisible = false">取消</el-button>
+          <el-button
+            type="primary"
+            @click="partition === 1 ? handleJobSubmit() : handleSubmitEditJob()"
+          >
+            {{ partition === 1 ? '确认发布' : '确认修改' }}</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-
 import { useBoosStore } from '@/stores/boos'
 import { useCompanyStore } from '@/stores/company'
-
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
-import { getBoosInfo,updateBoosInfo } from '@/api/boos'
+import { getBoosInfo, updateBoosInfo, updateDelResume } from '@/api/boos'
 import { getCompanyInfo, updateCompanyInfo } from '@/api/company'
-import {getJobsByBoosId,addJobInfo,updateJobReview,updateDeleteJob,updateJob} from '@/api/job'
+import { getJobsByBoosId, addJobInfo, updateJobReview, updateDeleteJob, updateJob } from '@/api/job'
 import type { Job } from '@/interface/index'
-
-
+import { getCandidateInfo, getCandidatesByIds } from '@/api/candidate'
 
 // Store 实例初始化
 const bossStore = useBoosStore() // Boss相关的状态管理
 const companyStore = useCompanyStore() // 公司相关的状态管理
 
-
-const userId=sessionStorage.getItem("userId")
+const userId = sessionStorage.getItem('userId')
 
 const activeTab = ref('active') // 当前激活的标签页
-const partition =ref(1) // 1：代表发布新工作  2：代表更改工作信息
-
+const partition = ref(1) // 1：代表发布新工作  2：代表更改工作信息
 
 // 从 store 中解构需要的状态，保持响应性
-const { boosInfo, activeJobPosts,closedJobs,pendingJobs,rejectedJobs,jobPosts } = storeToRefs(bossStore) // Boss信息和在招职位
+const { boosInfo, activeJobPosts, closedJobs, pendingJobs, rejectedJobs, jobPosts } =
+  storeToRefs(bossStore) // Boss信息和在招职位
 const { companyInfo } = storeToRefs(companyStore) // 公司信息
-
+const collectedUsers = ref([]) // 收藏的用户信息
 
 // 组件挂载时初始化数据
 onMounted(async () => {
   //获取boosId
-  const boosId=sessionStorage.getItem("boosId")   
+  const boosId = sessionStorage.getItem('boosId')
   await getBoosInfo(boosId).then(async (res) => {
     boosInfo.value = res.data
+    //根据收藏的简历userid查询出对应的candidate的resume信息
+    if (JSON.parse(res.data.collections)!=null&&JSON.parse(res.data.collections)!='') {
+      await getCandidatesByIds(JSON.parse(res.data.collections)).then((res1) => {
+        collectedUsers.value = res1.data
+      })
+    }
+
     await getCompanyInfo(boosInfo.value.companyId).then((res) => {
       companyInfo.value = res.data
-      console.log(companyInfo.value)
     })
   })
   // 根据BossId信息获取其发布的工作信息
-  await getJobsByBoosId(boosId).then((res)=>{
+  await getJobsByBoosId(boosId).then((res) => {
     // 处理时间戳为日期格式
-    const jobs = res.data.map(job => ({
+    const jobs = res.data.map((job) => ({
       ...job,
       publishTime: new Date(parseInt(job.publishTime)).toLocaleString()
     }))
@@ -368,8 +382,6 @@ onMounted(async () => {
     jobPosts.value.push(...jobs)
   })
 })
-
-console.log(boosInfo)
 
 // 职位管理相关方法
 const handleAddJob = async () => {
@@ -389,22 +401,21 @@ const handleAddJob = async () => {
     salaryRange: '',
     weeklyDays: null,
     workLocation: '',
-    review: 1  // 设置为待审核状态
+    review: 1 // 设置为待审核状态
   }
   jobDialogVisible.value = true // 显示添加职位对话框
 }
-
 
 const handleCloseJob = async (jobId: number) => {
   try {
     // 调用 API 更新职位状态为已关闭
     await updateJobReview(
       jobId,
-      3  // 0 表示已关闭
+      3 // 0 表示已关闭
     )
 
     // 更新本地状态
-    const job = jobPosts.value.find(job => job.id === jobId)
+    const job = jobPosts.value.find((job) => job.id === jobId)
     if (job) {
       job.review = 3
     }
@@ -416,17 +427,14 @@ const handleCloseJob = async (jobId: number) => {
   }
 }
 
-
-
 const handleDeleteJob = async (jobId: number) => {
-
   // 实现刪除职位逻辑
-   try {
+  try {
     // 调用 API 删除职位
     await updateDeleteJob(jobId)
 
     // 更新本地状态
-    jobPosts.value = jobPosts.value.filter(job => job.id !== jobId)
+    jobPosts.value = jobPosts.value.filter((job) => job.id !== jobId)
 
     ElMessage.success('职位已删除')
   } catch (error) {
@@ -438,9 +446,9 @@ const handleDeleteJob = async (jobId: number) => {
 // 职位操作方法
 const handleEditJob = async (jobId: number) => {
   //设置
-  partition.value=2
+  partition.value = 2
   // 找到要编辑的职位
-  const job = jobPosts.value.find(job => job.id === jobId)
+  const job = jobPosts.value.find((job) => job.id === jobId)
   if (!job) {
     ElMessage.error('未找到该职位')
     return
@@ -452,13 +460,13 @@ const handleEditJob = async (jobId: number) => {
     publishTime: new Date().getTime().toString() // 更新时间戳为当前时间
   }
 
-// 显示对话框，复用发布职位的对话框
+  // 显示对话框，复用发布职位的对话框
   jobDialogVisible.value = true
 }
 
- const handleSubmitEditJob = async () => {  
+const handleSubmitEditJob = async () => {
   // 找到编辑的职位
-  const job = jobPosts.value.find(job => job.id === jobForm.value.id)
+  const job = jobPosts.value.find((job) => job.id === jobForm.value.id)
   if (!job) {
     ElMessage.error('未找到该职位')
     return
@@ -471,21 +479,20 @@ const handleEditJob = async (jobId: number) => {
     publishTime: new Date(parseInt(jobForm.value.publishTime.toString())).toLocaleString()
   }
   Object.assign(job, updatedJob)
-    // 关闭对话框
-    jobDialogVisible.value = false // 加这一行
- }
-
+  // 关闭对话框
+  jobDialogVisible.value = false // 加这一行
+}
 
 const handleReopenJob = async (jobId: number) => {
   try {
     // 调用 API 更新职位状态为待审核
     await updateJobReview(
       jobId,
-      1  // 改为 1，表示重新进入审核状态
+      1 // 改为 1，表示重新进入审核状态
     )
 
     // 更新本地状态
-    const job = jobPosts.value.find(job => job.id === jobId)
+    const job = jobPosts.value.find((job) => job.id === jobId)
     if (job) {
       job.review = 1
     }
@@ -497,12 +504,29 @@ const handleReopenJob = async (jobId: number) => {
   }
 }
 
-
-
+//查看相应的简历
+const handleViewResume = async (resume: string) => {
+  if (resume) {
+    window.open(resume)
+  } else {
+    ElMessage.warning('简历暂不可预览')
+  }
+}
+//删除相应的简历
+const handleDelResume = async (userId: number) => {
+  await updateDelResume(boosId, userId).then((res) => {
+    if (res.code == 1) {
+      ElMessage.success('删除简历成功')
+      //删除成功后更新数据
+      collectedUsers.value = collectedUsers.value.filter((user) => user.id !== userId)
+    } else {
+      ElMessage.error('删除简历失败')
+    }
+  })
+}
 
 // 公司信息编辑相关
 const dialogVisible = ref(false) // 编辑对话框显示状态
-
 
 // 编辑表单数据
 const editForm = ref({
@@ -538,8 +562,6 @@ const handleEditCompany = () => {
   dialogVisible.value = true
 }
 
-
-
 //编辑boos信息
 const boosEditForm = ref({
   id: null,
@@ -552,11 +574,9 @@ const boosEditForm = ref({
   applicantCdsId: null
 })
 
-
-
-const handleEditBoosInfo=()=>{
-boosEditForm.value = boosInfo.value
-boosDialogVisible.value = true
+const handleEditBoosInfo = () => {
+  boosEditForm.value = boosInfo.value
+  boosDialogVisible.value = true
 }
 
 // Logo上传相关方法
@@ -579,7 +599,6 @@ const handleBoosLogoSuccess = (res: any) => {
   }
 }
 
-
 const beforeLogoUpload = (file: File) => {
   const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
   const isLt2M = file.size / 1024 / 1024 < 2
@@ -597,29 +616,26 @@ const beforeLogoUpload = (file: File) => {
 
 // 提交公司信息
 const handleSubmit = async () => {
-      //先发送更新请求
-      await updateCompanyInfo(editForm.value)
-      //将请求结果扶着给Store中的companyInfo
-      editForm.value.id=boosInfo.value.companyId
-      companyInfo.value = editForm.value
-      dialogVisible.value = false
- 
+  //先发送更新请求
+  await updateCompanyInfo(editForm.value)
+  //将请求结果扶着给Store中的companyInfo
+  editForm.value.id = boosInfo.value.companyId
+  companyInfo.value = editForm.value
+  dialogVisible.value = false
 }
-
 
 const handleBoosSubmit = async () => {
   console.log(boosEditForm.value)
   //先发送更新请求
-  await updateBoosInfo(boosEditForm.value) 
+  await updateBoosInfo(boosEditForm.value)
   //将请求结果扶着给Store中的companyInfo
-  boosInfo.value=boosEditForm.value
+  boosInfo.value = boosEditForm.value
   boosDialogVisible.value = false
 }
 
 const jobDialogVisible = ref(false) // 职位对话框显示状态
 const boosDialogVisible = ref(false) // boos信息对话框显示状态
-const boosId=sessionStorage.getItem("boosId")
-console.log("boosId:"+boosId)
+const boosId = sessionStorage.getItem('boosId')
 // 职位单数据
 const jobForm = ref<Job>({
   boosId: Number(boosId),
@@ -643,56 +659,35 @@ const jobRules = {
     { required: true, message: '请输入职位名称', trigger: 'blur' },
     { min: 2, max: 50, message: '长度在 2 到 50 个字', trigger: 'blur' }
   ],
-  salaryRange: [
-    { required: true, message: '请输入薪资范围', trigger: 'blur' }
-  ],
-  jobCategory: [
-    { required: true, message: '请选择职位类别', trigger: 'change' }
-  ],
-  workLocation: [
-    { required: true, message: '请输入工作地点', trigger: 'blur' }
-  ],
-  educationRequirements: [
-    { required: true, message: '请选择学历要求', trigger: 'change' }
-  ],
-  requiredTechnology: [
-    { required: true, message: '请输入所需技术', trigger: 'blur' }
-  ],
-  weeklyDays: [
-    { required: true, message: '请输入每周工作天数', trigger: 'change' }
-  ],
-  jobDescription: [
-    { required: true, message: '请输入职位描述', trigger: 'blur' }
-  ],
-  jobDetails: [
-    { required: true, message: '请输入职位详情', trigger: 'blur' }
-  ]
+  salaryRange: [{ required: true, message: '请输入薪资范围', trigger: 'blur' }],
+  jobCategory: [{ required: true, message: '请选择职位类别', trigger: 'change' }],
+  workLocation: [{ required: true, message: '请输入工作地点', trigger: 'blur' }],
+  educationRequirements: [{ required: true, message: '请选择学历要求', trigger: 'change' }],
+  requiredTechnology: [{ required: true, message: '请输入所需技术', trigger: 'blur' }],
+  weeklyDays: [{ required: true, message: '请输入每周工作天数', trigger: 'change' }],
+  jobDescription: [{ required: true, message: '请输入职位描述', trigger: 'blur' }],
+  jobDetails: [{ required: true, message: '请输入职位详情', trigger: 'blur' }]
 }
-
-
 
 // 提交职位信息
 const handleJobSubmit = async () => {
   try {
     // 设置发布时间为当前时间戳
     jobForm.value.publishTime = new Date().getTime().toString()
-     jobForm.value.jobDetails = jobForm.value.jobDetails.replace(/\n/g, '\\n')
+    jobForm.value.jobDetails = jobForm.value.jobDetails.replace(/\n/g, '\\n')
     const res = await addJobInfo(jobForm.value)
-    
+
     // 转换时间戳为日期格式后添加到本地状态
 
-    
     // 更新本地状态
     jobPosts.value.push(jobForm.value)
 
     console.log(jobPosts.value)
-  
-  
-    
+
     // 关闭对话框并显示成功消息
     jobDialogVisible.value = false
     ElMessage.success('职位发布成功，等待审核')
-    
+
     // 重置表单
     jobForm.value = {
       boosId: Number(boosId),
@@ -718,18 +713,12 @@ const handleJobSubmit = async () => {
 // 在 script setup 中添加处理查看的方法
 const handleViewJob = (jobId: number) => {
   // 实现查看职位详情的逻辑
-  const job = jobPosts.value.find(job => job.id === jobId)
+  const job = jobPosts.value.find((job) => job.id === jobId)
   if (job) {
     // 这里可以显示一个对话框展示职位详情
     ElMessage.info('查看职位详情：' + job.jobTitle)
   }
 }
-
-
-
-
-
-
 </script>
 
 
@@ -744,7 +733,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
- background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #e6f3ff 0%, #ffffff 100%);
 }
 </style>
 
@@ -810,6 +799,7 @@ body {
 
 .company-info,
 .job-management,
+.collect,
 .statistics {
   margin-bottom: 20px;
 }

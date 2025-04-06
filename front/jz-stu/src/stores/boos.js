@@ -12,7 +12,8 @@ export const useBoosStore = defineStore('useBoosStore', () => {
     companyId: null,
     boosImg: null,
     companyPosition: null,
-    applicantCdsId: null
+    applicantCdsId: null,
+    collections:null
   })
 
   const jobPosts = ref([])

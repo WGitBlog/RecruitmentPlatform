@@ -3,6 +3,7 @@ package parttimejob.Controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -88,6 +89,26 @@ public class BoosController {
         return R.success(resultPage);
     }
 
+    //根据id删除收藏的简历
+    @DeleteMapping("/delCollectResume")
+    public R<String> delCollectResume(Long boosId,Long delUserId){
+        log.info("boosId:{},delUserId:{}",boosId,delUserId);
+
+        //根据delUserId（candidateId）查询出 UserId
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getCandidateId,delUserId);
+        User user = userService.getOne(queryWrapper);
+        Boos boos = boosService.getById(boosId);
+        String collections = (String) boos.getCollections();
+        List<Long> collect = JSONArray.parseArray(collections).stream()
+                .map(item -> ((Number) item).longValue()) // 将每个元素转换为 Long
+                .filter(item -> !item.equals(user.getId()))
+                .collect(Collectors.toList());
+        boos.setCollections(collect.toString());
+        boosService.saveOrUpdate(boos);
+        return R.success("删除收藏成功");
+    }
+
 
     @PostMapping("/boosRegister")
     public R<String> boosRegister(@RequestBody RegisterDto registerDto) {
@@ -104,6 +125,7 @@ public class BoosController {
         Boos boos = registerDto.getBoos();
         boos.setCompanyId(company.getId());
         boos.setApplicantCdsId(applicantCds.getId());
+        boos.setCollections(list);
         boosService.saveReturnId(boos);
         Job job = registerDto.getJob();
         job.setBoosId(boos.getId());
@@ -116,7 +138,33 @@ public class BoosController {
         userService.saveOrUpdate(user);
         return R.success("注册成功");
     }
-
+    @PostMapping("/collectResume")
+    public R<String> collectResume(Long boosId,Long collectId){
+        log.info("collectId:{}--boosId:{}",collectId,boosId);
+        if(Objects.isNull(boosId)||Objects.isNull(collectId)){
+            R.error("传入参数为空");
+        }
+        //根据的boosId查出信息并更新简历list
+        Boos boos = boosService.getById(boosId);
+        log.info(boos.toString());
+        String collection = (String)boos.getCollections();
+        List<Long> collectList = JSONArray.parseArray(collection).stream()
+                .map(item -> ((Number) item).longValue()) // 将每个元素转换为 Long
+                .collect(Collectors.toList());
+        log.warn(String.valueOf(collectList.contains(collectId)));
+        log.warn(collectList.toString());
+        if (collectList.contains(collectId)){
+            return R.error("重复收藏");
+        }
+        collectList.add(collectId);
+        LambdaUpdateWrapper<Boos> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Boos::getId,boosId);
+        updateWrapper.set(Boos::getCollections,collectList.toString());
+        if (!boosService.update(updateWrapper)){
+            return R.error("收藏简历失败");
+        }
+        return R.success("收藏简历成功");
+    }
 
     @PostMapping("/uploadImg")
     public R<String> uploadImage(@RequestParam("file") MultipartFile file) {

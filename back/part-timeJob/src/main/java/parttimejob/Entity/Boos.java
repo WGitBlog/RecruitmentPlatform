@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.List;
+
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 
 /**
@@ -51,6 +54,11 @@ public class Boos implements Serializable {
      */
     private Long applicantCdsId;
 
+    /**
+     * 收藏简历列表
+     */
+//    private List<Long> collections;
+    private Object collections;
 
 
 
@@ -71,7 +79,7 @@ public class Boos implements Serializable {
         sb.append(", boosEmail=").append(boosEmail);
         sb.append(", boosPhone=").append(boosPhone);
         sb.append(", companyId=").append(companyId);
-
+        sb.append(", collections=").append(collections);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

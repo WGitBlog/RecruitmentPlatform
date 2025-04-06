@@ -4,6 +4,9 @@ import parttimejob.Dto.JobDto;
 import parttimejob.Entity.Candidate;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
 * @author 86151
 * @description 针对表【candidate】的数据库操作Service
@@ -16,4 +19,6 @@ public interface CandidateService extends IService<Candidate> {
     Boolean changeDetails(Candidate candidate);
 
     Long saveReturnId(Candidate candidate);
+
+    ArrayList<Candidate> getCandidatesByIds(List<Long> ids);
 }

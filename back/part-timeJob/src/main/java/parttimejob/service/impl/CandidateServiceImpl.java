@@ -8,6 +8,9 @@ import parttimejob.service.CandidateService;
 import parttimejob.mapper.CandidateMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
 * @author 86151
 * @description 针对表【candidate】的数据库操作Service实现
@@ -43,6 +46,12 @@ public class CandidateServiceImpl extends ServiceImpl<CandidateMapper, Candidate
     public Long saveReturnId(Candidate candidate) {
         Long candidateId=candidateMapper.saveReturnId(candidate);
         return candidateId;
+    }
+
+    @Override
+    public ArrayList<Candidate> getCandidatesByIds(List<Long> ids) {
+        System.out.println(ids.toString());
+        return candidateMapper.getCandidatesByIds(ids);
     }
 
 

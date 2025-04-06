@@ -77,3 +77,14 @@ export const getboosUPage = (page, pageSize) => {
 export const updateBoosInfo=(boos)=>{
     return request.put(`/boos/updateBoosInfo`,boos)
 }
+//更新boos信息中的收藏列表
+export const updateDelResume=(boosId,delUserId)=>{
+    return request.delete(`/boos/delCollectResume?boosId=${boosId}&delUserId=${delUserId}`)
+}
+
+
+
+//收藏简历功能
+export const collectResumes=(boosId,collectId)=>{
+    return request.post(`/boos/collectResume?boosId=${boosId}&collectId=${collectId}`)
+}

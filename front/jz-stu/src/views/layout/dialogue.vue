@@ -228,14 +228,41 @@
                   </div>
                   <div class="resume-info">
                     <div class="resume-name">{{ msg.msgContent.split('-').pop() }}</div>
-                    <div class="resume-action">
+                    <div class="resume-action" v-if="candidateId">
                       <el-button
                         class="preview-btn"
                         type="primary"
                         size="small"
                         @click="previewResume(msg.msgContent)"
                       >
-                        点击预览附件简历
+                        点击预览简历
+                      </el-button>
+                    </div>
+                    <div class="resume-action" v-else>
+                      <el-button
+                        class="preview-btn"
+                        type="primary"
+                        size="small"
+                        @click="previewResume(msg.msgContent)"
+                      >
+                        预览简历
+                      </el-button>
+                      <el-button
+                        class="preview-btn"
+                        type="primary"
+                        size="small"
+                        @click="collectResume(msg.senderId)"
+                        v-if="!isCollected"
+                      >
+                        收藏简历
+                      </el-button>
+                         <el-button
+                        class="preview-btn"
+                        type="primary"
+                        size="small"
+                        v-else
+                      >
+                        已收藏
                       </el-button>
                     </div>
                   </div>
@@ -435,7 +462,10 @@
                     <el-form :model="interviewFormData">
                       <!-- 面试方式选择 -->
                       <el-form-item label="面试方式" prop="type">
-                        <el-radio-group v-model="interviewFormData.type" @change="handleMethodChange">
+                        <el-radio-group
+                          v-model="interviewFormData.type"
+                          @change="handleMethodChange"
+                        >
                           <el-radio label="线上" :value="1" />
                           <el-radio label="线下" :value="2" />
                         </el-radio-group>
@@ -552,7 +582,9 @@ import {
   getCommunicatedCds,
   getDeliveriesCds,
   getInterestsCds,
-  getInterviewsCds
+  getInterviewsCds,
+  collectResumes,
+  getBoosInfo
 } from '@/api/boos.js'
 import { sendInterview } from '@/api/interview.js'
 import { getMessagesByIds } from '@/api/messages.js'
@@ -564,12 +596,13 @@ import { id } from 'element-plus/es/locale'
 import { sortUserPlugins } from 'vite'
 import { JobDto, messages, candidate } from '@/interface/index.js'
 import { stringify } from 'querystring'
+import { log } from 'console'
 
 const route = useRoute() // 获取路由对象
 const candidateStore = useCandidateStore()
 const UserId = sessionStorage.getItem('userId')
 const candidateId = sessionStorage.getItem('candidateId')
-const companyId=sessionStorage.getItem('companyId')
+const companyId = sessionStorage.getItem('companyId')
 const boosId = sessionStorage.getItem('boosId')
 const message = ref<messages[]>([])
 
@@ -720,8 +753,8 @@ const bookingInterview = async () => {
 const interviewFormData = reactive({
   candidate_id: null,
   boosId: null,
-  companyId:Number(companyId),
-  type:1,
+  companyId: Number(companyId),
+  type: 1,
   time: null,
   platform: '',
   link: '',
@@ -735,11 +768,11 @@ const interviewFormData = reactive({
 
 // 切换时重置数据
 const handleMethodChange = (a) => {
-  interviewFormData.type=a
+  interviewFormData.type = a
   interviewFormData.platform = ''
   interviewFormData.link = ''
   interviewFormData.address = ''
-  interviewFormData.jobId=null
+  interviewFormData.jobId = null
 }
 
 // 确认提交
@@ -757,7 +790,7 @@ const handleConfirm = async () => {
 const handleClose = () => {
   // 可添加数据重置逻辑
   Object.assign(interviewFormData, {
-    type:1,
+    type: 1,
     time: '',
     remark: '',
     date: null,
@@ -765,7 +798,7 @@ const handleClose = () => {
     link: '',
     address: '',
     details: '',
-    jobId:null
+    jobId: null
   })
 }
 
@@ -785,6 +818,7 @@ function scrollToBottom() {
 const items = ref([]) //boos数据列表     ���candidate登录）
 const itemsCandidate = ref([]) //candidate数据列表（boos     登录）
 const jobs = ref([]) //jobId列表
+const isCollected = ref(false) //是否收藏
 const defaultItem = ref<JobDto>({
   boosId: 0,
   boosImg: '',
@@ -962,9 +996,19 @@ const getMessage = async (defaultItem, defaultItemCds) => {
     const candidateUserId = user.data.id
     //将candidateUserId存入idStorage
     idStorage.value = candidateUserId
-    const messagesData = await getMessagesByIds(UserId, candidateUserId)
-    //将数据更新到message
-    message.value = messagesData.data
+    await getMessagesByIds(UserId, candidateUserId).then( async (res) => {
+      //将数据更新到message
+      message.value = res.data 
+      await getBoosInfo(boosId).then((res1) => {
+        isCollected.value=false
+        if(JSON.parse(res1.data.collections).includes(candidateUserId)){
+           isCollected.value=true
+        }
+      })
+    })
+ 
+
+
   }
 }
 
@@ -1171,6 +1215,18 @@ const previewResume = (url) => {
   } else {
     ElMessage.warning('简历暂不可预览')
   }
+}
+//收藏简历
+const collectResume = async (collectId: number) => {
+  //id是发送者也就是candidate的userId
+  await collectResumes(boosId, collectId).then((res) => {
+    if(res.code!==1){
+      ElMessage.warning(res.msg)
+      return;
+    }
+     isCollected.value=true
+  })
+ 
 }
 
 const copyWechat = (wechat) => {

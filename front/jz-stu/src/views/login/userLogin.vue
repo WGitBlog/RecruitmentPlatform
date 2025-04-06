@@ -10,7 +10,14 @@ import { useRegisterStore } from '@/stores/register'
 import { useRouter } from 'vue-router'
 import { getCandidateInfo } from '@/api/candidate.js'
 import logoImage from '@/assets/a.jpg' // 确保这个路径是正确的
+import { getBoosInfo } from '@/api/boos'
+import { useBoosStore } from '@/stores/boos'
+import { useCandidateStore } from '@/stores/candidate'
 
+
+
+const candidateStore = useCandidateStore()
+const boosStore=useBoosStore()
 const rememberMe = ref(false)
 
 // 处理记住我的变化
@@ -162,9 +169,15 @@ const login = async () => {
     // 判断role
     if (res.data.role === 'boos') {
       sessionStorage.setItem('boosId', res.data.boosId)
+      await getBoosInfo(res.data.boosId).then((res1) => {
+        boosStore.boosInfo = res1.data
+      }) 
       router.push('/boosLayout')
     } else {
       sessionStorage.setItem('candidateId', res.data.candidateId)
+      await getCandidateInfo(res.data.candidateId).then((res2) => {
+        candidateStore.candidateInfo = res2.data
+      })
       router.push('/layout')
     }
   } else {
