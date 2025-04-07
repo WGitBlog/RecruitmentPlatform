@@ -4,22 +4,24 @@
       <el-header><h1>用戶聊天</h1> </el-header>
       <el-container class="main">
         <el-aside width="400px">
-          <div class="searchDialogue">
+          <!-- <div class="searchDialogue">
             <el-row>
               <el-col :style="{ margin: '3px auto' }">
-                <el-input v-model="input" style="width: 350px" placeholder="Type something">
+                <el-input v-model="input" style="width: 350px" placeholder="">
                   <template #suffix>
-                    <el-icon class="el-input__icon"><Search /></el-icon>
+                    <el-icon class="el-input__icon">
+                       <Search /> 
+                    </el-icon>
                   </template>
                 </el-input>
               </el-col>
             </el-row>
-          </div>
+          </div> -->
           <div class="selectDialogue">
             <el-row>
               <el-col>
                 <ul>
-                  <li>
+                  <!-- <li>
                     <span
                       :class="{ gray: selectDialosgue !== 1, active: selectDialosgue === 1 }"
                       @click="spanDeal(1)"
@@ -53,7 +55,7 @@
                       @click="spanDeal(5)"
                       >感兴趣</span
                     >
-                  </li>
+                  </li> -->
                 </ul>
               </el-col>
             </el-row>
@@ -82,23 +84,28 @@
                             <span> {{ item.companyPosition }}</span>
                           </el-col>
                           <el-col span="10">
-                            <span>14:43</span>
+                            <span>
+                              <!-- 14:43 -->
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                           </el-col>
                         </el-row>
                         <el-row class="friend_bom">
-                          <el-col class="bom_icon">
+                          <!-- <el-col class="bom_icon">
                             <span class="iconfont icon-yuanquan" v-show="true"></span>
                             <span :style="{ fontSize: '12px' }"
                               >您好，我是搜索中专/中技生，可以...</span
                             >
                             <el-popover placement="top" trigger="hover" :style="{ width: '40px' }">
-                              <span :style="{ fontSize: '15px' }">置顶</span>
+                              <span :style="{ fontSize: '15px' }">
+                              置顶
+                              </span>
                               <span>删除</span>
                               <template #reference>
                                 <a href="#" class="iconfont icon-shenglvehao1 omit_function"></a>
                               </template>
                             </el-popover>
-                          </el-col>
+                          </el-col> -->
                         </el-row>
                       </div>
                     </div>
@@ -126,23 +133,28 @@
                             <span> 学生</span>
                           </el-col>
                           <el-col span="10">
-                            <span>14:43</span>
+                            <span>
+                               <!-- 14:43 -->
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                            </span>
                           </el-col>
                         </el-row>
                         <el-row class="friend_bom">
-                          <el-col class="bom_icon">
+                          <!-- <el-col class="bom_icon">
                             <span class="iconfont icon-yuanquan" v-show="true"></span>
                             <span :style="{ fontSize: '12px' }"
                               >您好，我是搜索中专/中技生，可以...</span
                             >
                             <el-popover placement="top" trigger="hover" :style="{ width: '40px' }">
-                              <span :style="{ fontSize: '15px' }">置顶</span>
+                              <span :style="{ fontSize: '15px' }">
+                              置顶
+                              </span>
                               <span>删除</span>
                               <template #reference>
                                 <a href="#" class="iconfont icon-shenglvehao1 omit_function"></a>
                               </template>
                             </el-popover>
-                          </el-col>
+                          </el-col> -->
                         </el-row>
                       </div>
                     </div>
@@ -161,7 +173,9 @@
                   <span>{{ defaultItem.companyName }}|{{ defaultItem.companyPosition }}</span>
                 </el-col>
                 <el-col :span="2" class="baseInfo_right">
-                  <span><el-button type="primary" plain>置顶</el-button></span>
+                  <span>
+                    <!-- <el-button type="primary" plain>置顶</el-button> -->
+                  </span>
                 </el-col>
               </el-row>
             </el-col>
@@ -175,7 +189,9 @@
                   <span>{{ defaultItemCds.degreecategory }}|学生</span>
                 </el-col>
                 <el-col :span="2" class="baseInfo_right">
-                  <span><el-button type="primary" plain>置顶</el-button></span>
+                  <span>
+                    <!-- <el-button type="primary" plain>置顶</el-button> -->
+                  </span>
                 </el-col>
               </el-row>
             </el-col>
@@ -190,7 +206,9 @@
                   <span>{{ defaultItem.workLocation }}</span>
                 </el-col>
                 <el-col :span="5">
-                  <span :style="{ fontSize: '10px' }" class="a">下载App, 不错过Boss每一条消息</span>
+                  <span :style="{ fontSize: '10px' }" class="a">
+                    <!-- 下载App, 不错过Boss每一条消息 -->
+                  </span>
                 </el-col>
               </el-row>
             </el-col>
@@ -205,7 +223,9 @@
                   <span>{{ defaultItemCds.address }}</span>
                 </el-col>
                 <el-col :span="5">
-                  <span :style="{ fontSize: '10px' }" class="a">下载App, 不错过Boss每一条消息</span>
+                  <span :style="{ fontSize: '10px' }" class="a">
+                    <!-- 下载App, 不错过Boss每一条消息 -->
+                  </span>
                 </el-col>
               </el-row>
             </el-col>
@@ -382,7 +402,7 @@
                           </div>
                         </el-popover>
                       </li>
-
+<!-- 
                       <li>
                         <el-popover
                           placement="top"
@@ -439,7 +459,7 @@
                           />
                           <i class="iconfont icon-tupian" @click="triggerFileInput"></i>
                         </div>
-                      </li>
+                      </li> -->
                     </ul>
                   </el-col>
                   <el-col v-if="candidateId" :span="9" class="button_module">
@@ -1566,14 +1586,15 @@ body {
       margin: 10px;
       cursor: pointer;
       border: 1px solid #ddd;
-
+border-radius: 10px;
       .friend_context {
         display: flex;
         margin: 0 auto;
         margin-top: 10px;
         width: 90%;
         height: 80%;
-        background-color: #1757aa;
+        border-radius: 10px;
+        background-color: #c2dcf7;
         .friend_img {
           width: 50px;
           height: 50px;
@@ -1585,10 +1606,11 @@ body {
           }
         }
         .friend_info {
-          background-color: antiquewhite;
+          background-color: #dfe8f5;
+          border-radius: 10px;
           height: 56px;
           margin-top: 7px;
-          width: 100%;
+          width: 80%;
 
           .friend_bom {
             display: flex;

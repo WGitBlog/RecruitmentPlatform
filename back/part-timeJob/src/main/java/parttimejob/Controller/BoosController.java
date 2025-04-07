@@ -125,7 +125,7 @@ public class BoosController {
         Boos boos = registerDto.getBoos();
         boos.setCompanyId(company.getId());
         boos.setApplicantCdsId(applicantCds.getId());
-        boos.setCollections(list);
+        boos.setCollections(list.toString());
         boosService.saveReturnId(boos);
         Job job = registerDto.getJob();
         job.setBoosId(boos.getId());

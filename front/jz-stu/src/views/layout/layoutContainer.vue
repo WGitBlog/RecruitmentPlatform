@@ -729,9 +729,11 @@ const handleSubmitReport = async () => {
               <div class="main_header_right">
                 <a
                   href="#"
-                  class="right_interested iconfont icon-ganxingquzhiwei"
+                  class="right_interested "
                   @click.prevent="addInterested()"
-                  >感兴趣
+                  >
+                  <!-- 感兴趣 iconfont icon-ganxingquzhiwei-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
                 <a
                   href="#"

@@ -3,7 +3,7 @@
     <el-card class="box-card">
       <!-- 搜索区域 -->
       <div class="search-box">
-        <el-input
+        <!-- <el-input
           v-model="searchInput"
           placeholder="请输入职位名称"
           class="search-input"
@@ -15,7 +15,7 @@
         </el-button>
         <el-button @click="resetQuery">
           <el-icon><Refresh /></el-icon>重置
-        </el-button>
+        </el-button> -->
       </div>
 
       <!-- 表格区域 -->

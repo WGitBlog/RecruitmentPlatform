@@ -2,7 +2,7 @@
   <div class="job-list-container">
     <el-card class="filter-container">
       <el-form :inline="true" :model="queryParams" class="demo-form-inline">
-        <el-form-item label="职位名称">
+        <!-- <el-form-item label="职位名称">
           <el-input v-model="queryParams.jobName" placeholder="请输入职位名称" clearable />
         </el-form-item>
         <el-form-item label="企业名称">
@@ -19,7 +19,7 @@
         <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>
           <el-button @click="resetQuery">重置</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-card>
 

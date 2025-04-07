@@ -457,7 +457,7 @@ const cancelForm = () => {
                       <span :style="{ padding: '5px 10px', fontSize: '25px' }">{{
                         item.name
                       }}</span>
-                      <span :style="{ padding: '5px 10px' }">热搜</span>
+                      <!-- <span :style="{ padding: '5px 10px' }">热搜</span> -->
                       <span :style="{ padding: '5px 10px' }">{{ statusMap[item.workstatus] }}</span>
                     </div>
                     <div :style="{ height: '10px', lineHeight: '10px' }">

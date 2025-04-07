@@ -89,7 +89,7 @@
 
         <div class="header-right">
           <!-- 通知中心 -->
-          <el-popover placement="bottom" :width="300" trigger="click">
+          <!-- <el-popover placement="bottom" :width="300" trigger="click">
             <template #reference>
               <el-badge :value="4" class="notice-badge">
                 <el-icon class="notice-icon"><Bell /></el-icon>
@@ -110,7 +110,7 @@
                 </div>
               </el-scrollbar>
             </div>
-          </el-popover>
+          </el-popover> -->
 
           <!-- 用户信息 -->
           <el-dropdown trigger="click">

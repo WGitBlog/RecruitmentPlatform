@@ -4,7 +4,7 @@
       <div class="title">
         <h2>举报管理</h2>
       </div>
-      <div class="search-input">
+      <!-- <div class="search-input">
         <el-input
           v-model="searchText"
           placeholder="请输入职位名称"
@@ -24,7 +24,7 @@
           <el-option label="已处理" value="1" />
           <el-option label="已驳回" value="2" />
         </el-select>
-      </div>
+      </div> -->
     </div>
 
     <el-table

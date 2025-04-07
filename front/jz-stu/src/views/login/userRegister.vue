@@ -143,14 +143,26 @@
           <el-form-item label="职位名称" required>
             <el-input v-model="registerStore.jobInfo.jobTitle" placeholder="请输入职位名称" />
           </el-form-item>
-          <el-form-item label="技术要求" required>
-            <el-input
-              v-model="registerStore.jobInfo.requiredTechnology"
-              placeholder="请输入技术要求"
-            />
-          </el-form-item>
-          <el-form-item label="职位类别" required>
-            <el-input v-model="registerStore.jobInfo.jobCategory" placeholder="请输入职位类别" />
+
+
+         <el-form-item label="期望行业" required>
+            <el-select
+              v-model="registerStore.jobInfo.jobCategory"
+              placeholder="请选择期望职位"
+              style="width: 100%"
+            >
+              <el-option label="科技" value="科技" />
+              <el-option label="咨询" value="咨询" />
+              <el-option label="医疗" value="医疗" />
+              <el-option label="金融" value="金融" />
+              <el-option label="教育" value="教育" />
+              <el-option label="零售" value="零售" />
+              <el-option label="工程" value="工程" />
+              <el-option label="研发" value="研发" />
+              <el-option label="旅游" value="旅游" />
+              <el-option label="服务" value="服务" />
+              <el-option label="其他" value="其他" />
+            </el-select>
           </el-form-item>
           <el-form-item label="工作地区" required>
             <el-input v-model="registerStore.jobInfo.workLocation" placeholder="请输入工作地区" />
@@ -305,19 +317,34 @@
           <el-form-item label="期望城市" required>
             <el-input
               v-model="registerStore.candidateInfo.desiredCity"
-              placeholder="请输入期望薪资"
+              placeholder="请输入期望城市"
             />
           </el-form-item>
+
           <el-form-item label="期望行业" required>
-            <el-input
+            <el-select
               v-model="registerStore.candidateInfo.desiredIndustry"
-              placeholder="请输入期望行业"
-            />
+              placeholder="请选择期望行业"
+              style="width: 100%"
+            >
+              <el-option label="科技" value="科技" />
+              <el-option label="咨询" value="咨询" />
+              <el-option label="医疗" value="医疗" />
+              <el-option label="金融" value="金融" />
+              <el-option label="教育" value="教育" />
+              <el-option label="零售" value="零售" />
+              <el-option label="工程" value="工程" />
+              <el-option label="研发" value="研发" />
+              <el-option label="旅游" value="旅游" />
+              <el-option label="服务" value="服务" />
+              <el-option label="其他" value="其他" />
+            </el-select>
           </el-form-item>
+
           <el-form-item label="期望职位" required>
             <el-input
               v-model="registerStore.candidateInfo.desiredPosition"
-              placeholder="请输入期望薪资"
+              placeholder="请输入期望职位"
             />
           </el-form-item>
         </el-form>
@@ -393,7 +420,7 @@ const next = async () => {
   }
 }
 const next1 = async () => {
-  registerStore.candidateInfo.workstatus=0//TODO:-------------------------------这个地方为什么数据库这个字段是not null default 0 为什么要赋值0才可以插入呢
+  registerStore.candidateInfo.workstatus = 0 //TODO:-------------------------------这个地方为什么数据库这个字段是not null default 0 为什么要赋值0才可以插入呢
   console.log('candidateInfo:' + JSON.stringify(registerStore.candidateInfo))
   await candidateRegister(registerStore.candidateInfo, registerStore.userInfo)
   // 提交表单数据

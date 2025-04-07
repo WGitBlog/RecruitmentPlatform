@@ -2,7 +2,7 @@
   <div class="user-list-container">
     <el-card class="filter-card">
       <el-form :inline="true" :model="filterForm" class="filter-form">
-        <el-form-item label="用户名">
+        <!-- <el-form-item label="用户名">
           <el-input v-model="filterForm.username" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="状态">
@@ -15,7 +15,7 @@
         <el-form-item>
           <el-button type="primary" @click="handleFilter">查询</el-button>
           <el-button @click="resetFilter">重置</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-card>
 
