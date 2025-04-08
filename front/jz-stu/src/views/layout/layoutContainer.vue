@@ -328,6 +328,7 @@ async function handleCommandsalaryRange(command) {
     jobStore.jobTitle,
     jobStore.review
   )
+  jobStore.page++
   const processedRecords = processedData(res)
   items.value.push(...processedRecords)
   defaultJob.value = { ...items.value[0] } // 并初始化为默认数据
@@ -349,6 +350,7 @@ async function handleCommandJobCategory(command) {
     jobStore.jobTitle,
     jobStore.review
   )
+  jobStore.page++
   const processedRecords = processedData(res)
   items.value.push(...processedRecords)
   defaultJob.value = { ...items.value[0] } // 并初始化为默认数据
@@ -378,6 +380,7 @@ async function handleCommandWeeklyDays(command) {
     jobStore.jobTitle,
     jobStore.review
   )
+  jobStore.page++
   const processedRecords = processedData(res)
   items.value.push(...processedRecords)
   defaultJob.value = { ...items.value[0] } // 并初始化为默认数据

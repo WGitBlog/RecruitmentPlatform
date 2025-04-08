@@ -86,24 +86,6 @@ import { log } from 'console'
 import { getJobInfo } from '@/api/job.js'
 import { useJobStore } from '@/stores/job.js'
 
-const a = [
-  '全国',
-  '北京',
-  '上海',
-  '广州',
-  '深圳',
-  '杭州',
-  '天津',
-  '西安',
-  '苏州',
-  '武汉',
-  '厦门',
-  '长沙',
-  '成都',
-  '郑州',
-  '重庆'
-]
-
 const jobStore = useJobStore()
 
 const changedCity = async (city: string) => {
