@@ -30,7 +30,7 @@
               <span>用户管理</span>
             </template>
             <el-menu-item index="/admin/candidateList">
-              <el-icon><User /></el-icon>员工列表
+              <el-icon><User /></el-icon>应聘者列表
             </el-menu-item>
             <el-menu-item index="/admin/bossList">
               <el-icon><Briefcase /></el-icon>企业列表

@@ -3,8 +3,8 @@
     <div class="login-left">
       <div class="welcome-text">
         <h1>欢迎使用</h1>
-        <h2>兼职平台管理系统</h2>
-        <p>Professional Part-time Job Management Platform</p>
+        <h2>招聘平台管理系统</h2>
+        <p>Professional Job Management Platform</p>
       </div>
     </div>
     <div class="login-right">
@@ -38,24 +38,24 @@
             />
           </el-form-item>
 
-           <el-form-item prop="captcha">
-          <div class="flex">
-            <el-input
-              name="captcha"
-              placeholder="请输入验证码"
-              v-model="loginForm.code"
-              maxlength="4"
-            ></el-input>
-            <el-image
-              class="captcha_img"
-              id="captcha"
-              :src="captchaUrl"
-              alt="验证码"
-              style="width: 140px; height: 48px; margin-left: 10px"
-              @click="generateCaptcha()"
-            ></el-image>
-          </div>
-        </el-form-item>
+          <el-form-item prop="captcha">
+            <div class="flex">
+              <el-input
+                name="captcha"
+                placeholder="请输入验证码"
+                v-model="loginForm.code"
+                maxlength="4"
+              ></el-input>
+              <el-image
+                class="captcha_img"
+                id="captcha"
+                :src="captchaUrl"
+                alt="验证码"
+                style="width: 140px; height: 48px; margin-left: 10px"
+                @click="generateCaptcha()"
+              ></el-image>
+            </div>
+          </el-form-item>
 
           <el-form-item class="login-btn">
             <el-button
@@ -95,15 +95,6 @@ const router = useRouter()
 const loading = ref(false)
 const loginFormRef = ref(null)
 const rememberMe = ref(false)
-
-
-
-
-
-
-
-
-
 
 const captchaUrl = ref('') //图片的http路径
 /**
@@ -158,15 +149,9 @@ const generateCaptcha = async () => {
   captchaUrl.value = imageUrl
 }
 
-
-
-
-
-
-
 onMounted(() => {
   localStorage.clear()
-    generateCaptcha()
+  generateCaptcha()
 })
 // const userId=localStorage.setItem("userId",)
 
@@ -233,11 +218,11 @@ const handleLogin = async () => {
 .captcha_img {
   cursor: pointer;
 }
-  .flex {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-    }
+.flex {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .admin-login-container {
   height: 100vh;
   display: flex;

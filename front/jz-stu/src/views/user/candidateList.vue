@@ -22,7 +22,7 @@
     <el-card class="table-card">
       <template #header>
         <div class="card-header">
-          <span>员工用户列表</span>
+          <span>应聘者列表</span>
         </div>
       </template>
 

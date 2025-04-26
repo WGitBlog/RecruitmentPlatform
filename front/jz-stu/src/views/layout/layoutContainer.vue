@@ -3,12 +3,13 @@ import { useUserStore } from '@/stores/user'
 import { useJobStore } from '@/stores/job'
 import { useCandidateStore } from '@/stores/candidate'
 import { getJobInfo } from '@/api/job.js'
-import { computed, onMounted, ref, reactive } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, reactive } from 'vue'
 import useWebSocket from '@/utils/websocket.js'
 import { getCandidateInfo } from '@/api/candidate.js'
 import { getBoosInfo } from '@/api/boos.js'
 import { resetPassword, updatePassword } from '@/api/user.js'
 import { updateInterested, updateApplicantCommunication } from '@/api/applicant.js'
+import { getCompanyInfo } from '@/api/company.js'
 import router from '@/router'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
@@ -19,6 +20,7 @@ import { watch } from 'vue'
 import { JobDto } from '@/interface/index.js'
 import { report, ReportResponse } from '@/interface'
 import { submitJobReport } from '@/api/report.js'
+import { Location, Iphone, Message, Avatar, Discount, Coin } from '@element-plus/icons-vue'
 const userStore = useUserStore()
 const jobStore = useJobStore()
 const candidateStore = useCandidateStore()
@@ -84,7 +86,7 @@ const submitForm = async () => {
   await updatePassword({
     id: sessionStorage.getItem('userId'),
     oldPassword: resetform.oldPassword,
-    password: resetform.newPassword,
+    password: resetform.newPassword
   })
     .then((res) => {
       if (res.code !== 1) {
@@ -155,7 +157,6 @@ const defaultJob = ref<JobDto>({
 const loading = ref(false) //判断是否正在加载
 const hasMore = ref(true) //判断是否还有数据没有数据就无需加载
 const initialLoad = ref(true) //为了防止上来就发请求
-
 //处理getJobInfo请求的json转义问题
 const processedData = (res) =>
   res.data.records.map((record) => {
@@ -204,7 +205,12 @@ onMounted(async () => {
     defaultUser.value = res.data
   }
 })
-
+// 添加组件卸载时的清理
+onBeforeUnmount(() => {
+  if (hoverTimer.value) {
+    clearTimeout(hoverTimer.value)
+  }
+})
 //处理滑轮到底部发送新的分页请求
 const load = async () => {
   if (initialLoad.value) {
@@ -291,6 +297,56 @@ const defaultShow = (item) => {
   defaultJob.value.salaryRange = item.salaryRange
   defaultJob.value.weeklyDays = item.weeklyDays
   defaultJob.value.workLocation = item.workLocation
+}
+
+// popover跟它中哇哦的元素绑定的必要变量
+const triggerRef = ref<HTMLElement | null>(null) // 确保响应式
+// 响应式状态
+const popoverVisible = ref(false)
+const currloading = ref(false)
+const companyData = ref({}) //岗位列表中当鼠标经过公司显示的公司信息
+const hoverTimer = ref() //公司展示定时器
+// 鼠标进入处理
+const handleMouseEnter = async (companyId, event) => {
+  // 清除已有定时器
+  if (hoverTimer.value) {
+    clearTimeout(hoverTimer.value)
+    hoverTimer.value = null
+  }
+  triggerRef.value = event.currentTarget // 设置当前触发元素
+  hoverTimer.value = setTimeout(async () => {
+    try {
+      currloading.value = true
+      // 模拟异步数据加载
+      await getCompanyInfo(companyId).then((res) => {
+        if (res.code != 1) {
+          ElMessage.error('获取公司信息失败')
+          return
+        }
+        companyData.value = res.data
+      })
+    } catch (error) {
+      console.error('数据加载失败:', error)
+    } finally {
+      currloading.value = false
+      popoverVisible.value = true
+    }
+  }, 500)
+}
+
+// 鼠标离开处理（带防抖）
+const handleMouseLeave = () => {
+  // 清除定时器
+  if (hoverTimer.value) {
+    clearTimeout(hoverTimer.value)
+    hoverTimer.value = null
+  }
+
+  setTimeout(() => {
+    if (popoverVisible.value) {
+      popoverVisible.value = false
+    }
+  }, 200)
 }
 
 //添加applicant的interested数组中的数据
@@ -519,7 +575,7 @@ const handleSubmitReport = async () => {
               <el-link :underline="false" @click="$router.push('/interviews')">面试</el-link>
             </li>
 
-            <li style="lineHeight: 25px">
+            <li style="lineheight: 25px">
               <!-- 使用 el-dropdown 组件 -->
               <el-dropdown trigger="hover" @command="handleCommand">
                 <!-- 下拉菜单的触发元素 -->
@@ -697,7 +753,12 @@ const handleSubmitReport = async () => {
                   </li>
                 </ul>
                 <div class="right_li_bottom">
-                  <span class="bottom_span_top">
+                  <span
+                    class="bottom_span_top"
+                    ref="triggerRef"
+                    @mouseenter="handleMouseEnter(item.companyId, $event)"
+                    @mouseleave="handleMouseLeave"
+                  >
                     <a href="#">頭像</a>
                     <a href="#" :style="{ marginLeft: '10px', width: '180px' }">{{
                       item.companyName
@@ -730,11 +791,7 @@ const handleSubmitReport = async () => {
               </div>
 
               <div class="main_header_right">
-                <a
-                  href="#"
-                  class="right_interested "
-                  @click.prevent="addInterested()"
-                  >
+                <a href="#" class="right_interested" @click.prevent="addInterested()">
                   <!-- 感兴趣 iconfont icon-ganxingquzhiwei-->
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </a>
@@ -760,7 +817,7 @@ const handleSubmitReport = async () => {
                 <!-- v-for="(item,index)" in :key="item.id" -->
               </ul>
               <!-- <p v-for="(item) in jobLines" :key="item.id">{{ item }}</p> -->
-              <p v-html="defaultJob.jobDetails.replace(/\\n/g,'\n')"></p>
+              <p v-html="defaultJob.jobDetails.replace(/\\n/g, '\n')"></p>
             </div>
           </el-col>
         </el-row>
@@ -797,6 +854,66 @@ const handleSubmitReport = async () => {
       </span>
     </template>
   </el-dialog>
+  <!-- Company数据展示弹窗 -->
+  <el-popover
+    v-model:visible="popoverVisible"
+    :virtual-ref="triggerRef"
+    trigger="manual"
+    placement="right"
+    :width="420"
+    popper-class="company-popover"
+  >
+    <template #default>
+      <div class="company-info">
+        <!-- 公司名称和基本信息 -->
+        <div class="header">
+          <h3 class="company-name">&nbsp;&nbsp;&nbsp;{{ companyData.companyName }}</h3>
+          <div class="meta">
+            <el-tag size="small" type="info">{{ companyData.companyType }}</el-tag>
+            <el-tag size="small">
+              {{ companyData.companyMarket === true ? '已上市' : '未上市' }}</el-tag
+            >
+          </div>
+        </div>
+        <!-- 详细信息 -->
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="企业编号">
+            <el-icon><coin /></el-icon>
+            {{ companyData.id || '暂无' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="所属行业">
+            <el-tag size="small">{{ companyData.industry }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="成立时间">
+            <el-icon><discount /></el-icon>
+            {{ companyData.establishedYear || '未知' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="企业规模">
+            <span v-if="companyData.companyScale">
+              <el-icon><avatar /></el-icon>
+              {{ companyData.companyScale }}
+            </span>
+          </el-descriptions-item>
+          <el-descriptions-item label="联系方式">
+            <div class="contact-info">
+              <span v-if="companyData.contactNumber">
+                <el-icon><iphone /></el-icon>
+                {{ companyData.contactNumber }}
+              </span>
+              <span v-if="companyData.email">
+                <el-icon><message /></el-icon>
+                {{ companyData.email }}
+              </span>
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item label="所在地">
+            <el-icon><location /></el-icon>
+            {{ companyData.location }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
+    </template>
+  </el-popover>
 </template>
 
 <style lang="scss" scoped>
@@ -940,6 +1057,59 @@ const handleSubmitReport = async () => {
   background-color: white;
   display: flex;
   align-items: center;
+}
+
+.company-popover {
+  .company-info {
+    padding: 16px;
+
+    .header {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .company-name {
+        margin: 0;
+        font-size: 18px;
+        color: #303133;
+      }
+
+      .meta {
+        .el-tag {
+          margin-left: 8px;
+        }
+      }
+    }
+
+    .company-image {
+      width: 100%;
+      height: 160px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        display: flex;
+        align-items: center;
+        margin: 4px 0;
+
+        .el-icon {
+          margin-right: 6px;
+          color: #909399;
+        }
+      }
+    }
+
+    .el-descriptions__item {
+      padding: 8px 0;
+    }
+  }
 }
 
 .el-input {
