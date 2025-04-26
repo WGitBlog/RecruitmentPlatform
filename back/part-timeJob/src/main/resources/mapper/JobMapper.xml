@@ -22,4 +22,19 @@
     </resultMap>
 
 
+
+
+        <select id="getJobIdByBoosId" resultType="java.lang.Long">
+
+                SELECT a.id
+                FROM job a
+                INNER JOIN boos b
+                ON a.boos_id=b.id
+                WHERE boos_id=#{boosId}
+                LIMIT 1
+
+
+        </select>
+
+
 </mapper>

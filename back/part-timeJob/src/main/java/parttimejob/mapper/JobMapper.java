@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 @Mapper
 public interface JobMapper extends BaseMapper<Job> {
 
+    Long getJobIdByBoosId(Integer boosId);
 }
 
 

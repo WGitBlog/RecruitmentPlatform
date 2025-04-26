@@ -44,6 +44,17 @@ public class InterviewController {
         if (interview.getId()==null){
             R.error("邀约面试失败");
         }
+        //TODO:删掉
+        if(interview.getTime().equals(0.0)){
+            //待面试--->面试中  status 1--->2  延迟时间计算（单位：毫秒）
+            Long timeCalculation1=Math.max(interview.getDate().getTime() - System.currentTimeMillis(), 0);
+            //面试中--->待反馈  status 2--->3  延迟时间计算（单位：毫秒）
+            Long timeCalculation2=Math.max(interview.getDate().getTime() + (long)(60 * 1000) - System.currentTimeMillis(), 0);
+            // 发送两条延迟消息
+            sendDelayedMessage(interviewId, 2,timeCalculation1);  // 触发状态 1→2
+            sendDelayedMessage(interviewId, 3,timeCalculation2);    // 触发状态 2→3
+            return R.success("邀约面试成功");
+        }
         //待面试--->面试中  status 1--->2  延迟时间计算（单位：毫秒）
         Long timeCalculation1=Math.max(interview.getDate().getTime() - System.currentTimeMillis(), 0);
         System.out.println("timeCalculation1:"+timeCalculation1);

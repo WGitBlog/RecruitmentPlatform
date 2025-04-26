@@ -1,14 +1,13 @@
 package parttimejob.Controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import parttimejob.Entity.*;
 import parttimejob.Result.R;
-import parttimejob.service.ApplicantService;
-import parttimejob.service.CandidateService;
-import parttimejob.service.UserService;
+import parttimejob.service.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +25,12 @@ public class ApplicantController {
     private ApplicantService applicantService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private JobService jobService;
+    @Autowired
+    private BoosService boosService;
+    @Autowired
+    private ApplicantCdsService applicantCdsService;
     //根据applicantId获取applicant信息
     @GetMapping("/{applicantId}")
     public R<Applicant> getApplicationById(@PathVariable Long applicantId) {
@@ -59,6 +63,34 @@ public class ApplicantController {
 
     @PutMapping("/updateApplicantCommunication")
     public R<String>  updateApplicantCdsCommunication( @RequestParam Long jobId,@RequestParam Integer candidateId){
+
+        Job job = jobService.getById(jobId);
+        Long boosId = job.getBoosId();
+        LambdaQueryWrapper<User> queryWrapper1 = new LambdaQueryWrapper<>();
+        queryWrapper1.eq(User::getCandidateId,candidateId);
+        User user = userService.getOne(queryWrapper1);
+        Long userId = user.getId();
+        Boos boos = boosService.getById(boosId);
+        Long applicantCdsId = boos.getApplicantCdsId();
+        ApplicantCds applicantCds = applicantCdsService.getById(applicantCdsId);
+        String communicatedCandidates = (String)applicantCds.getCommunicatedCandidates();
+        List<Long> collect1 = JSONArray.parseArray(communicatedCandidates).stream()
+                .map(item -> ((Number) item).longValue()) // 将每个元素转换为 Long
+                .collect(Collectors.toList());
+        if (!collect1.contains(userId)){
+            collect1.add(userId);
+            Collections.reverse(collect1); // 倒序排列
+            applicantCds.setCommunicatedCandidates(collect1.toString());
+            applicantCdsService.saveOrUpdate(applicantCds);
+        }
+
+
+
+
+
+
+
+
         System.out.println("candidateId"+candidateId+"jobId"+jobId);
 
         //获取candidate的关系表

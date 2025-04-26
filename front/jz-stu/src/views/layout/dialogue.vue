@@ -502,6 +502,7 @@
                       </el-form-item>
                       <el-form-item label="面试时长" prop="time">
                         <el-select v-model="interviewFormData.time" placeholder="请选择时长">
+                          <el-option label="一分钟" :value="0.0" />
                           <el-option label="半个小时" :value="0.5" />
                           <el-option label="一个小时" :value="1" />
                           <el-option label="一个半小时" :value="1.5" />
